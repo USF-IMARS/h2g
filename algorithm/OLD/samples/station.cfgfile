@@ -1,0 +1,120 @@
+<!-- MxD014 FIRE GEOTIFF
+
+	Generate a MxD014 FIRE GEOTIFF from the MxD14 FIRE HDF file
+	2006-04-12 Configuration Version 1.0
+	
+			
+	I/O files: 
+	input 
+		MxD014.A2004229.1837.001.2004237142728.hdf (modis.firedetection)
+		MxD03.A2004229.1837.001.2004237142728.hdf (modis.mxd03)
+
+	output
+		MxD014.A2004229.1837.001.2004237142728.tif (modis.fire.geotiff)
+
+-->
+
+<CONFIGURE>
+
+ 	<SETUP>
+
+	  	<!-- nisgs.properties file ("nisgs_home" passed from command line)-->
+  		<Ncs_readFile file="{nisgs_home}/nisgs.properties"/>
+
+		<!-- required by DSM: -->
+  		<Ncs_set name="cfg_stationName"  value="fire.geotiff" />
+		<Ncs_set name="cfg_groupTag" value="fire.geotiff group1" />
+ 	
+		<!-- required by the NSLS -->
+		<Ncs_set name="cfg_logServerURL" value="{NSLS_SERVER_HOST}" />
+		<Ncs_set name="cfg_logPort"      value="{NSLS_SERVER_PORT}" />
+		<Ncs_set name="cfg_stationLog"   value="station.stationlog" />
+	
+		<!-- MxD014 FIRE GEOTIFF Algorithm -->
+		<InitAlgorithm debug="false" file="installation.xml" result="geotiff-algo"/>
+
+	</SETUP>
+
+	<EXECUTE>
+	
+		<Ncs_log text="waiting for product %.modis.firedetection" />
+
+		<Dsm_command result="modis.firedetection.OBJ" debug="false" class="DSM" method="reserveProductLikeProductType">
+			<String value="%.modis.firedetection" />
+		</Dsm_command>
+		
+		<Ncs_log text="got product" product="modis.firedetection.OBJ" />
+
+		<!-- get product type -->
+		<Dsm_command result="prodtype" class="modis.firedetection.OBJ" method="getProductType" />
+				
+		<!-- get satellite from product type -->
+		<Ncs_editValue  result="sat" name="{prodtype}" pattern=".modis.firedetection" replacement=""/>
+
+		<!-- get pass and time from product -->
+		<Dsm_command result="pass" class="modis.firedetection.OBJ" method="getPass" />
+		<Dsm_command result="time" class="modis.firedetection.OBJ" method="getStartTime" />
+
+		<Ncs_log text="waiting for product {sat}.modis.mxd03" />
+
+		<!-- Get MxD03 product -->
+		<Dsm_command   debug="false" result="modis.mxd03.OBJ" class="DSM" method="fetchProduct">
+			<String value="{sat}.modis.mxd03"/>
+			<Object value="pass"/>
+			<Object value="time"/>
+		</Dsm_command>
+
+		<Ncs_log text="got product" product="modis.mxd03.OBJ" />
+		
+		<!-- Get MxD03 file name -->
+		<Dsm_command result="modis.mxd03" class="modis.mxd03.OBJ" method="getResource">
+			<String value="DATA"/>
+		</Dsm_command>
+		
+		<!-- Get MxD013 file name -->
+		<Dsm_command result="modis.firedetection" class="modis.firedetection.OBJ" method="getResource">
+			<String value="DATA"/>
+		</Dsm_command>
+
+		<!-- output file name on run directory -->
+		<Ncs_editValue debug="false" result="modis.fire.geotiff" name="{modis.firedetection}" pattern="hdf$" replacement="tif" />
+
+		<!-- Run GEOTIFF generator -->			  
+		<Ncs_log text="program starting" />
+		<RunAlgorithm algorithm="geotiff-algo" debug="false"/>
+		<Ncs_log text="program ending" />		
+
+		<!-- Release Reserved product to DSM -->
+		<Dsm_command class="DSM" method="releaseProduct">
+			<Object value="modis.firedetection.OBJ"/>
+		</Dsm_command>
+
+		<!-- Create Product, set type, add file -->
+		<Dsm_command  result="fire.geotiff" class="Product" method="new"> 
+			<Object value="modis.firedetection.OBJ"/>
+			<String value="{sat}.modis.fire.geotiff"/>
+		</Dsm_command>
+		
+		<Dsm_command class="fire.geotiff" method="addResource">
+			<String value="DATA"/> 
+			<String value="{modis.fire.geotiff}"/>
+		</Dsm_command>
+
+
+		<!-- Add contributing mxd03 product -->
+		<Dsm_command class="fire.geotiff" method="addContributingProduct" >
+			<Object value="modis.mxd03.OBJ" />
+		</Dsm_command>
+
+		<!-- Store product -->
+		<Ncs_log text="storing product" product="fire.geotiff" />
+
+		<Dsm_command class="DSM" method="storeProduct">
+			<Object value="fire.geotiff"/>
+		</Dsm_command>
+
+		<Dsm_command class="fire.geotiff" method="toString" result="text" />
+		
+	</EXECUTE>
+	
+</CONFIGURE>

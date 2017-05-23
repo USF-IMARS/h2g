@@ -1,0 +1,20 @@
+<NCS_Station name="ctp-geotiff" verbose_logging="true">
+  <group>ctp-geotiff-group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>CLOUDTOP PRESSURE GEOTIFF 1.0</version>
+  </algorithm>
+  <inputs>
+    <product type="drl.{sat}.modis.cloudtop" wrappertype="modis.data"/>
+  </inputs>
+  <setup>
+    <Ncs_set name="geotiffname.ctp" value="{drl.{sat}.modis.cloudtop.base}.CTP.tif"/>
+    <Ncs_log text="Name of CTP GEOTIFF is {geotiffname.ctp}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="cloudtop-ctp"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+  </setup>
+  <outputs>
+    <product type="drl.{sat}.modis.cloudtop_ctp.geotiff" filename="{dataDirectory}{productDirectory}{/}{geotiffname.ctp}" wrappertype="modis.h2gout"/>    
+  </outputs>
+</NCS_Station>

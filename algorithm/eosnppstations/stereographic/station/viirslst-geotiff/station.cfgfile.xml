@@ -1,0 +1,23 @@
+<NCS_Station name="VIIRS-LST geotiff" verbose_logging="true">
+  <group>VIIRS-LST geotiff group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>VIIRS-LST geotiff 1.0</version>
+  </algorithm>
+  <inputs>
+    <product type="drl.npp.viirs.landst" wrappertype="input.data"/>
+    <product type="drl.npp.viirs.gmtco" wrappertype="geo"/> 
+    <product type="drl.npp.viirs.activefires" wrappertype="mask"/>   
+  </inputs>
+  <setup>
+    <Ncs_date getValue="starttime" name="cfg_starttime"/> 
+    <Ncs_set name="geotiffname" value="NPP_VIIRSLST_L2.{starttime}.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="viirslst"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+  </setup>
+  <outputs>
+    <product type="drl.npp.viirs.landst.geotiff" filename="{dataDirectory}{productDirectory}{/}{geotiffname}" wrappertype="h2gout"/>
+  </outputs>
+</NCS_Station>

@@ -1,0 +1,56 @@
+<NCS_Station directory="VIIRS-SDR-Refl-geotiff" name="VIIRS SDR Refl geotiff" label="H2G|VIIRS-SDR-Refl-geotiff">
+  <group>VIIRS SDR Refl geotiff group1</group>
+<html><body>
+ <table border="1">
+  <tbody>
+   <tr>VIIRS I1 Reflectance Geotiff</tr>
+   <tr>VIIRS I2 Reflectance Geotiff</tr>
+   <tr>VIIRS I3 Reflectance Geotiff</tr>
+   <tr>VIIRS M1 Reflectance Geotiff</tr>
+   <tr>VIIRS M2 Reflectance Geotiff</tr>
+   <tr>VIIRS M3 Reflectance Geotiff</tr>
+   <tr>VIIRS M4 Reflectance Geotiff</tr>
+   <tr>VIIRS M5 Reflectance Geotiff</tr>
+   <tr>VIIRS M6 Reflectance Geotiff</tr>
+   <tr>VIIRS M7 Reflectance Geotiff</tr>
+   <tr>VIIRS M8 Reflectance Geotiff</tr>
+   <tr>VIIRS M9 Reflectance Geotiff</tr>
+   <tr>VIIRS M10 Reflectance Geotiff</tr>
+   <tr>VIIRS M11 Reflectance Geotiff</tr>
+  </tbody>
+ </table>
+</body></html>
+  <inputs>
+     <product type="drl.npp.viirs.svi01"/>
+     <product type="drl.npp.viirs.svi02"/>  
+     <product type="drl.npp.viirs.svi03"/>  
+     <product type="drl.npp.viirs.svm01"/>
+     <product type="drl.npp.viirs.svm02"/> 
+     <product type="drl.npp.viirs.svm03"/>
+     <product type="drl.npp.viirs.svm04"/> 
+     <product type="drl.npp.viirs.svm05"/>
+     <product type="drl.npp.viirs.svm06"/>     
+     <product type="drl.npp.viirs.svm07"/> 
+     <product type="drl.npp.viirs.svm08"/>
+     <product type="drl.npp.viirs.svm09"/> 
+     <product type="drl.npp.viirs.svm10"/>
+     <product type="drl.npp.viirs.svm11"/>
+     <product type="drl.npp.viirs.gmtco"/>
+  </inputs> 
+  <outputs>
+    <product type="drl.npp.viirs.i01refl.geotiff"/>
+    <product type="drl.npp.viirs.i02refl.geotiff"/>
+    <product type="drl.npp.viirs.i03refl.geotiff"/>  
+    <product type="drl.npp.viirs.m01refl.geotiff"/>
+    <product type="drl.npp.viirs.m02refl.geotiff"/>
+    <product type="drl.npp.viirs.m03refl.geotiff"/>
+    <product type="drl.npp.viirs.m04refl.geotiff"/>
+    <product type="drl.npp.viirs.m05refl.geotiff"/>
+    <product type="drl.npp.viirs.m06refl.geotiff"/>
+    <product type="drl.npp.viirs.m07refl.geotiff"/>
+    <product type="drl.npp.viirs.m08refl.geotiff"/>
+    <product type="drl.npp.viirs.m09refl.geotiff"/>
+    <product type="drl.npp.viirs.m10refl.geotiff"/>
+    <product type="drl.npp.viirs.m11refl.geotiff"/>
+  </outputs>
+</NCS_Station>

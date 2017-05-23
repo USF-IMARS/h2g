@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- With very few exceptions, parameters that are internal to this script begin with "cfg_".  Avoid that prefix in your parameters, please -->
+<CONFIGURE>
+  <SETUP>
+    <Ncs_set name="areas" value="gcoos seacoos east_caribbean west_caribbean" />
+    <!-- How many meters per pixel -->
+    <Ncs_set name="resolution" value="1000" />
+    <Ncs_set name="spatial_resolution" value="750m" />
+    <Ncs_set name="lon_name" value="/All_Data/VIIRS-MOD-GEO-TC_All/Longitude" />
+    <Ncs_set name="lat_name" value="/All_Data/VIIRS-MOD-GEO-TC_All/Latitude" />
+    <Ncs_set name="product_description" value="This is an RGB image" />
+
+    <!-- set this to "true" to enable really verbose debugging -->
+    <Ncs_set name="cfg_debug" value="true"/>
+    <!-- cfg_ncs_home comes from JSW config, cfg_nisgs_home should be up one level -->
+    <Ncs_set name="cfg_nisgs_home" value="{cfg_ncs_home}{/}.."/>
+    <Ncs_set name="spa_dir" value="{cfg_stationDirectory}{/}..{/}..{/}..{/}SPA"/>
+    <!-- site.properties file (which is in cfg_ncs_home/..) -->
+    <Ncs_readFile file="{cfg_nisgs_home}{/}site.properties"/>
+    <!-- required by DSM:  -->
+    <Ncs_set name="cfg_stationName" value="VIIRS MCREFL True Color - {spatial_resolution}"/>
+    <Ncs_set name="cfg_groupTag" value="VIIRS MCREFL True Color - {spatial_resolution}"/>
+    <Ncs_set name="cfg_siteName" value="{NISGS_SITE_NAME}"/>
+    <Ncs_set name="dataDirectory" value="{DSM_DATA_DIRECTORY}"/>
+    <Ncs_set name="cfg_stationLog" value="station.stationlog"/>
+    <!--  Initialize wrapped algorithm   -->
+    <Ncs_print text="Initializing algorithm VIIRS MCREFL True Color"/>
+    <InitAlgorithm debug="{cfg_debug}"
+      file="{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml" result="cfg_algo.OBJ"/>
+    <Ncs_print text="Algorithm CREFL True Color initialized"/>
+    <Ncs_set name="version" value="CREFL True Color"/>
+  </SETUP>
+  <EXECUTE>
+    <!-- get first input product  -->
+    <!--Go get the matching product-->
+    <Ncs_set name="sat" value="%"/>
+    <Ncs_set name="sensor" value="viirs" />
+    <Ncs_log text="Reserving product imars.{sat}.{sensor}.mcrefl"/>
+    <!--Note that here, and only here, does the {wildcard} have the right SQL value-->
+    <Ncs_set name="otherInputTypes" value="imars.{sat}.{sensor}.gmtco"/>
+    <Dsm_command class="DSM" debug="{cfg_debug}"
+      method="reserveProductLikeProductType" result="cfg_wild.OBJ">
+      <String value="imars.%.{sensor}.mcrefl"/>
+      <String value="{otherInputTypes}"/>
+    </Dsm_command>
+    <!-- get product type-->
+    <Dsm_command class="cfg_wild.OBJ" debug="{cfg_debug}"
+      method="getProductType" result="cfg_prodtype"/>
+    <!--Chop off everything but the wild text-->
+    <Ncs_set name="sat" value="{cfg_prodtype}"/>
+    <Ncs_editValue name="{sat}" pattern="^imars." replacement="" result="sat"/>
+    <Ncs_editValue name="{sat}" pattern=".{sensor}.mcrefl$" replacement="" result="sat"/>
+    <!--And put the product object where it belongs-->
+    <Ncs_log text="Putting reserved object where it belongs"/>
+    <Ncs_copy copy="imars.{sat}.{sensor}.mcrefl.OBJ" source="cfg_wild.OBJ"/>
+    <!-- Put the reserved product object into "reservedProduct" -->
+    <!-- (so NCS can find it to fail this job if needed) -->
+    <Ncs_copy copy="reservedProduct" source="imars.{sat}.{sensor}.mcrefl.OBJ"/>
+    <!-- get pass  -->
+    <Ncs_log text="Getting pass for imars.{sat}.{sensor}.mcrefl"/>
+    <Dsm_command class="imars.{sat}.{sensor}.mcrefl.OBJ" debug="{cfg_debug}"
+      method="getPass" result="cfg_pass"/>
+    <!-- get date  -->
+    <Ncs_log text="Getting date/time"/>
+    <Dsm_command class="imars.{sat}.{sensor}.mcrefl.OBJ" debug="{cfg_debug}"
+      method="getStartTime" result="cfg_starttime"/>
+    <Dsm_command class="imars.{sat}.{sensor}.mcrefl.OBJ" debug="{cfg_debug}"
+      method="getStopTime" result="cfg_stoptime"/>
+    <!-- Extract the hour, and munge it for quarter-day -->
+    <Ncs_date debug="{cfg_debug}" getValue="cfg_quarterday"
+      name="cfg_starttime" pattern="HH"/>
+    <Ncs_editValue debug="{cfg_debug}" name="{cfg_quarterday}"
+      pattern="21|22|23|00|01|02" replacement="00" result="cfg_quarterday"/>
+    <Ncs_editValue debug="{cfg_debug}" name="{cfg_quarterday}"
+      pattern="03|04|05|06|07|08" replacement="06" result="cfg_quarterday"/>
+    <Ncs_editValue debug="{cfg_debug}" name="{cfg_quarterday}"
+      pattern="09|10|11|12|13|14" replacement="12" result="cfg_quarterday"/>
+    <Ncs_editValue debug="{cfg_debug}" name="{cfg_quarterday}"
+      pattern="15|16|17|18|19|20" replacement="18" result="cfg_quarterday"/>
+    <Ncs_log text="cfg_quarterday is {cfg_quarterday}"/>
+    <!-- get satellite -->
+    <Dsm_command class="imars.{sat}.{sensor}.mcrefl.OBJ" debug="{cfg_debug}"
+      method="getSpacecraft" result="cfg_satellite"/>
+    <!-- get file name  -->
+    <Ncs_log text="Getting file name (DATA resource)"/>
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="getProductPath" result="imars.{sat}.{sensor}.mcrefl">
+      <Object value="imars.{sat}.{sensor}.mcrefl.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="File name is {imars.{sat}.{sensor}.mcrefl}"/>
+    <!-- get remaining products  -->
+
+    <Ncs_log text="Getting product imars.{sat}.{sensor}.gmtco"/>
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="fetchProduct" result="imars.{sat}.{sensor}.gmtco.OBJ">
+      <String value="imars.{sat}.{sensor}.gmtco"/>
+      <Object value="cfg_pass"/>
+      <Object value="cfg_starttime"/>
+    </Dsm_command>
+    <!-- get file names  -->
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="getProductPath" result="imars.{sat}.{sensor}.gmtco">
+      <Object value="imars.{sat}.{sensor}.gmtco.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="File name is {imars.{sat}.{sensor}.gmtco}"/>
+
+    <Ncs_getMatch name="{imars.{sat}.{sensor}.mcrefl}" pattern="[^{/}]*$" result="imars.{sat}.{sensor}.mcrefl.filename"/>
+    <Ncs_set name="imars.{sat}.{sensor}.mcrefl.base" value="{imars.{sat}.{sensor}.mcrefl.filename}"/>
+    <Ncs_set name="imars.{sat}.{sensor}.mcrefl.ext" value=""/>
+    <Ncs_test name="{imars.{sat}.{sensor}.mcrefl.filename}" pattern="\\." result="hasadot"/>
+    <Ncs_getMatch name="{imars.{sat}.{sensor}.mcrefl.filename}"
+      pattern="[^.]*$" result="imars.{sat}.{sensor}.mcrefl.ext" runFlag="{hasadot}"/>
+    <Ncs_editValue name="{imars.{sat}.{sensor}.mcrefl.filename}"
+      pattern="\\.{imars.{sat}.{sensor}.mcrefl.ext}$" replacement=""
+      result="imars.{sat}.{sensor}.mcrefl.base" runFlag="{hasadot}"/>
+    <Ncs_getMatch name="{imars.{sat}.{sensor}.gmtco}" pattern="[^{/}]*$" result="imars.{sat}.{sensor}.gmtco.filename"/>
+    <Ncs_set name="imars.{sat}.{sensor}.gmtco.base" value="{imars.{sat}.{sensor}.gmtco.filename}"/>
+    <Ncs_set name="imars.{sat}.{sensor}.gmtco.ext" value=""/>
+    <Ncs_test name="{imars.{sat}.{sensor}.gmtco.filename}" pattern="\\." result="hasadot"/>
+    <Ncs_getMatch name="{imars.{sat}.{sensor}.gmtco.filename}"
+      pattern="[^.]*$" result="imars.{sat}.{sensor}.gmtco.ext" runFlag="{hasadot}"/>
+    <Ncs_editValue name="{sensor}"
+      pattern="\\.{imars.{sat}.{sensor}.gmtco.ext}$" replacement=""
+      result="imars.{sat}.{sensor}.gmtco.base" runFlag="{hasadot}"/>
+    <Ncs_set name="satletter" value="O"/>
+    <Ncs_test name="{sat}" pattern="^[Aa][Qq][Uu][Aa]$" result="aqua-p"/>
+    <Ncs_set name="satletter" runFlag="{aqua-p}" value="Y"/>
+    <Dsm_command class="cfg_pass" method="getAos" result="passDate"/>
+    <!--<Ncs_date getValue="starttime" name="passDate"/>-->
+    <Ncs_date getValue="starttime" name="cfg_starttime"/>
+    <!-- Get Pass spacecraft -->
+    <Dsm_command class="cfg_pass" debug="{cfg_debug}" method="getSpacecraft" result="cfg_spacecraft" />
+
+    <Dsm_command class="cfg_pass" debug="{cfg_debug}" method="getId" result="pass_id" />
+
+    <Ncs_run debug="true"
+	        cmd="{spa_dir}{/}imars_bin{/}querydb.py -i {spa_dir}{/}..{/}site.properties -p {pass_id} -s {cfg_spacecraft}"
+	        standardFile="query_stdfile"
+			errorFile="query_errfile">
+	</Ncs_run>
+	<Ncs_readFile file="{cfg_runDirectory}{/}query_stdfile" />
+      <Ncs_print table="true" file="/home/ipopp/parameter_pool" />
+
+	<Ncs_set name="notInitial" value="true" />
+	<Ncs_boundp name="dates" value="initial" />
+	<Ncs_set runFlag="{initial}" name="notInitial" value="false" />
+	<Ncs_log runFlag="{notInitial}" level="WARN" text="Not the initial granule" />
+
+	<Ncs_loop runFlag="{initial}" lists="dates inputs geos">
+		<Ncs_editValue name="{dates}" result="date" pattern="_" replacement=" " />
+		<Ncs_log text="Fetching Pass: {date}" />
+		<Ncs_date setValue="{date}" name="date.OBJ" pattern="yyy-MM-dd HH:mm:ss" />
+
+		<Dsm_command class="DSM" debug="{cfg_debug}" method="getPass" result="pass.OBJ" >
+			<String value="{cfg_spacecraft}" />
+			<Object value="date.OBJ" />
+		</Dsm_command>
+
+		<Dsm_command class="DSM" debug="{cfg_debug}" method="fetchProduct" result="product.OBJ" >
+			<String value="imars.{sat}.{sensor}.mcrefl"/>
+			<Object value="pass.OBJ" />
+		</Dsm_command>
+		<Dsm_command class="DSM" debug="{cfg_debug}" method="getProductPath" result="path">
+	    	<Object value="product.OBJ"/>
+    	</Dsm_command>
+        <!--set the inputs -->
+        <Ncs_set name="{inputs}" value="{path}" />
+        <!--get the geo -->
+        <Dsm_command class="DSM" debug="{cfg_debug}" method="fetchProduct" result="product.OBJ" >
+			<String value="imars.{sat}.{sensor}.gmtco"/>
+			<Object value="pass.OBJ" />
+		</Dsm_command>
+		<Dsm_command class="DSM" debug="{cfg_debug}" method="getProductPath" result="geo.path">
+	    	<Object value="product.OBJ"/>
+    	</Dsm_command>
+        <!--set the geos -->
+        <Ncs_set name="{geos}" value="{geo.path}" />
+	</Ncs_loop>
+
+    <!-- and set up the output file names  -->
+    <!-- (accumulate them in allOutputs) -->
+    <Ncs_set runFlag="{initial}" name="allOutputs" value=""/>
+    <Dsm_command runFlag="{initial}" class="DSM" debug="{cfg_debug}"
+      method="getProductDirectory" result="productDirectory">
+      <String value="imars.{sat}.{sensor}.mcrefl_rgb.geotiff"/>
+    </Dsm_command>
+
+    <Ncs_loop runFlag="{initial}" lists="areas">
+	  	<Ncs_readFile file="{cfg_nisgs_home}/SPA/h2g/mapping_configs/{areas}.cfg"/>
+        <Ncs_set name="config.type" value="standard"/>
+        <Ncs_set name="config.name" value="vcviirs_{spatial_resolution}"/>
+        <Ncs_set name="output.type" value="geotiff.argb"/>
+        <Ncs_set name="centerlat" value="{center_lat}" />
+        <Ncs_set name="centerlon" value="{center_lon}" />
+        <Ncs_set name="height_km" value="{ysize}" />
+        <Ncs_set name="width_km" value="{xsize}" />
+
+        <Ncs_set name="imars.{sat}.{sensor}.mcrefl_rgb.geotiff" value="{dataDirectory}{productDirectory}{/}V{satletter}Dmcrefl_TrueColor.{starttime}.{place_name}.{spatial_resolution}.tiff"/>
+        <Ncs_set name="allOutputs" value="{allOutputs} {imars.{sat}.{sensor}.mcrefl_rgb.geotiff}"/>
+        <Ncs_log text="storing imars.{sat}.{sensor}.mcrefl_rgb.geotiff at {imars.{sat}.{sensor}.mcrefl_rgb.geotiff}"/>
+        <Ncs_log text="allOutputs are: {allOutputs}"/>
+        <!--<Ncs_set name="input.data" value="{imars.{sat}.viir.mcrefl}"/> &lt;!&ndash;EDIT FOR CREFL CALL&ndash;&gt;-->
+        <!--<Ncs_set name="geo" value="{imars.{sat}.viirs.gmtco}"/>-->
+        <Ncs_set name="h2gout" value="{imars.{sat}.{sensor}.mcrefl_rgb.geotiff}"/>
+        <!-- run the algorithm (to massive applause)  -->
+        <!--Ncs_log text="launching algorithm CREFL True Color"--> <!--EDIT FOR CREFL CALL-->
+        <RunAlgorithm algorithm="cfg_algo.OBJ" debug="{cfg_debug}"/>
+
+        <Ncs_set name="mapped.exists" value="true" />
+        <!-- and clean everything up - walk the outputs
+                creating new Products, decorating them with Resources,
+                and Ancillaries, and Storing them  -->
+        <Ncs_copy copy="imars.{sat}.{sensor}.mcrefl_rgb.geotiff" source="h2gout"/>
+        <Ncs_boundp name="imars.{sat}.{sensor}.mcrefl_rgb.geotiff" value="mapped.exists"/>
+
+        <Ncs_log runFlag="{mapped.exists}" text="Creating new product imars.{sat}.{sensor}.mcrefl_rgb.geotiff"/>
+        <Dsm_command class="Product" debug="{cfg_debug}" method="new"
+          result="imars.{sat}.{sensor}.mcrefl_rgb.geotiff.OBJ" runFlag="{mapped.exists}">
+          <Object value="imars.{sat}.{sensor}.mcrefl.OBJ"/>
+          <String value="imars.{sat}.{sensor}.mcrefl_rgb.geotiff"/>
+        </Dsm_command>
+        <Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.geotiff.OBJ"
+          debug="{cfg_debug}" method="setAlgorithm" runFlag="{mapped.exists}">
+          <String value="{cfg_groupTag}"/> 
+          <String value="{version}"/>
+        </Dsm_command>
+        <Ncs_log runFlag="{mapped.exists}" text="Adding file {imars.{sat}.{sensor}.mcrefl_rgb.geotiff} (as DATA resource)"/>
+        <Dsm_command class="DSM" debug="{cfg_debug}"
+          method="addDataResource" runFlag="{mapped.exists}">
+          <Object value="imars.{sat}.{sensor}.mcrefl_rgb.geotiff.OBJ"/>
+          <String value="{imars.{sat}.{sensor}.mcrefl_rgb.geotiff}"/>
+        </Dsm_command>
+
+
+
+        <Ncs_log runFlag="{mapped.exists}" text="Adding contributing product imars.{sat}.{sensor}.gmtco (file {imars.{sat}.{sensor}.gmtco})"/>
+        <Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.geotiff.OBJ"
+          debug="{cfg_debug}" method="addContributingProduct" runFlag="{mapped.exists}">
+          <Object value="imars.{sat}.{sensor}.gmtco.OBJ"/>
+        </Dsm_command>
+
+        <!--Thumbnail -->
+        <Ncs_set runFlag="{mapped.exists}" name="output.type" value="png.argb"/>
+        <Ncs_editValue runFlag="{mapped.exists}" name="{h2gout}" pattern=".tiff" replacement=".png" result="h2gout"/>
+
+
+        <RunAlgorithm runFlag="{mapped.exists}" algorithm="cfg_algo.OBJ" debug="{cfg_debug}"/>
+        <Ncs_copy runFlag="{mapped.exists}" copy="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png" source="h2gout"/>
+
+        <Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.geotiff.OBJ" debug="{cfg_debug}"
+		    method="setSubproduct" runFlag="{mapped.exists}">
+			<String value="MappedProducts" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.geotiff.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="place_name" />
+			<String value="{place_name}" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.geotiff.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="spatial_resolution" />
+			<String value="{spatial_resolution}" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.geotiff.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="area_description" />
+			<String value="{area_description}" />
+		</Dsm_command>
+        <Ncs_log runFlag="{mapped.exists}" text="Storing product imars.{sat}.{sensor}.mcrefl_rgb.geotiff"/>
+        <!-- registe.mcrefl.with DSM  -->
+        <Dsm_command class="DSM" debug="{cfg_debug}" method="storeProduct" runFlag="{mapped.exists}">
+          <Object value="imars.{sat}.{sensor}.mcrefl_rgb.geotiff.OBJ"/>
+        </Dsm_command>
+
+
+        <!-- Create PNG product -->
+<!--imars.aqua.viir.mcrefl_rgb.mapped.png-->
+
+        <Ncs_log runFlag="{mapped.exists}" text="Creating new product imars.{sat}.{sensor}.mcrefl_rgb.mapped.png"/>
+		<!-- Create a new entry for the product based on the input product-->
+		<Dsm_command class="Product" debug="{cfg_debug}" method="new"
+		    result="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png.OBJ" runFlag="{mapped.exists}">
+			<Object value="imars.{sat}.{sensor}.mcrefl_rgb.geotiff.OBJ"/>
+			<String value="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png"/>
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png.OBJ" debug="{cfg_debug}"
+		    method="setAlgorithm" runFlag="{mapped.exists}">
+			<String value="{cfg_stationName}"/>
+			<String value="{version}"/>
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png.OBJ" debug="{cfg_debug}"
+		    method="setSubproduct" runFlag="{mapped.exists}">
+			<String value="MappedProducts" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="place_name" />
+			<String value="{place_name}" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="spatial_resolution" />
+			<String value="{spatial_resolution}" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="area_description" />
+			<String value="{area_description}" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="product_description" />
+			<String value="{product_description}" />
+		</Dsm_command>
+		<Ncs_log runFlag="{mapped.exists}" text="Adding file {imars.{sat}.{sensor}.mcrefl_rgb.mapped.png} (as DATA resource)"/>
+		<Dsm_command class="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png.OBJ" debug="{cfg_debug}"
+		    method="addResource" runFlag="{mapped.exists}">
+			<String value="DATA" />
+			<String value="{imars.{sat}.{sensor}.mcrefl_rgb.mapped.png}"/>
+			<String value="{product_description}" />
+		</Dsm_command>
+		<Ncs_log runFlag="{mapped.exists}" text="Storing product imars.{sat}.{sensor}.mcrefl_rgb.mapped.png"/>
+		<!-- register mapped product with DSM  -->
+		<Dsm_command class="DSM" debug="{cfg_debug}" method="storeProduct" runFlag="{mapped.exists}">
+			<Object value="imars.{sat}.{sensor}.mcrefl_rgb.mapped.png.OBJ"/>
+		</Dsm_command>
+
+
+    </Ncs_loop>
+    <!-- release reserved product to DSM  -->
+    <Ncs_log text="Releasing reserved product imars.{sat}.{sensor}.mcrefl"/>
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="releaseProduct">
+      <Object value="imars.{sat}.{sensor}.mcrefl.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="Done with algorithm CREFL True Color"/>
+  </EXECUTE>
+</CONFIGURE>

@@ -1,0 +1,21 @@
+<NCS_Station name="OMPS Ozone geotiff" verbose_logging="true">
+  <group>OMPS Ozone geotiff group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>OMPS Ozone geotiff 1.0</version>
+  </algorithm>
+  <inputs>
+    <product type="drl.npp.ompsnadir.tcto3.h5" wrappertype="input.data"/>    
+  </inputs>
+  <setup>
+    <Ncs_date getValue="starttime" name="cfg_starttime"/> 
+    <Ncs_set name="geotiffname" value="OMPS_OZONE_L2.{starttime}.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="totalozone"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+  </setup>
+  <outputs>
+    <product type="drl.npp.ompsnadir.aot.geotiff" filename="{dataDirectory}{productDirectory}{/}{geotiffname}" wrappertype="h2gout"/>
+  </outputs>
+</NCS_Station>

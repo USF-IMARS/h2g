@@ -1,0 +1,8 @@
+-----------------------------------------------------------------------------
+2014-10-15 H2G_2.4_SPA_1.3_PATCH_1
+-----------------------------------------------------------------------------
+Changes in this release:
+* Fixed OMPS SO2 configuration file
+* Fixed GTM NCC configuration file in correspondence with GTMImagery Mx8.4 patch release
+* Fixed typo in VERSIONLOG
+

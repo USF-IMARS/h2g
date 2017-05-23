@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="h2g">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib64/h2g.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src" />
+    </SOURCES>
+  </library>
+</component>

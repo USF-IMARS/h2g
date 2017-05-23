@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jhdfobj">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib64/jhdfobj.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

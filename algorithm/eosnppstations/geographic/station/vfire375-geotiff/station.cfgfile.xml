@@ -1,0 +1,17 @@
+<NCS_Station directory="vfire375-geotiff" name="VFIRE375 geotiff" label="H2G|vfire375-geotiff">
+  <group>VFIRE375 geotiff group1</group>
+<html><body>
+ <table border="1">
+  <tbody>
+   <tr>VIIRS 375m Fire Mask Geotiff</tr>
+  </tbody>
+ </table>
+</body></html>
+  <inputs>
+    <product type="drl.npp.viirs.activefires375.hdf"/>
+    <product type="drl.npp.viirs.gitco"/>     
+  </inputs>
+  <outputs>
+    <product type="drl.npp.viirs.activefires.geotiff"/>
+  </outputs>
+</NCS_Station>

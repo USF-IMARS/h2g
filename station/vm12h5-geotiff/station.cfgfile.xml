@@ -1,0 +1,22 @@
+<NCS_Station name="VIIRS M12 BTemp geotiff" verbose_logging="true">
+  <group>VIIRS M12 BTemp geotiff group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>VIIRS M12 BTemp geotiff 1.0</version>
+  </algorithm>
+  <inputs>
+    <product type="drl.npp.viirs.svm12" wrappertype="modis.data"/>
+    <product type="drl.npp.viirs.gmodo" wrappertype="modis.geo"/>     
+  </inputs>
+  <setup>
+    <Ncs_date getValue="starttime" name="cfg_starttime"/> 
+    <Ncs_set name="geotiffname" value="NPP_M12BT_SDR.{starttime}.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="vm12bt"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+  </setup>
+  <outputs>
+    <product type="drl.npp.viirs.m12bt.geotiff" filename="{dataDirectory}{productDirectory}{/}{geotiffname}" wrappertype="modis.h2gout"/>
+  </outputs>
+</NCS_Station>

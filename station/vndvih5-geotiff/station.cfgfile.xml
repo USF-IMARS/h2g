@@ -1,0 +1,23 @@
+<NCS_Station name="VIIRS NDVI geotiff" verbose_logging="true">
+  <group>VIIRS NDVI geotiff group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>VIIRS NDVI geotiff 1.0</version>
+  </algorithm>
+  <inputs>
+    <product type="drl.npp.viirs.vrvi.h5" wrappertype="modis.data"/>
+    <product type="drl.npp.viirs.gmodo" wrappertype="modis.geo"/>
+    <product type="drl.npp.viirs.vafip.h5" wrappertype="modis.mask"/>
+  </inputs>
+  <setup>
+     <Ncs_date getValue="starttime" name="cfg_starttime"/>  
+    <Ncs_set name="geotiffname" value="NPP_VRVI_L2.{starttime}.NDVI.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="vndvih5"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+  </setup>
+  <outputs>
+    <product type="drl.npp.viirs.ndvih5.geotiff" filename="{dataDirectory}{productDirectory}{/}{geotiffname}" wrappertype="modis.h2gout"/>
+  </outputs>
+</NCS_Station>

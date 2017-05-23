@@ -1,0 +1,169 @@
+-----------------------------------------------------------------------------
+2015-07-22 H2G_2.4_SPA_1.3_PATCH_4
+-----------------------------------------------------------------------------
+Changes in this release:
+* Added support for VFIRE375 SPA geotiff products
+
+-----------------------------------------------------------------------------
+2015-04-21 H2G_2.4_SPA_1.3_PATCH_3
+-----------------------------------------------------------------------------
+Changes in this release:
+* Added support for Collection 6 MODIS ATmpospheric products
+
+-----------------------------------------------------------------------------
+2014-10-15 H2G_2.4_SPA_1.3_PATCH_2
+-----------------------------------------------------------------------------
+Changes in this release:
+* Improved handling of trim pixels in SDR and EDR imagery
+* Improved handling of dropouts in VIIRS-AF imagery
+* Ability to handle missing FOV in CrIS SDR (as expected in FSR HRD configuration)
+* Ability to exploit new fill values in CVIIRS v1.1 products
+
+-----------------------------------------------------------------------------
+2014-10-15 H2G_2.4_SPA_1.3_PATCH_1
+-----------------------------------------------------------------------------
+Changes in this release:
+* Fixed OMPS SO2 configuration file
+* Fixed GTM NCC configuration file in correspondence with GTMImagery Mx8.4 patch release
+* Fixed typo in VERSIONLOG
+
+-----------------------------------------------------------------------------
+2014-07-15 H2G_2.4_SPA_1.3
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Added ATMS CrIS and VIIRS SDR Imagery capability (Standalone and IPOPP mode;
+  IPOPP mode will be unavailable until dashboard is patched for support)
+* Added a 'browse_enhance' feature. This feature when set enables latitude 
+  longitude grid overlay and improves legends. 
+* Added new functions for a) inverse distance weighted interpolation technique,
+  b) noise removal and c) mean filtering. These functions are applied on
+  ATMS SDR and CrIS SDR imagery. 
+* Color scales and/or colormaps for OMPS imagery (SO2, Aerosol, Reflectivity 
+  at 331nm & Ozone) has been modified as per PI suggestion. These color scales
+  are more continuous. Mean filtering is applied on these OMPS images. 
+* Updated testscripts and testdata set in accordance with new capabilities.
+* Added a Snow Cover Fraction product (standalone and IPOPP mode)
+* Improved support for compressed SNPP inputs
+* Fixed a vector overlay bug.
+* Improvements to the MODIS 1km and 500m True Color products.
+
+-----------------------------------------------------------------------------
+2014-01-30 H2G_2.3_SPA_1.2_PATCH1
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Modified OMPS SO2 Color Scale
+* Replaced OMPS testdata sets
+* Modfied NCC Albedo configuration to create projected imagery by default
+* Modified testscripts in accordance to changes in SO2 and NCC Albedo imagery
+* Changes to tile-stations in compliance with IPOPP requirements
+
+-----------------------------------------------------------------------------
+2013-08-28
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Added capability for VIIRS Imagery resolution True Color
+* Fixed bug affecting global mosaic imagery in Geographic projection
+* Added l2gen VIIRS SST and Ocean Color image generation capability
+* Added OMPS image generation capability
+* Fixed time-stamping bug in NPP stations
+* Fixed bug in some NPP stations that was causing them to reprocess old 
+  swaths after re-installation.
+* Added testscripts/testdata for NPP products. 
+* Added documentation for NPP products.
+* Updated hdf-java libraries to v2.9
+
+-----------------------------------------------------------------------------
+2013-04-22
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Modified configuration for nighttime DNB imagery
+
+-----------------------------------------------------------------------------
+2013-02-06
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Added configuration to support VIIRS-LST and VIIRS-VI image products
+
+-----------------------------------------------------------------------------
+2012-12-03
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Code changes to allow support for fill value ranges
+* Code changes to improve use of fill values in RGB imagery fill
+* Added use of Quality Flags as masks for VIIRS aerosols, aerosol particle 
+  size, suspended matter type and snow
+* Updated EVI scaling in configuration file
+* Configuration file changes to replace VIIRS GMODO input with VIIRS GMTCO
+* Configuration file changes for VIIRS imagery to allow use of fillvalue ranges
+* Testscript and testdata changes to allow use of GMTCO input
+
+-----------------------------------------------------------------------------
+2012-10-01
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Added support for CVIIRS truecolor, VIIRS AF, and GTM Imagery,
+  CVIIRS truecolor-fire
+  
+-----------------------------------------------------------------------------  
+2012-08-31
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Added stereographic projection capability for VIIRS products
+* Added stereographic subsetting capability
+* Modified geographic subsetting capability
+* Added mosaicing capability for both geographic and stereographic projections
+* Fixed bug related to VIIRS BigEndian datasets
+* Modified wrapper interface so that the labels are more generalized
+
+-----------------------------------------------------------------------------
+2012-05-04
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Extending capability to produce images from HDF5 VIIRS Science products
+* While generating true color images, the red, green and blue bands can now 
+  come from different input files
+  
+-----------------------------------------------------------------------------
+2010-12-20
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Added/Modified code to generalize processing of hdf5 inputs
+* Added/Modified configuration files to generalize processing of hdf5 inputs
+* Added stations for processing of VIIRS hdf5 products
+
+-----------------------------------------------------------------------------
+2009-10-01 H2G_1.6a_SPA
+-----------------------------------------------------------------------------
+Changes in this release:
+
+* Added code to read hdf5 datasets from movicon and create tcolor
+* Modified code to allow read/green/blue bands to come from different files
+* Modified wrapper and added movicon-geotiff station
+* Added jni-wrapped proj 4 library (some modifications were reqd to the jni)
+* H2G architectural change to allow all projection calculations in one function
+* Code changes to allow new geotiff tags
+* Added Stereographic Projection 
+  (Other projections were also added, but not tested yet)
+* Configuration files are now out of final h2g jar file. This implies changes 
+  to configuration files would not need rebuilding of h2g 
+  (Changes to configuration files are not recommended)
+* Allow subsetting on the commandline
+* Allow projection/resolution overrride on the commandline
+* Added Cohen Sutherland Line Clipping algorithm for correct overlay 
+  of vector maps
+* Deleted unnecessary code for rgb & singleband processing
+* Consolidated rgb and singleband code so that they share same processing fns
+* Optimized standard products tcolor0_01, tcolorfire0_01, ndvi & evi for ~1km 
+  products. Users should not use them for higher resolution products.
+* Allow no-data holes in npp products to be interpolated
+

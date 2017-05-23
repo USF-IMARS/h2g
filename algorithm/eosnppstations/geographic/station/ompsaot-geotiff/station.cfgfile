@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<!-- With very few exceptions, parameters that are internal to this script begin with 'cfg_'.  Avoid that prefix in your parameters, please -->
+<CONFIGURE>
+  <SETUP>
+    <!-- set this to 'true' to enable really verbose debugging -->
+    <Ncs_set name="cfg_debug" value="false"/>
+    <!-- cfg_ncs_home comes from JSW config, cfg_nisgs_home should be up one level -->
+    <Ncs_set name="cfg_nisgs_home" value="{cfg_ncs_home}{/}.."/>
+    <!-- site.properties file (which is in cfg_ncs_home/..) -->
+    <Ncs_readFile file="{cfg_nisgs_home}{/}site.properties"/>
+    <!-- required by DSM:  -->
+    <Ncs_set name="cfg_stationName" value="OMPS Aerosol geotiff"/>
+    <Ncs_set name="cfg_groupTag" value="OMPS Aerosol geotiff group1"/>
+    <Ncs_set name="cfg_siteName" value="{NISGS_SITE_NAME}"/>
+    <Ncs_set name="dataDirectory" value="{DSM_DATA_DIRECTORY}"/>
+    <Ncs_set name="cfg_stationLog" value="station.stationlog"/>
+    <!--  Initialize wrapped algorithm   -->
+    <Ncs_print text="Initializing algorithm OMPS Aerosol geotiff"/>
+    <InitAlgorithm debug="{cfg_debug}" result="cfg_algo.OBJ" file="{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml"/>
+    <Ncs_print text="Algorithm OMPS Aerosol geotiff initialized"/>
+    <Ncs_set name="version" value="OMPS Aerosol geotiff 1.0"/>
+  </SETUP>
+  <EXECUTE>
+    <!-- get first input product -->
+    <Ncs_set name="otherInputTypes" value=""/>
+    <Ncs_log text="Reserving product drl.npp.ompsnadir.tcto3.h5"/>
+    <Dsm_command debug="{cfg_debug}" blockflag="true" log="true" result="drl.npp.ompsnadir.tcto3.h5.OBJ" class="DSM" method="reserveProduct">
+      <String value="drl.npp.ompsnadir.tcto3.h5"/>
+      <String value="{otherInputTypes}"/>
+    </Dsm_command>
+    <!-- Put the reserved product object into 'reservedProduct' -->
+    <!-- (so NCS can find it to fail this job if needed) -->
+    <Ncs_copy source="drl.npp.ompsnadir.tcto3.h5.OBJ" copy="reservedProduct"/>
+    <!-- Create our NCSHelper -->
+    <Dsm_command debug="{cfg_debug}" class="NCSHelper" method="new" result="NCSHelper.OBJ">
+      <Object value="DSM"/>
+      <String value="OMPS Aerosol geotiff"/>
+      <String value="{version}"/>
+    </Dsm_command>
+    <!-- get pass  -->
+    <Ncs_log text="Getting pass for drl.npp.ompsnadir.tcto3.h5"/>
+    <Dsm_command result="cfg_pass" debug="{cfg_debug}" class="drl.npp.ompsnadir.tcto3.h5.OBJ" method="getPass"/>
+    <!--Put pass and first product into NCSHelper -->
+    <Dsm_command debug="{cfg_debug}" class="NCSHelper.OBJ" method="setPass">
+      <Object value="cfg_pass"/>
+    </Dsm_command>
+    <Dsm_command debug="{cfg_debug}" class="NCSHelper.OBJ" method="addInputProduct">
+      <Object value="drl.npp.ompsnadir.tcto3.h5.OBJ"/>
+    </Dsm_command>
+    <!-- get date  -->
+    <Ncs_log text="Getting date/time"/>
+    <Dsm_command result="cfg_starttime" debug="{cfg_debug}" class="drl.npp.ompsnadir.tcto3.h5.OBJ" method="getStartTime"/>
+    <Dsm_command result="cfg_stoptime" debug="{cfg_debug}" class="drl.npp.ompsnadir.tcto3.h5.OBJ" method="getStopTime"/>
+    <!-- get current time -->
+    <Ncs_date debug="{cfg_debug}" setValue="now" name="cfg_wallclocktime"/>
+    <!-- get satellite -->
+    <Dsm_command debug="{cfg_debug}" result="cfg_satellite" class="drl.npp.ompsnadir.tcto3.h5.OBJ" method="getSpacecraft"/>
+    <!-- get file name  -->
+    <Ncs_log text="Getting file name (DATA resource)"/>
+    <Dsm_command debug="{cfg_debug}" result="drl.npp.ompsnadir.tcto3.h5" class="DSM" method="getProductPath">
+      <Object value="drl.npp.ompsnadir.tcto3.h5.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="File name is {drl.npp.ompsnadir.tcto3.h5}"/>
+    
+    
+    <!-- parse the CDF fields out of the first input product name -->
+    <Ncs_getMatch name="{drl.npp.ompsnadir.tcto3.h5}" result="cfg_filename" pattern="[^{/}]*$"/>
+    <!--Hack the fields off one at a time-->
+    <Ncs_editValue name="{cfg_filename}" pattern="[^_]*_" replacement="" result="cfg_temp"/>
+    <Ncs_editValue name="{cfg_temp}" pattern="EDR_TO3-v" replacement="" result="cfg_temp"/>
+    <Ncs_editValue name="{cfg_temp}" pattern="[0-9]*\.[0-9]-*" replacement="" result="cfg_temp"/>
+    <Ncs_getMatch name="{cfg_temp}" pattern="[0-9]*" result="cfg_filestartyear"/>
+    <Ncs_editValue name="{cfg_temp}" pattern="[0-9]*m" replacement="" result="cfg_temp"/>
+    <Ncs_getMatch name="{cfg_temp}" pattern="[0-9]*" result="cfg_filestartdate"/>    
+    <Ncs_editValue name="{cfg_temp}" pattern="[0-9]*t" replacement="" result="cfg_temp"/>
+    <Ncs_getMatch name="{cfg_temp}" pattern="[0-9]*" result="cfg_filestarttime"/>
+    <!-- Now put the start time into the format needed-->
+    <Ncs_date setValue="{cfg_filestartyear}{cfg_filestartdate}{cfg_filestarttime}" name="yrdaymonth" pattern="yyyyMMddHHmmss" />
+   <Ncs_date getValue="starttime" name="yrdaymonth" pattern="yyDDDHHmmss" />
+
+
+ 
+    <Ncs_set name="geotiffname" value="OMPS_AEROSOL_L2.{starttime}.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="uvaerosol"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+    <!-- End of setup code -->
+    <!--*-->
+    <!-- Set up the output file names  -->
+    <!-- (accumulate them in allOutputs) -->
+    <Ncs_set name="allOutputs" value=""/>
+    <Dsm_command result="productDirectory" debug="{cfg_debug}" class="DSM" method="getProductDirectory">
+      <String value="drl.npp.ompsnadir.aot.geotiff"/>
+    </Dsm_command>
+    <Ncs_set name="drl.npp.ompsnadir.aot.geotiff" value="{dataDirectory}{productDirectory}{/}{geotiffname}"/>
+    <Ncs_set name="allOutputs" value="{allOutputs} {drl.npp.ompsnadir.aot.geotiff}"/>
+    <Ncs_log text="storing drl.npp.ompsnadir.aot.geotiff at {drl.npp.ompsnadir.aot.geotiff}"/>
+    <Ncs_log text="allOutputs are: {allOutputs}"/>
+    <Ncs_set name="input.data" value="{drl.npp.ompsnadir.tcto3.h5}"/>
+    <Ncs_set name="h2gout" value="{drl.npp.ompsnadir.aot.geotiff}"/>
+    <!-- run the algorithm (to massive applause)  -->
+    <Ncs_log text="launching algorithm OMPS Aerosol geotiff"/>
+    <RunAlgorithm algorithm="cfg_algo.OBJ" debug="{cfg_debug}"/>
+    <!-- and clean everything up - walk the outputs
+			creating new Products, decorating them with Resources,
+			and Ancillaries, and Storing them  -->
+    <Ncs_copy source="h2gout" copy="drl.npp.ompsnadir.aot.geotiff"/>
+    <!-- Put output product into NCSHelper -->
+    <Dsm_command debug="{cfg_debug}" runFlag="true" class="NCSHelper.OBJ" method="addOutputProduct">
+      <String value="drl.npp.ompsnadir.aot.geotiff"/>
+      <String value="{drl.npp.ompsnadir.aot.geotiff}"/>
+    </Dsm_command>
+    <!-- Tell NCSHelper to register output products -->
+    <Ncs_log text="NCSHelper registering products..."/>
+    <Dsm_command debug="{cfg_debug}" class="NCSHelper.OBJ" method="addOutputsToDatabase"/>
+    <!-- release reserved product to DSM  -->
+    <Ncs_log text="Releasing reserved product drl.npp.ompsnadir.tcto3.h5"/>
+    <Dsm_command debug="{cfg_debug}" class="DSM" method="releaseProduct">
+      <Object value="drl.npp.ompsnadir.tcto3.h5.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="Done with algorithm OMPS Aerosol geotiff"/>
+  </EXECUTE>
+</CONFIGURE>

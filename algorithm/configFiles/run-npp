@@ -1,0 +1,33 @@
+#!/bin/bash
+WRAPPERHOME=../wrapper/h2g
+INPUTHOME=../testdata/input/nppdata
+OUTPUTHOME=../testdata/input/nppdata
+
+#VIIRS Geolocation Product
+GMODO=$INPUTHOME/GMODO_npp_d20121121_t1837043_e1849084_b00001_c20121121195125634000_all-_dev.h5
+GMTCO=$INPUTHOME/GMTCO_npp_d20121121_t1837043_e1849084_b00001_c20121121195125634000_all-_dev.h5
+
+#VIIRS SDRs, EDRs, IPs
+IVIWT=$INPUTHOME/IVIWT_npp_d20121121_t1837043_e1849084_b00001_c20121121215109428000_all-_dev.h5
+VSCMO=$INPUTHOME/VSCMO_npp_d20121121_t1837043_e1849084_b00001_c20121121234152651000_all-_dev.h5
+
+IVAOT=$INPUTHOME/IVAOT_npp_d20121121_t1837043_e1849084_b00001_c20121121215109396000_all-_dev.h5
+VSUMO=$INPUTHOME/VSUMO_npp_d20121121_t1837043_e1849084_b00001_c20121121215109396000_all-_dev.h5
+VIVIO=$INPUTHOME/VIVIO_npp_d20121121_t1837043_e1849084_b00001_c20121122000003831000_all-_dev.h5
+VAFIP=$INPUTHOME/AVAFO_npp_d20121121_t1837043_e1849084_b00001_c20121121210901860000_all-_dev.h5
+INPUTHOME=/home/sdasgupta/SPA_DEV/VIIRS-VI/testdata/input/input
+VVI=$INPUTHOME/VVI_npp_d20121220_t1936220_e1943415_b00001_c20121226203722484000_all-_dev.hdf
+GMTCO=$INPUTHOME/GMTCO_npp_d20121220_t1936220_e1943415_b00001_c20121226192851550000_all-_dev.h5
+VAFIP=$INPUTHOME/VAF_npp_d20121220_t1936220_e1943415_b00001_c20121226203255699000_all-_dev.hdf
+
+
+#$WRAPPERHOME/run config.type standard config.name vctth5d input.data $IVIWT geo $GMODO h2gout $OUTPUTHOME/VIIRS_CTT.tif output.type geotiff.u8cm
+#$WRAPPERHOME/run config.type standard config.name vsnowbinh5 input.data $VSCMO geo $GMTCO h2gout $OUTPUTHOME/VIIRS_SNOW.tif output.type geotiff.u8cm
+
+#$WRAPPERHOME/run config.type standard config.name vaot550h5d input.data $IVAOT geo $GMTCO h2gout $OUTPUTHOME/VIIRS_AOT.tif output.type geotiff.u8cm
+#$WRAPPERHOME/run config.type standard config.name vapsh5d input.data $IVAOT geo $GMTCO h2gout $OUTPUTHOME/VIIRS_APS.tif output.type geotiff.u8cm
+#$WRAPPERHOME/run config.type standard config.name vsumh5 input.data $VSUMO geo $GMTCO h2gout $OUTPUTHOME/VIIRS_SUM.tif output.type geotiff.u8cm
+#$WRAPPERHOME/run config.type standard config.name vevih5 input.data $VIVIO mask $VAFIP geo $GMTCO h2gout $OUTPUTHOME/VEVI.tif output.type geotiff.u8cm
+$WRAPPERHOME/run config.type standard config.name vvievi input.data $VVI mask $VAFIP geo $GMTCO h2gout $OUTPUTHOME/VEVI.tif output.type png.argb
+$WRAPPERHOME/run config.type standard config.name vvindvi input.data $VVI mask $VAFIP geo $GMTCO h2gout $OUTPUTHOME/VNDVI.tif output.type png.argb
+

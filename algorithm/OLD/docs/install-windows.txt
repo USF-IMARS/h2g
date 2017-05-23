@@ -1,0 +1,71 @@
+H2G INSTALLATION
+----------------
+
+
+Copy the H2G distribution to the desired location
+-------------------------------------------------
+
+The "h2g-<version>.zip" file (where <version> is the version number)
+contains, at the top-level, a directory named "h2g".  Extract/copy the "h2g"
+directory to the desired location (typically a directory named "drl" perhaps
+in "C:\Program Files").  All directory paths referred to in these instructions
+are relative to the ".\h2g\algorithm" directory.
+
+
+
+Rebuilding
+----------
+
+If you find it necessary to rebuild the H2G distribution use
+
+  .\build.bat
+  
+to compile the Java source files and create the "h2g.jar" file in the "lib"
+directory.
+
+
+
+Execute utility program
+-----------------------
+
+The utility program to create a GEOTIFF/JPEG from an HDF has the syntax:
+
+   .\bin\create.sh <iType> <iFile...> <oType> <oFile>
+   
+   where
+   
+   <iType> is the type of primary input HDF and must be one of the following:
+   atmprofile-tpw, aerosol-aod, aerosol-odr, cloudtop-ctp, cloudtop-irphase,
+   cloudmask, sst, chlor, fire, ndvi, lst, 1km (infrared), hkm (true color), or
+   qkm (gray scale).
+   
+   <iFile...> is one or more input HDFs depending on the <iType> as follows:
+   
+     atmprofile-tpw     <primary>
+     aerosol-aod        <primary>
+     aerosol-odr        <primary>
+     cloudtop-ctp       <primary>
+     cloudtop-irphase   <primary>
+     cloudmask          <primary> [<geo>]
+     sst                <primary> <geo>
+     chlor              <primary> <geo>
+     fire               <primary> <geo>
+     ndvi               <primary> <geo> [<fire>]   (<fire> used for cloud mask)
+     lst                <primary> <geo> [<fire>]   (<fire> used for cloud mask)
+     1km                <primary> <geo>
+     hkm                <primary> <geo>
+     qkm                <primary> <geo>
+     
+   where <primary> is the primary HDF, <geo> is the MxD03 geolocation HDF,
+   and <fire> is the fire detection primary HDF.  Square brackets indicate an
+   optional input HDF.
+   
+   <oType> is the type of GEOTIFF/JPEG to create and must be one of the
+   following:
+   
+     geotiff.argb       (GEOTIFF with alpha and RGB components)
+     geotiff.u8cm       (GEOTIFF with an 8-bit color map)
+     jpeg.argb          (JPEG with alpha and RGB components)
+
+   <oFile> is the output file.
+

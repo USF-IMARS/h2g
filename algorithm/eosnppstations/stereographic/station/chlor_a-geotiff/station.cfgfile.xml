@@ -1,0 +1,21 @@
+<NCS_Station name="chlor_a-geotiff" verbose_logging="true">
+  <group>chlor_a-geotiff-group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>CHLOR_A GEOTIFF 1.0</version>
+  </algorithm>
+  <inputs>
+    <product type="drl.{sat}.modis.chlor_a" wrappertype="modis.data"/>
+    <product type="drl.{sat}.modis.mxd03" wrappertype="modis.geo"/>
+  </inputs>
+  <setup>
+    <Ncs_set name="geotiffname" value="{drl.{sat}.modis.chlor_a.base}.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="chlor"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+  </setup>
+  <outputs>
+    <product type="drl.{sat}.modis.chlor_a.geotiff" filename="{dataDirectory}{productDirectory}{/}{geotiffname}" wrappertype="modis.h2gout"/>
+  </outputs>
+</NCS_Station>

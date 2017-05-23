@@ -1,0 +1,730 @@
+<?xml version="1.0"?>
+<Algorithm>
+  <Name>H2G</Name>
+  <Inputs>
+    <input.data optional="true"/>
+    <red.data optional="true"/>
+    <green.data optional="true"/>
+    <blue.data optional="true"/>
+    <geo optional="true"/>
+    <mask optional="true"/>
+    <fireloc optional="true"/>
+
+    <input.data2 optional="true"/>
+    <red.data2 optional="true"/>
+    <green.data2 optional="true"/>
+    <blue.data2 optional="true"/>
+    <geo2 optional="true"/>
+    <mask2 optional="true"/>
+    <fireloc2 optional="true"/>
+
+    <input.data3 optional="true"/>
+    <red.data3 optional="true"/>
+    <green.data3 optional="true"/>
+    <blue.data3 optional="true"/>
+    <geo3 optional="true"/>
+    <mask3 optional="true"/>
+    <fireloc3 optional="true"/>
+
+    <input.data4 optional="true"/>
+    <red.data4 optional="true"/>
+    <green.data4 optional="true"/>
+    <blue.data4 optional="true"/>
+    <geo4 optional="true"/>
+    <mask4 optional="true"/>
+    <fireloc4 optional="true"/>
+
+    <input.data5 optional="true"/>
+    <red.data5 optional="true"/>
+    <green.data5 optional="true"/>
+    <blue.data5 optional="true"/>
+    <geo5 optional="true"/>
+    <mask5 optional="true"/>
+    <fireloc5 optional="true"/>
+
+    <input.data6 optional="true"/>
+    <red.data6 optional="true"/>
+    <green.data6 optional="true"/>
+    <blue.data6 optional="true"/>
+    <geo6 optional="true"/>
+    <mask6 optional="true"/>
+    <fireloc6 optional="true"/>
+
+    <input.data7 optional="true"/>
+    <red.data7 optional="true"/>
+    <green.data7 optional="true"/>
+    <blue.data7 optional="true"/>
+    <geo7 optional="true"/>
+    <mask7 optional="true"/>
+    <fireloc7 optional="true"/>
+
+    <input.data8 optional="true"/>
+    <red.data8 optional="true"/>
+    <green.data8 optional="true"/>
+    <blue.data8 optional="true"/>
+    <geo8 optional="true"/>
+    <mask8 optional="true"/>
+    <fireloc8 optional="true"/>
+
+    <input.data9 optional="true"/>
+    <red.data9 optional="true"/>
+    <green.data9 optional="true"/>
+    <blue.data9 optional="true"/>
+    <geo9 optional="true"/>
+    <mask9 optional="true"/>
+    <fireloc9 optional="true"/>
+
+    <input.data10 optional="true"/>
+    <red.data10 optional="true"/>
+    <green.data10 optional="true"/>
+    <blue.data10 optional="true"/>
+    <geo10 optional="true"/>
+    <mask10 optional="true"/>
+    <fireloc10 optional="true"/>
+
+ </Inputs>
+ <Parameters>
+    <config.type/>
+    <config.name/>
+    <output.type/>
+    <projection optional="true"/>
+    <resolution optional="true"/>
+    <centerlat optional="true"/>
+    <centerlon optional="true"/>
+    <width_lon optional="true"/>
+    <width_km optional="true"/>
+    <height_lat optional="true"/>
+    <height_km optional="true"/>
+    <browse_enhance optional="true"/>
+
+	    <latmin optional="true" />
+	    <latmax optional="true" />
+	    <lonmin optional="true" />
+	    <lonmax optional="true" />
+        <lon_name optional="true" />
+        <lat_name optional="true" />
+ </Parameters>
+  <Outputs>
+    <h2gout optional="true"/>
+  </Outputs>
+  <Executables>
+    <create/>
+    <coverage_check/>
+    <killwrapper/>
+    <prepareCris/>
+    <Compression.sh/>
+    <h5repack/>
+    <creflcmd/>
+  </Executables>
+  <TemplateFiles/>
+  <Commands>
+   <Ncs_log text="Starting H2G Algorithm" />
+
+   <!-- checks to see if this actually a request to run crefl -->
+   <!-- check for config type-->
+   <Ncs_print text="{config.name}"/>
+   <Ncs_test name="{config.name}" pattern="internalcrefl" result="runcrefl"/>
+   <Ncs_test name="{runcrefl}" pattern="false" result="runh2g"/>
+   <!--<Ncs_log text="runcrefl is {runcrefl} runh2g is {runh2g}"/>-->
+
+   <!-- running crefl - making it work within the H2G wrapper. This has to moved to a different wrapper later;  -->
+
+                <Ncs_deleteFile file="{cfg_runDirectory}{/}MOD02QKM.hdf" />
+                <Ncs_deleteFile file="{cfg_runDirectory}{/}MOD02HKM.hdf" />
+                <Ncs_deleteFile file="{cfg_runDirectory}{/}MOD021KM.hdf" />
+                <Ncs_deleteFile file="{cfg_runDirectory}{/}tbase.hdf" />
+
+                <!--Always assume daytime pass - not supposed to be called by user; This part is exercised through station only when the default crefl is produced (i.e. daytime)-->
+
+
+                <Ncs_set name="tbase" value="{algo_home}{/}DRL_scripts{/}tbase.hdf" runFlag="{runcrefl}"/>
+		<Ncs_checkFile file="{tbase}" runFlag="{runcrefl}"/>
+
+		<!-- make symlink in RUN directory to tbase.hdf. -->
+		<MakeLink file="{tbase}" link="{cfg_runDirectory}{/}tbase.hdf" runFlag="{runcrefl}"/>
+		<!-- crefl also needs renamed input files - more symlinks -->
+		<MakeLink file="{input.data}"  link="{cfg_runDirectory}{/}MOD02QKM.hdf" runFlag="{runcrefl}"/>
+		<MakeLink file="{input.data2}" link="{cfg_runDirectory}{/}MOD02HKM.hdf" runFlag="{runcrefl}"/>
+		<MakeLink file="{input.data3}" link="{cfg_runDirectory}{/}MOD021KM.hdf" runFlag="{runcrefl}"/>
+                <!-- Run crefl Algorithm -->
+		<Ncs_run debug="true" runFlag="{runcrefl}"
+				 standardFile="stdfile"
+				 errorFile="errfile"
+		cmd= "{creflcmd} --1km --verbose --overwrite MOD02HKM.hdf MOD02QKM.hdf MOD021KM.hdf --of={h2gout} --bands=1,3,4" />
+
+
+    <!-- end of running crefl-->
+
+
+    <!--Check make to determine whether to uncompress an input file or not-->
+    <!--Delete temporary directory -->
+    <Ncs_deleteFile runFlag="{runh2g}" file="{cfg_runDirectory}{/}tempdir"/>
+    <!--Making a temporary directory in the run directory-->
+    <Ncs_run runFlag="{runh2g}" cmd="mkdir tempdir"/>
+
+     <!-- Loop over the input files-->
+     <Ncs_set runFlag="{runh2g}" name="inputfile" value="input.data input.data2 input.data3 input.data4 input.data5 input.data6 input.data7 input.data8 input.data9 input.data10
+                                      red.data red.data2 red.data3 red.data4 red.data5 red.data6 red.data7 red.data8 red.data9 red.data10
+				      green.data green.data2 green.data3 green.data4 green.data5 green.data6 green.data7 green.data8 green.data9 green.data10
+				      blue.data blue.data2 blue.data3 blue.data4 blue.data5 blue.data6 blue.data7 blue.data8 blue.data9 blue.data10
+				      geo geo2 geo3 geo4 geo5 geo6 geo7 geo8 geo9 geo10
+				      mask mask2 mask3 mask4 mask5 mask6 mask7 mask8 mask9 mask10" />
+
+     <Ncs_loop runFlag="{runh2g}" lists="inputfile">
+
+	<!-- No check if the input file exist-->
+        <Ncs_boundp name="{inputfile}" value="input.given"/>
+        <Ncs_compare type="String" valueA="{input.given}" valueB="true" A_ne_B="input.notgiven"/>
+
+	<Ncs_run debug="true"
+	         runFlag="{input.given}"
+	         cmd='{Compression.sh} {{inputfile}}'
+	         standardFile="stdfile_checkcompress"
+	         errorFile="errfile_checkcompress">
+	         <env name="H5UTILHOME" value="{algo_home}/DRL_scripts" />
+	         <env name="HDF5_DISABLE_VERSION_CHECK=1" value="1" />
+	</Ncs_run>
+
+	<!-- Check if the input data is compressed -->
+	<Ncs_readFile runFlag="{input.given}" file="{cfg_runDirectory}{/}CompressionCheck.txt"/>
+	<Ncs_test runFlag="{input.given}" name="{COMPRESSION}" pattern="Uncompressed" result="uncompressed"/>
+	<Ncs_test runFlag="{input.given}" name="{uncompressed}" pattern="false" result="compressed"/>
+
+	<Ncs_set name="temp" value="falsefalse"/>
+	<Ncs_set runFlag="{input.given}" name="temp" value="{input.given}{compressed}" />
+        <Ncs_test name="{temp}" pattern="truetrue" result="runcompression"/>
+
+	<!-- Get the name of the input file that needs to be uncompressed -->
+	<Ncs_getMatch runFlag="{runcompression}" name="{{inputfile}}" result="compressedfilename" pattern="[^/]*$"/>
+	<Ncs_print  runFlag="{runcompression}" text="The input file {compressedfilename} is compressed hdf5 data, will uncompress it" />
+
+	<!-- Uncompress the inputfile -->
+	<Ncs_run runFlag="{runcompression}" cmd="{h5repack} --native --filter NONE {{inputfile}} {cfg_runDirectory}{/}tempdir{/}{compressedfilename}"/>
+	<Ncs_set runFlag="{runcompression}" name="{inputfile}" value="{cfg_runDirectory}{/}tempdir{/}{compressedfilename}"/>
+
+     </Ncs_loop>
+     <!--End of Checks to determine whether to uncompress an input file or not-->
+
+
+
+    <!--Check if CrIS SDR imagery imagery was requested, because it needs preprocessing -->
+    <Ncs_test name="{config.name}" pattern="crisbtlw" result="crissdr"/>
+    <Ncs_test name="{crissdr}" pattern="false" result="notcrissdr"/>
+    <Ncs_test runFlag="{notcrissdr}" name="{config.name}" pattern="crisbtmw" result="crissdr"/>
+    <Ncs_test name="{crissdr}" pattern="false" result="notcrissdr"/>
+    <Ncs_test runFlag="{notcrissdr}" name="{config.name}" pattern="crisbtsw" result="crissdr"/>
+    <Ncs_test name="{crissdr}" pattern="false" result="notcrissdr"/>
+
+    <Ncs_test runFlag="{notcrissdr}" name="{config.name}" pattern="crisbtlw_allfovs" result="crissdr"/>
+    <Ncs_test name="{crissdr}" pattern="false" result="notcrissdr"/>
+    <Ncs_test runFlag="{notcrissdr}" name="{config.name}" pattern="crisbtmw_allfovs" result="crissdr"/>
+    <Ncs_test name="{crissdr}" pattern="false" result="notcrissdr"/>
+    <Ncs_test runFlag="{notcrissdr}" name="{config.name}" pattern="crisbtsw_allfovs" result="crissdr"/>
+    <Ncs_test name="{crissdr}" pattern="false" result="notcrissdr"/>
+
+    <Ncs_set runFlag="{crissdr}"  name="allfovs" value="false"/>
+    <Ncs_set runFlag="{crissdr}"  name="hrdflag" value=""/>
+    <Ncs_test name="{config.name}" pattern="crisbtlw_allfovs" result="allfovs"/>
+    <Ncs_set runFlag="{allfovs}" name="hrdflag" value="-nohrd"/>
+    <Ncs_test name="{config.name}" pattern="crisbtmw_allfovs" result="allfovs"/>
+    <Ncs_set runFlag="{allfovs}" name="hrdflag" value="-nohrd"/>
+    <Ncs_test name="{config.name}" pattern="crisbtsw_allfovs" result="allfovs"/>
+    <Ncs_set runFlag="{allfovs}" name="hrdflag" value="-nohrd"/>
+
+
+    <Ncs_set runFlag="{crissdr}" name="cris_intermediate" value="{cfg_runDirectory}{/}tempdir{/}SCRIS.temp.1.h5"/>
+    <Ncs_run runFlag="{crissdr}" debug="true" log="true"
+             standardFile="stdfile-prepareCris" errorFile="errfile-preparecris"
+             cmd="{prepareCris} {input.data} {geo} {cris_intermediate} {hrdflag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+    <Ncs_set runFlag="{crissdr}" name="input.data" value="{cris_intermediate}"/>
+    <Ncs_unbind runFlag="{crissdr}" name="geo"/>
+
+    <Ncs_boundp name="input.data2" value="data-p"/>
+    <Ncs_test runFlag="true" name="{data-p}{crissdr}" pattern="truetrue" result="crissdr"/>
+    <Ncs_set runFlag="{crissdr}" name="cris_intermediate" value="{cfg_runDirectory}{/}tempdir{/}SCRIS.temp.2.h5"/>
+    <Ncs_run runFlag="{crissdr}" debug="true" log="true"
+             standardFile="stdfile-prepareCris" errorFile="errfile-preparecris"
+             cmd="{prepareCris} {input.data2} {geo2} {cris_intermediate} {hrdflag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+    <Ncs_set runFlag="{crissdr}" name="input.data2" value="{cris_intermediate}"/>
+    <Ncs_unbind runFlag="{crissdr}" name="geo2"/>
+
+    <Ncs_boundp name="input.data3" value="data-p"/>
+    <Ncs_test runFlag="true" name="{data-p}{crissdr}" pattern="truetrue" result="crissdr"/>
+    <Ncs_set runFlag="{crissdr}" name="cris_intermediate" value="{cfg_runDirectory}{/}tempdir{/}SCRIS.temp.3.h5"/>
+    <Ncs_run runFlag="{crissdr}" debug="true" log="true"
+             standardFile="stdfile-prepareCris" errorFile="errfile-preparecris"
+             cmd="{prepareCris} {input.data3} {geo3} {cris_intermediate} {hrdflag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+    <Ncs_set runFlag="{crissdr}" name="input.data3" value="{cris_intermediate}"/>
+    <Ncs_unbind runFlag="{crissdr}" name="geo3"/>
+
+    <Ncs_boundp name="input.data4" value="data-p"/>
+    <Ncs_test runFlag="true" name="{data-p}{crissdr}" pattern="truetrue" result="crissdr"/>
+     <Ncs_set runFlag="{crissdr}" name="cris_intermediate" value="{cfg_runDirectory}{/}tempdir{/}SCRIS.temp.4.h5"/>
+    <Ncs_run runFlag="{crissdr}" debug="true" log="true"
+             standardFile="stdfile-prepareCris" errorFile="errfile-preparecris"
+             cmd="{prepareCris} {input.data4} {geo4} {cris_intermediate} {hrdflag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+    <Ncs_set runFlag="{crissdr}" name="input.data4" value="{cris_intermediate}"/>
+    <Ncs_unbind runFlag="{crissdr}" name="geo4"/>
+
+    <Ncs_boundp name="input.data5" value="data-p"/>
+    <Ncs_test runFlag="true" name="{data-p}{crissdr}" pattern="truetrue" result="crissdr"/>
+     <Ncs_set runFlag="{crissdr}" name="cris_intermediate" value="{cfg_runDirectory}{/}tempdir{/}SCRIS.temp.5.h5"/>
+    <Ncs_run runFlag="{crissdr}" debug="true" log="true"
+             standardFile="stdfile-prepareCris" errorFile="errfile-preparecris"
+             cmd="{prepareCris} {input.data5} {geo5} {cris_intermediate} {hrdflag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+    <Ncs_set runFlag="{crissdr}" name="input.data5" value="{cris_intermediate}"/>
+    <Ncs_unbind runFlag="{crissdr}" name="geo5"/>
+
+    <Ncs_boundp name="input.data6" value="data-p"/>
+    <Ncs_test runFlag="true" name="{data-p}{crissdr}" pattern="truetrue" result="crissdr"/>
+     <Ncs_set runFlag="{crissdr}" name="cris_intermediate" value="{cfg_runDirectory}{/}tempdir{/}SCRIS.temp.6.h5"/>
+    <Ncs_run runFlag="{crissdr}" debug="true" log="true"
+             standardFile="stdfile-prepareCris" errorFile="errfile-preparecris"
+             cmd="{prepareCris} {input.data6} {geo6} {cris_intermediate} {hrdflag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+    <Ncs_set runFlag="{crissdr}" name="input.data6" value="{cris_intermediate}"/>
+    <Ncs_unbind runFlag="{crissdr}" name="geo6"/>
+
+    <Ncs_boundp name="input.data7" value="data-p"/>
+    <Ncs_test runFlag="true" name="{data-p}{crissdr}" pattern="truetrue" result="crissdr"/>
+     <Ncs_set runFlag="{crissdr}" name="cris_intermediate" value="{cfg_runDirectory}{/}tempdir{/}SCRIS.temp.7.h5"/>
+    <Ncs_run runFlag="{crissdr}" debug="true" log="true"
+             standardFile="stdfile-prepareCris" errorFile="errfile-preparecris"
+             cmd="{prepareCris} {input.data7} {geo7} {cris_intermediate} {hrdflag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+    <Ncs_set runFlag="{crissdr}" name="input.data7" value="{cris_intermediate}"/>
+    <Ncs_unbind runFlag="{crissdr}" name="geo7"/>
+
+    <Ncs_boundp name="input.data8" value="data-p"/>
+    <Ncs_test runFlag="true" name="{data-p}{crissdr}" pattern="truetrue" result="crissdr"/>
+     <Ncs_set runFlag="{crissdr}" name="cris_intermediate" value="{cfg_runDirectory}{/}tempdir{/}SCRIS.temp.8.h5"/>
+    <Ncs_run runFlag="{crissdr}" debug="true" log="true"
+             standardFile="stdfile-prepareCris" errorFile="errfile-preparecris"
+             cmd="{prepareCris} {input.data8} {geo8} {cris_intermediate} {hrdflag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+    <Ncs_set runFlag="{crissdr}" name="input.data8" value="{cris_intermediate}"/>
+    <Ncs_unbind runFlag="{crissdr}" name="geo8"/>
+
+    <Ncs_boundp name="input.data9" value="data-p"/>
+    <Ncs_test runFlag="true" name="{data-p}{crissdr}" pattern="truetrue" result="crissdr"/>
+     <Ncs_set runFlag="{crissdr}" name="cris_intermediate" value="{cfg_runDirectory}{/}tempdir{/}SCRIS.temp.9.h5"/>
+    <Ncs_run runFlag="{crissdr}" debug="true" log="true"
+             standardFile="stdfile-prepareCris" errorFile="errfile-preparecris"
+             cmd="{prepareCris} {input.data9} {geo9} {cris_intermediate} {hrdflag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+    <Ncs_set runFlag="{crissdr}" name="input.data9" value="{cris_intermediate}"/>
+    <Ncs_unbind runFlag="{crissdr}" name="geo9"/>
+
+    <Ncs_boundp name="input.data10" value="data-p"/>
+    <Ncs_test runFlag="true" name="{data-p}{crissdr}" pattern="truetrue" result="crissdr"/>
+     <Ncs_set runFlag="{crissdr}" name="cris_intermediate" value="{cfg_runDirectory}{/}tempdir{/}SCRIS.temp.10.h5"/>
+    <Ncs_run runFlag="{crissdr}" debug="true" log="true"
+             standardFile="stdfile-prepareCris" errorFile="errfile-preparecris"
+             cmd="{prepareCris} {input.data10} {geo10} {cris_intermediate} {hrdflag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+    <Ncs_set runFlag="{crissdr}" name="input.data10" value="{cris_intermediate}"/>
+    <Ncs_unbind runFlag="{crissdr}" name="geo10"/>-->
+    <!--- End of CrIS Preprocessing -->
+
+    <Ncs_boundp name="input.data" value="data-p"/>
+    <Ncs_set name="dataflag" value=""/>
+    <Ncs_set runFlag="{data-p}" name="dataflag" value="dataset {input.data}"/>
+
+    <Ncs_boundp name="red.data" value="red.data-p"/>
+    <Ncs_set name="reddataflag" value=""/>
+    <Ncs_set runFlag="{red.data-p}" name="reddataflag" value="reddataset {red.data}"/>
+
+    <Ncs_boundp name="green.data" value="green.data-p"/>
+    <Ncs_set name="greendataflag" value=""/>
+    <Ncs_set runFlag="{green.data-p}" name="greendataflag" value="greendataset {green.data}"/>
+
+    <Ncs_boundp name="blue.data" value="blue.data-p"/>
+    <Ncs_set name="bluedataflag" value=""/>
+    <Ncs_set runFlag="{blue.data-p}" name="bluedataflag" value="bluedataset {blue.data}"/>
+
+    <Ncs_log name="geo_files" value="" />
+    
+
+    <Ncs_boundp name="geo" value="geo-p"/>
+    <Ncs_log text="geo-p  : {geo-p}" />
+    <Ncs_set name="geoflag" value=""/>
+    <Ncs_set runFlag="{geo-p}" name="geoflag" value="geoloc {geo}"/>
+    <Ncs_set runFlag="{geo-p}" name="geo_files" value="{geo}"/>
+
+    <Ncs_boundp name="mask" value="mask-p"/>
+    <Ncs_set name="maskflag" value=""/>
+    <Ncs_set runFlag="{mask-p}" name="maskflag" value="mask {mask}"/>
+
+    <Ncs_boundp name="fireloc" value="fireloc-p"/>
+    <Ncs_set name="firelocflag" value=""/>
+    <Ncs_set runFlag="{fireloc-p}" name="firelocflag" value="fire {fireloc}"/>
+
+
+
+    <Ncs_boundp name="input.data2" value="data2-p"/>
+    <Ncs_set name="data2flag" value=""/>
+    <Ncs_set runFlag="{data2-p}" name="data2flag" value="dataset2 {input.data2}"/>
+
+    <Ncs_boundp name="red.data2" value="red.data2-p"/>
+    <Ncs_set name="reddata2flag" value=""/>
+    <Ncs_set runFlag="{red.data2-p}" name="reddata2flag" value="reddataset2 {red.data2}"/>
+
+    <Ncs_boundp name="green.data2" value="green.data2-p"/>
+    <Ncs_set name="greendata2flag" value=""/>
+    <Ncs_set runFlag="{green.data2-p}" name="greendata2flag" value="greendataset2 {green.data2}"/>
+
+    <Ncs_boundp name="blue.data2" value="blue.data2-p"/>
+    <Ncs_set name="bluedata2flag" value=""/>
+    <Ncs_set runFlag="{blue.data2-p}" name="bluedata2flag" value="bluedataset2 {blue.data2}"/>
+
+    <Ncs_boundp name="geo2" value="geo2-p"/>
+    <Ncs_set name="geo2flag" value=""/>
+    <Ncs_set runFlag="{geo2-p}" name="geo2flag" value="geoloc2 {geo2}"/>
+    <Ncs_set runFlag="{geo2-p}" name="geo_files" value="{geo_files},{geo2}"/>
+
+    <Ncs_boundp name="mask2" value="mask2-p"/>
+    <Ncs_set name="mask2flag" value=""/>
+    <Ncs_set runFlag="{mask2-p}" name="mask2flag" value="mask2 {mask2}"/>
+
+    <Ncs_boundp name="fireloc2" value="fireloc2-p"/>
+    <Ncs_set name="fireloc2flag" value=""/>
+    <Ncs_set runFlag="{fireloc2-p}" name="fireloc2flag" value="fire2 {fireloc2}"/>
+
+    <Ncs_boundp name="input.data3" value="data3-p"/>
+    <Ncs_set name="data3flag" value=""/>
+    <Ncs_set runFlag="{data3-p}" name="data3flag" value="dataset3 {input.data3}"/>
+
+    <Ncs_boundp name="red.data3" value="red.data3-p"/>
+    <Ncs_set name="reddata3flag" value=""/>
+    <Ncs_set runFlag="{red.data3-p}" name="reddata3flag" value="reddataset3 {red.data3}"/>
+
+    <Ncs_boundp name="green.data3" value="green.data3-p"/>
+    <Ncs_set name="greendata3flag" value=""/>
+    <Ncs_set runFlag="{green.data3-p}" name="greendata3flag" value="greendataset3 {green.data3}"/>
+
+    <Ncs_boundp name="blue.data3" value="blue.data3-p"/>
+    <Ncs_set name="bluedata3flag" value=""/>
+    <Ncs_set runFlag="{blue.data3-p}" name="bluedata3flag" value="bluedataset3 {blue.data3}"/>
+
+    <Ncs_boundp name="geo3" value="geo3-p"/>
+    <Ncs_set name="geo3flag" value=""/>
+    <Ncs_set runFlag="{geo3-p}" name="geo3flag" value="geoloc3 {geo3}"/>
+    <Ncs_set runFlag="{geo3-p}" name="geo_files" value="{geo_files},{geo3}"/>
+
+    <Ncs_boundp name="mask3" value="mask3-p"/>
+    <Ncs_set name="mask3flag" value=""/>
+    <Ncs_set runFlag="{mask3-p}" name="mask3flag" value="mask3 {mask3}"/>
+
+    <Ncs_boundp name="fireloc3" value="fireloc3-p"/>
+    <Ncs_set name="fireloc3flag" value=""/>
+    <Ncs_set runFlag="{fireloc3-p}" name="fireloc3flag" value="fire3 {fireloc3}"/>
+
+    <Ncs_boundp name="input.data4" value="data4-p"/>
+    <Ncs_set name="data4flag" value=""/>
+    <Ncs_set runFlag="{data4-p}" name="data4flag" value="dataset4 {input.data4}"/>
+
+    <Ncs_boundp name="red.data4" value="red.data4-p"/>
+    <Ncs_set name="reddata4flag" value=""/>
+    <Ncs_set runFlag="{red.data4-p}" name="reddata4flag" value="reddataset4 {red.data4}"/>
+
+    <Ncs_boundp name="green.data4" value="green.data4-p"/>
+    <Ncs_set name="greendata4flag" value=""/>
+    <Ncs_set runFlag="{green.data4-p}" name="greendata4flag" value="greendataset4 {green.data4}"/>
+
+    <Ncs_boundp name="blue.data4" value="blue.data4-p"/>
+    <Ncs_set name="bluedata4flag" value=""/>
+    <Ncs_set runFlag="{blue.data4-p}" name="bluedata4flag" value="bluedataset4 {blue.data4}"/>
+
+    <Ncs_boundp name="geo4" value="geo4-p"/>
+    <Ncs_set name="geo4flag" value=""/>
+    <Ncs_set runFlag="{geo4-p}" name="geo4flag" value="geoloc4 {geo4}"/>
+    <Ncs_set runFlag="{geo4-p}" name="geo_files" value="{geo_files},{geo4}"/>
+
+    <Ncs_boundp name="mask4" value="mask4-p"/>
+    <Ncs_set name="mask4flag" value=""/>
+    <Ncs_set runFlag="{mask4-p}" name="mask4flag" value="mask4 {mask4}"/>
+
+    <Ncs_boundp name="fireloc4" value="fireloc4-p"/>
+    <Ncs_set name="fireloc4flag" value=""/>
+    <Ncs_set runFlag="{fireloc4-p}" name="fireloc4flag" value="fire4 {fireloc4}"/>
+
+    <Ncs_boundp name="input.data5" value="data5-p"/>
+    <Ncs_set name="data5flag" value=""/>
+    <Ncs_set runFlag="{data5-p}" name="data5flag" value="dataset5 {input.data5}"/>
+
+    <Ncs_boundp name="red.data5" value="red.data5-p"/>
+    <Ncs_set name="reddata5flag" value=""/>
+    <Ncs_set runFlag="{red.data5-p}" name="reddata5flag" value="reddataset5 {red.data5}"/>
+
+    <Ncs_boundp name="green.data5" value="green.data5-p"/>
+    <Ncs_set name="greendata5flag" value=""/>
+    <Ncs_set runFlag="{green.data5-p}" name="greendata5flag" value="greendataset5 {green.data5}"/>
+
+    <Ncs_boundp name="blue.data5" value="blue.data5-p"/>
+    <Ncs_set name="bluedata5flag" value=""/>
+    <Ncs_set runFlag="{blue.data5-p}" name="bluedata5flag" value="bluedataset5 {blue.data5}"/>
+
+    <Ncs_boundp name="geo5" value="geo5-p"/>
+    <Ncs_set name="geo5flag" value=""/>
+    <Ncs_set runFlag="{geo5-p}" name="geo5flag" value="geoloc5 {geo5}"/>
+    <Ncs_set runFlag="{geo5-p}" name="geo_files" value="{geo_files},{geo5}"/>
+
+    <Ncs_boundp name="mask5" value="mask5-p"/>
+    <Ncs_set name="mask5flag" value=""/>
+    <Ncs_set runFlag="{mask5-p}" name="mask5flag" value="mask5 {mask5}"/>
+
+    <Ncs_boundp name="fireloc5" value="fireloc5-p"/>
+    <Ncs_set name="fireloc5flag" value=""/>
+    <Ncs_set runFlag="{fireloc5-p}" name="fireloc5flag" value="fire5 {fireloc5}"/>
+
+    <Ncs_boundp name="input.data6" value="data6-p"/>
+    <Ncs_set name="data6flag" value=""/>
+    <Ncs_set runFlag="{data6-p}" name="data6flag" value="dataset6 {input.data6}"/>
+
+    <Ncs_boundp name="red.data6" value="red.data6-p"/>
+    <Ncs_set name="reddata6flag" value=""/>
+    <Ncs_set runFlag="{red.data6-p}" name="reddata6flag" value="reddataset6 {red.data6}"/>
+
+    <Ncs_boundp name="green.data6" value="green.data6-p"/>
+    <Ncs_set name="greendata6flag" value=""/>
+    <Ncs_set runFlag="{green.data6-p}" name="greendata6flag" value="greendataset6 {green.data6}"/>
+
+    <Ncs_boundp name="blue.data6" value="blue.data6-p"/>
+    <Ncs_set name="bluedata6flag" value=""/>
+    <Ncs_set runFlag="{blue.data6-p}" name="bluedata6flag" value="bluedataset6 {blue.data6}"/>
+
+    <Ncs_boundp name="geo6" value="geo6-p"/>
+    <Ncs_set name="geo6flag" value=""/>
+    <Ncs_set runFlag="{geo6-p}" name="geo6flag" value="geoloc6 {geo6}"/>
+    <Ncs_set runFlag="{geo6-p}" name="geo_files" value="{geo_files},{geo6}"/>
+
+    <Ncs_boundp name="mask6" value="mask6-p"/>
+    <Ncs_set name="mask6flag" value=""/>
+    <Ncs_set runFlag="{mask6-p}" name="mask6flag" value="mask6 {mask6}"/>
+
+    <Ncs_boundp name="fireloc6" value="fireloc6-p"/>
+    <Ncs_set name="fireloc6flag" value=""/>
+    <Ncs_set runFlag="{fireloc6-p}" name="fireloc6flag" value="fire6 {fireloc6}"/>
+
+    <Ncs_boundp name="input.data7" value="data7-p"/>
+    <Ncs_set name="data7flag" value=""/>
+    <Ncs_set runFlag="{data7-p}" name="data7flag" value="dataset7 {input.data7}"/>
+
+    <Ncs_boundp name="red.data7" value="red.data7-p"/>
+    <Ncs_set name="reddata7flag" value=""/>
+    <Ncs_set runFlag="{red.data7-p}" name="reddata7flag" value="reddataset7 {red.data7}"/>
+
+    <Ncs_boundp name="green.data7" value="green.data7-p"/>
+    <Ncs_set name="greendata7flag" value=""/>
+    <Ncs_set runFlag="{green.data7-p}" name="greendata7flag" value="greendataset7 {green.data7}"/>
+
+    <Ncs_boundp name="blue.data7" value="blue.data7-p"/>
+    <Ncs_set name="bluedata7flag" value=""/>
+    <Ncs_set runFlag="{blue.data7-p}" name="bluedata7flag" value="bluedataset7 {blue.data7}"/>
+
+    <Ncs_boundp name="geo7" value="geo7-p"/>
+    <Ncs_set name="geo7flag" value=""/>
+    <Ncs_set runFlag="{geo7-p}" name="geo7flag" value="geoloc7 {geo7}"/>
+    <Ncs_set runFlag="{geo7-p}" name="geo_files" value="{geo_files},{geo7}"/>
+
+    <Ncs_boundp name="mask7" value="mask7-p"/>
+    <Ncs_set name="mask7flag" value=""/>
+    <Ncs_set runFlag="{mask7-p}" name="mask7flag" value="mask7 {mask7}"/>
+
+    <Ncs_boundp name="fireloc7" value="fireloc7-p"/>
+    <Ncs_set name="fireloc7flag" value=""/>
+    <Ncs_set runFlag="{fireloc7-p}" name="fireloc7flag" value="fire7 {fireloc7}"/>
+
+    <Ncs_boundp name="input.data8" value="data8-p"/>
+    <Ncs_set name="data8flag" value=""/>
+    <Ncs_set runFlag="{data8-p}" name="data8flag" value="dataset8 {input.data8}"/>
+
+    <Ncs_boundp name="red.data8" value="red.data8-p"/>
+    <Ncs_set name="reddata8flag" value=""/>
+    <Ncs_set runFlag="{red.data8-p}" name="reddata8flag" value="reddataset8 {red.data8}"/>
+
+    <Ncs_boundp name="green.data8" value="green.data8-p"/>
+    <Ncs_set name="greendata8flag" value=""/>
+    <Ncs_set runFlag="{green.data8-p}" name="greendata8flag" value="greendataset8 {green.data8}"/>
+
+    <Ncs_boundp name="blue.data8" value="blue.data8-p"/>
+    <Ncs_set name="bluedata8flag" value=""/>
+    <Ncs_set runFlag="{blue.data8-p}" name="bluedata8flag" value="bluedataset8 {blue.data8}"/>
+
+    <Ncs_boundp name="geo8" value="geo8-p"/>
+    <Ncs_set name="geo8flag" value=""/>
+    <Ncs_set runFlag="{geo8-p}" name="geo8flag" value="geoloc8 {geo8}"/>
+    <Ncs_set runFlag="{geo8-p}" name="geo_files" value="{geo_files},{geo8}"/>
+
+    <Ncs_boundp name="mask8" value="mask8-p"/>
+    <Ncs_set name="mask8flag" value=""/>
+    <Ncs_set runFlag="{mask8-p}" name="mask8flag" value="mask8 {mask8}"/>
+
+    <Ncs_boundp name="fireloc8" value="fireloc8-p"/>
+    <Ncs_set name="fireloc8flag" value=""/>
+    <Ncs_set runFlag="{fireloc8-p}" name="fireloc8flag" value="fire8 {fireloc8}"/>
+
+    <Ncs_boundp name="input.data9" value="data9-p"/>
+    <Ncs_set name="data9flag" value=""/>
+    <Ncs_set runFlag="{data9-p}" name="data9flag" value="dataset9 {input.data9}"/>
+
+    <Ncs_boundp name="red.data9" value="red.data9-p"/>
+    <Ncs_set name="reddata9flag" value=""/>
+    <Ncs_set runFlag="{red.data9-p}" name="reddata9flag" value="reddataset9 {red.data9}"/>
+
+    <Ncs_boundp name="green.data9" value="green.data9-p"/>
+    <Ncs_set name="greendata9flag" value=""/>
+    <Ncs_set runFlag="{green.data9-p}" name="greendata9flag" value="greendataset9 {green.data9}"/>
+
+    <Ncs_boundp name="blue.data9" value="blue.data9-p"/>
+    <Ncs_set name="bluedata9flag" value=""/>
+    <Ncs_set runFlag="{blue.data9-p}" name="bluedata9flag" value="bluedataset9 {blue.data9}"/>
+
+    <Ncs_boundp name="geo9" value="geo9-p"/>
+    <Ncs_set name="geo9flag" value=""/>
+    <Ncs_set runFlag="{geo9-p}" name="geo9flag" value="geoloc9 {geo9}"/>
+    <Ncs_set runFlag="{geo9-p}" name="geo_files" value="{geo_files},{geo9}"/>
+
+    <Ncs_boundp name="mask9" value="mask9-p"/>
+    <Ncs_set name="mask9flag" value=""/>
+    <Ncs_set runFlag="{mask9-p}" name="mask9flag" value="mask9 {mask9}"/>
+
+    <Ncs_boundp name="fireloc9" value="fireloc9-p"/>
+    <Ncs_set name="fireloc9flag" value=""/>
+    <Ncs_set runFlag="{fireloc9-p}" name="fireloc9flag" value="fire9 {fireloc9}"/>
+
+    <Ncs_boundp name="input.data10" value="data10-p"/>
+    <Ncs_set name="data10flag" value=""/>
+    <Ncs_set runFlag="{data10-p}" name="data10flag" value="dataset10 {input.data10}"/>
+
+    <Ncs_boundp name="red.data10" value="red.data10-p"/>
+    <Ncs_set name="reddata10flag" value=""/>
+    <Ncs_set runFlag="{red.data10-p}" name="reddata10flag" value="reddataset10 {red.data10}"/>
+
+    <Ncs_boundp name="green.data10" value="green.data10-p"/>
+    <Ncs_set name="greendata10flag" value=""/>
+    <Ncs_set runFlag="{green.data10-p}" name="greendata10flag" value="greendataset10 {green.data10}"/>
+
+    <Ncs_boundp name="blue.data10" value="blue.data10-p"/>
+    <Ncs_set name="bluedata10flag" value=""/>
+    <Ncs_set runFlag="{blue.data10-p}" name="bluedata10flag" value="bluedataset10 {blue.data10}"/>
+
+    <Ncs_boundp name="geo10" value="geo10-p"/>
+    <Ncs_set name="geo10flag" value=""/>
+    <Ncs_set runFlag="{geo10-p}" name="geo10flag" value="geoloc10 {geo10}"/>
+    <Ncs_set runFlag="{geo10-p}" name="geo_files" value="{geo_files},{geo10}"/>
+
+    <Ncs_boundp name="mask10" value="mask10-p"/>
+    <Ncs_set name="mask10flag" value=""/>
+    <Ncs_set runFlag="{mask10-p}" name="mask10flag" value="mask10 {mask10}"/>
+
+    <Ncs_boundp name="fireloc10" value="fireloc10-p"/>
+    <Ncs_set name="fireloc10flag" value=""/>
+    <Ncs_set runFlag="{fireloc10-p}" name="fireloc10flag" value="fire10 {fireloc10}"/>
+
+    <Ncs_set name="browseflag" value=""/>
+    <Ncs_compare valueA="{output.type}" valueB="jpeg.argb" type="String" A_eq_B="browse_on" />
+    <Ncs_set runFlag="{browse_on}" name="browseflag" value="overlaypolitical {usstates} overlayroads {usroads} overlayrivers {usrivers} overlaycanada {canada} overlaycarib {carib} overlaymexico {mexico} overlayworld {world} " />
+
+    <Ncs_set name="projectionvalue" value="DEFAULT"/>
+    <Ncs_boundp name="projection" value="projection-p"/>
+    <Ncs_set runFlag="{projection-p}" name="projectionvalue" value="{projection}"/>
+
+    <Ncs_set name="resolutionvalue" value="-999.0"/>
+    <Ncs_boundp name="resolution" value="resolution-p"/>
+    <Ncs_set runFlag="{resolution-p}" name="resolutionvalue" value="{resolution}"/>
+
+    <Ncs_set name="browse_enhance_flag" value=""/>
+    <Ncs_set name="browse_enhance-on" value="false"/>
+    <Ncs_boundp name="browse_enhance" value="browse_enhance-p"/>
+    <Ncs_test runFlag="{browse_enhance-p}" name="{browse_enhance}" pattern="true" result="browse_enhance-on"/>
+    <Ncs_set runFlag="{browse_enhance-on}" name="browse_enhance_flag" value="-browseenhance"/>
+
+    <!--<Ncs_set name="lat0value" value="-999.0"/>
+    <Ncs_boundp name="lat0" value="lat0-p"/>
+    <Ncs_set runFlag="{lat0-p}" name="lat0value" value="{lat0}"/>-->
+
+    <!--<Ncs_set name="lon0value" value="-999.0"/>
+    <Ncs_boundp name="lon0" value="lon0-p"/>
+    <Ncs_set runFlag="{lon0-p}" name="lon0value" value="{lon0}"/>-->
+
+    <Ncs_set name="centerlatvalue" value="-999.0"/>
+    <Ncs_boundp name="centerlat" value="centerlat-p"/>
+    <Ncs_set runFlag="{centerlat-p}" name="centerlatvalue" value="{centerlat}"/>
+
+    <Ncs_set name="centerlonvalue" value="-999.0"/>
+    <Ncs_boundp name="centerlon" value="centerlon-p"/>
+    <Ncs_set runFlag="{centerlon-p}" name="centerlonvalue" value="{centerlon}"/>
+
+
+    <Ncs_set name="height_latvalue" value="-999.0"/>
+    <Ncs_boundp name="height_lat" value="height_lat-p"/>
+    <Ncs_set runFlag="{height_lat-p}" name="height_latvalue" value="{height_lat}"/>
+
+    <Ncs_set name="width_lonvalue" value="-999.0"/>
+    <Ncs_boundp name="width_lon" value="width_lon-p"/>
+    <Ncs_set runFlag="{width_lon-p}" name="width_lonvalue" value="{width_lon}"/>
+
+    <Ncs_set name="height_kmvalue" value="-999.0"/>
+    <Ncs_boundp name="height_km" value="height_km-p"/>
+    <Ncs_set runFlag="{height_km-p}" name="height_kmvalue" value="{height_km}"/>
+
+    <Ncs_set name="width_kmvalue" value="-999.0"/>
+    <Ncs_boundp name="width_km" value="width_km-p"/>
+    <Ncs_set runFlag="{width_km-p}" name="width_kmvalue" value="{width_km}"/>
+
+
+    <Ncs_compare valueA="{output.type}" valueB="png.argb" type="String" A_eq_B="browse_on" />
+    <Ncs_set runFlag="{browse_on}" name="browseflag" value="overlaypolitical {usstates} overlayroads {usroads} overlayrivers {usrivers} overlaycanada {canada} overlaycarib {carib} overlaymexico {mexico} overlayworld {world} " />
+
+        <Ncs_log text="Checking coverage" />
+        <Ncs_set name="lat_option" value="" />
+	    <Ncs_set name="lon_option" value="" />
+	    <Ncs_boundp name="lon_name" value="lon_name.exist" />
+	    <Ncs_boundp name="lat_name" value="lat_name.exist" />
+	    <Ncs_set runFlag="{lon_name.exist}" name="lon_option" value="-l {lon_name}" />
+	    <Ncs_set runFlag="{lat_name.exist}" name="lat_option" value="-v {lat_name}" />
+
+      <Ncs_log text='{coverage_check} -i {geo_files} -s {latmin} -w {lonmin} -n {latmax} -e {lonmax} {lat_option} {lon_option}' />
+        <Ncs_run debug="true"
+                 cmd='{coverage_check} -i {geo_files} -s {latmin} -w {lonmin} -n {latmax} -e {lonmax} {lat_option} {lon_option}'
+                 standardFile="covered_granules.txt"
+                 errorFile="err_coverage">
+            <env name="LIB3_BIN" value="{algo_home}{/}imars_bin" />
+        </Ncs_run>
+
+        <Ncs_readFile file="{cfg_runDirectory}{/}covered_granules.txt"/>
+	    <Ncs_compare type="String" valueA="{needed_files}" valueB="" A_ne_B="area-covered" A_eq_B="area-empty"/>
+	    <Ncs_log  text="The covered flag is  {area-covered}" />
+ 	    <Ncs_set runFlag="{area-covered}" name="granules" value="{needed_files}" />
+
+    <Ncs_run debug="true" log="true" runFlag="{area-covered}"
+             standardFile="stdfile" errorFile="errfile"
+             cmd="{create} {algo_home} {config.type} {config.name} {dataflag} {data2flag} {data3flag} {data4flag} {data5flag} {data6flag} {data7flag} {data8flag} {data9flag} {data10flag} {reddataflag} {reddata2flag} {reddata3flag} {reddata4flag} {reddata5flag} {reddata6flag} {reddata7flag} {reddata8flag} {reddata9flag} {reddata10flag} {greendataflag} {greendata2flag} {greendata3flag} {greendata4flag} {greendata5flag} {greendata6flag} {greendata7flag} {greendata8flag} {greendata9flag} {greendata10flag} {bluedataflag} {bluedata2flag} {bluedata3flag} {bluedata4flag} {bluedata5flag} {bluedata6flag} {bluedata7flag} {bluedata8flag} {bluedata9flag} {bluedata10flag} {geoflag} {geo2flag} {geo3flag} {geo4flag} {geo5flag} {geo6flag} {geo7flag} {geo8flag} {geo9flag} {geo10flag} {maskflag} {mask2flag} {mask3flag} {mask4flag} {mask5flag} {mask6flag} {mask7flag} {mask8flag} {mask9flag} {mask10flag} {firelocflag} {fireloc2flag} {fireloc3flag} {fireloc4flag} {fireloc5flag} {fireloc6flag} {fireloc7flag} {fireloc8flag} {fireloc9flag} {fireloc10flag}  {browseflag} otype {output.type} output {h2gout} projection {projectionvalue} resolution {resolutionvalue} centerlat {centerlatvalue} centerlon {centerlonvalue} height_lat {height_latvalue} width_lon {width_lonvalue} height_km {height_kmvalue} width_km {width_kmvalue} {browse_enhance_flag}">
+      <env name="PATH" value="{algo_home}{/}bin:{PATH}"/>
+    </Ncs_run>
+      <Ncs_set name="fileexists" value="true"/>
+        <Ncs_checkFile runFlag="{area-empty}" file="{h2gout}" result="fileexists" />
+        <Ncs_set name="filenotexists" value="false"/>
+        <Ncs_test name="{fileexists}" pattern="false" result="filenotexists"/>
+        <Ncs_unbind runFlag="{area-empty}" name="h2gout"/>
+        <Ncs_log runFlag="{area-empty}" text="Area not covered; no mapped product produced " level="WARN" />
+
+      <Ncs_log text="Exiting lgorithm" />
+  </Commands>
+</Algorithm>

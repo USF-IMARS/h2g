@@ -1,0 +1,23 @@
+<NCS_Station name="VIIRS TrueColorFire geotiff" verbose_logging="true">
+  <group>VIIRS TrueColorFire geotiff group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>VIIRS TrueColorFire geotiff 1.0</version>
+  </algorithm>
+  <inputs>
+    <product type="drl.npp.viirs.mcrefl" wrappertype="input.data"/>
+    <product type="drl.npp.viirs.gmodo" wrappertype="geo"/>
+    <product type="drl.npp.viirs.fireloc" wrappertype="fireloc"/>
+  </inputs>
+  <setup>
+    <Ncs_date getValue="starttime" name="cfg_starttime"/> 
+    <Ncs_set name="geotiffname" value="NPP_TCOLORFIRE.{starttime}.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="vtcolorfire"/>
+    <Ncs_set name="output.type" value="geotiff.argb"/>
+  </setup>
+  <outputs>
+    <product type="drl.npp.viirs.mcreflfire.geotiff" filename="{dataDirectory}{productDirectory}{/}{geotiffname}" wrappertype="h2gout"/>
+  </outputs>
+</NCS_Station>

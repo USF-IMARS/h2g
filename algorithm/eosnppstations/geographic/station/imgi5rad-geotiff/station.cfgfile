@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- With very few exceptions, parameters that are internal to this script begin with "cfg_".  Avoid that prefix in your parameters, please -->
+<CONFIGURE>
+  <SETUP>
+    <!-- set this to "true" to enable really verbose debugging -->
+    <Ncs_set name="cfg_debug" value="false"/>
+    <!-- cfg_ncs_home comes from JSW config, cfg_nisgs_home should be up one level -->
+    <Ncs_set name="cfg_nisgs_home" value="{cfg_ncs_home}{/}.."/>
+    <!-- site.properties file (which is in cfg_ncs_home/..) -->
+    <Ncs_readFile file="{cfg_nisgs_home}{/}site.properties"/>
+    <!-- required by DSM:  -->
+    <Ncs_set name="cfg_stationName" value="imagery I5 geotiff"/>
+    <Ncs_set name="cfg_groupTag" value="imagery I5 geotiff group1"/>
+    <Ncs_set name="cfg_siteName" value="{NISGS_SITE_NAME}"/>
+    <Ncs_set name="dataDirectory" value="{DSM_DATA_DIRECTORY}"/>
+    <Ncs_set name="cfg_stationLog" value="station.stationlog"/>
+    <!--  Initialize wrapped algorithm   -->
+    <Ncs_print text="Initializing algorithm imagery I5 geotiff"/>
+    <InitAlgorithm debug="{cfg_debug}"
+      file="{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml" result="cfg_algo.OBJ"/>
+    <Ncs_print text="Algorithm imagery I5 geotiff initialized"/>
+    <Ncs_set name="version" value="imagery I5 geotiff 1.0"/>
+  </SETUP>
+  <EXECUTE>
+    <!-- get first input product  -->
+    <!--No wildcards in primary product-->
+    <Ncs_set name="otherInputTypes" value="drl.npp.viirs.imgigeo.h5"/>
+    <Ncs_log text="Reserving product drl.npp.viirs.imgi5.h5"/>
+    <Dsm_command blockflag="true" class="DSM" debug="{cfg_debug}"
+      log="true" method="reserveProduct" result="drl.npp.viirs.imgi5.h5.OBJ">
+      <String value="drl.npp.viirs.imgi5.h5"/>
+      <String value="{otherInputTypes}"/>
+    </Dsm_command>
+    <!-- Put the reserved product object into "reservedProduct" -->
+    <!-- (so NCS can find it to fail this job if needed) -->
+    <Ncs_copy copy="reservedProduct" source="drl.npp.viirs.imgi5.h5.OBJ"/>
+    <!-- get pass  -->
+    <Ncs_log text="Getting pass for drl.npp.viirs.imgi5.h5"/>
+    <Dsm_command class="drl.npp.viirs.imgi5.h5.OBJ" debug="{cfg_debug}"
+      method="getPass" result="cfg_pass"/>
+    <!-- get date  -->
+    <Ncs_log text="Getting date/time"/>
+    <Dsm_command class="drl.npp.viirs.imgi5.h5.OBJ" debug="{cfg_debug}"
+      method="getStartTime" result="cfg_starttime"/>
+    <Dsm_command class="drl.npp.viirs.imgi5.h5.OBJ" debug="{cfg_debug}"
+      method="getStopTime" result="cfg_stoptime"/>
+      <Ncs_date getValue="starttime" name="cfg_starttime"/>
+    <!-- get satellite -->
+    <Dsm_command class="drl.npp.viirs.imgi5.h5.OBJ" debug="{cfg_debug}"
+      method="getSpacecraft" result="cfg_satellite"/>
+    <!-- get file name  -->
+    <Ncs_log text="Getting file name (DATA resource)"/>
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="getProductPath" result="drl.npp.viirs.imgi5.h5">
+      <Object value="drl.npp.viirs.imgi5.h5.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="File name is {drl.npp.viirs.imgi5.h5}"/>
+    <!-- get remaining products  -->
+    <Ncs_log text="Getting product drl.npp.viirs.imgigeo.h5"/>
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="fetchProduct" result="drl.npp.viirs.imgigeo.h5.OBJ">
+      <String value="drl.npp.viirs.imgigeo.h5"/>
+      <Object value="cfg_pass"/>
+      <Object value="cfg_starttime"/>
+    </Dsm_command>
+    <!-- get file names  -->
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="getProductPath" result="drl.npp.viirs.imgigeo.h5">
+      <Object value="drl.npp.viirs.imgigeo.h5.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="File name is {drl.npp.viirs.imgigeo.h5}"/>
+    <!-- set up the product filename variables  -->
+    <!--	foo.filename = filename (with absolute path removed)
+		foo.base = filename with extension removed
+		foo.ext = extension
+		The things we do to get around the limitations of this
+		XML-based scripting junk ... -->
+    <Ncs_getMatch name="{drl.npp.viirs.imgi5.h5}" pattern="[^{/}]*$" result="drl.npp.viirs.imgi5.h5.filename"/>
+    <Ncs_set name="drl.npp.viirs.imgi5.h5.base" value="{drl.npp.viirs.imgi5.h5.filename}"/>
+    <Ncs_set name="drl.npp.viirs.imgi5.h5.ext" value=""/>
+    <Ncs_test name="{drl.npp.viirs.imgi5.h5.filename}" pattern="\\." result="hasadot"/>
+    <Ncs_getMatch name="{drl.npp.viirs.imgi5.h5.filename}"
+      pattern="[^.]*$" result="drl.npp.viirs.imgi5.h5.ext" runFlag="{hasadot}"/>
+    <Ncs_editValue name="{drl.npp.viirs.imgi5.h5.filename}"
+      pattern="\\.{drl.npp.viirs.imgi5.h5.ext}$" replacement=""
+      result="drl.npp.viirs.imgi5.h5.base" runFlag="{hasadot}"/>
+    <Ncs_getMatch name="{drl.npp.viirs.imgigeo.h5}" pattern="[^{/}]*$" result="drl.npp.viirs.imgigeo.h5.filename"/>
+    <Ncs_set name="drl.npp.viirs.imgigeo.h5.base" value="{drl.npp.viirs.imgigeo.h5.filename}"/>
+    <Ncs_set name="drl.npp.viirs.imgigeo.h5.ext" value=""/>
+    <Ncs_test name="{drl.npp.viirs.imgigeo.h5.filename}" pattern="\\." result="hasadot"/>
+    <Ncs_getMatch name="{drl.npp.viirs.imgigeo.h5.filename}"
+      pattern="[^.]*$" result="drl.npp.viirs.imgigeo.h5.ext" runFlag="{hasadot}"/>
+    <Ncs_editValue name="{drl.npp.viirs.imgigeo.h5.filename}"
+      pattern="\\.{drl.npp.viirs.imgigeo.h5.ext}$" replacement=""
+      result="drl.npp.viirs.imgigeo.h5.base" runFlag="{hasadot}"/>
+    <Ncs_set name="geotiffname" value="NPP_imagery_img.{starttime}.I5.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="vi5imgedr"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+    <!-- and set up the output file names  -->
+    <!-- (accumulate them in allOutputs) -->
+    <Ncs_set name="allOutputs" value=""/>
+    <Dsm_command class="DSM" debug="{cfg_debug}"
+      method="getProductDirectory" result="productDirectory">
+      <String value="drl.npp.viirs.imagery_imgedr_i5.geotiff"/>
+    </Dsm_command>
+    <Ncs_set name="drl.npp.viirs.imagery_imgedr_i5.geotiff" value="{dataDirectory}{productDirectory}{/}{geotiffname}"/>
+    <Ncs_set name="allOutputs" value="{allOutputs} {drl.npp.viirs.imagery_imgedr_i5.geotiff}"/>
+    <Ncs_log text="storing drl.npp.viirs.imagery_imgedr_i5.geotiff at {drl.npp.viirs.imagery_imgedr_i5.geotiff}"/>
+    <Ncs_log text="allOutputs are: {allOutputs}"/>
+    <Ncs_set name="input.data" value="{drl.npp.viirs.imgi5.h5}"/>
+    <Ncs_set name="geo" value="{drl.npp.viirs.imgigeo.h5}"/>
+    <Ncs_set name="h2gout" value="{drl.npp.viirs.imagery_imgedr_i5.geotiff}"/>
+    <!-- run the algorithm (to massive applause)  -->
+    <Ncs_log text="launching algorithm imagery I5 geotiff"/>
+    <RunAlgorithm algorithm="cfg_algo.OBJ" debug="{cfg_debug}"/>
+    <!-- and clean everything up - walk the outputs
+			creating new Products, decorating them with Resources,
+			and Ancillaries, and Storing them  -->
+    <Ncs_copy copy="drl.npp.viirs.imagery_imgedr_i5.geotiff" source="h2gout"/>
+    <Ncs_log runFlag="true" text="Creating new product drl.npp.viirs.imagery_imgedr_i5.geotiff"/>
+    <Dsm_command class="Product" debug="{cfg_debug}" method="new"
+      result="drl.npp.viirs.imagery_imgedr_i5.geotiff.OBJ" runFlag="true">
+      <Object value="drl.npp.viirs.imgi5.h5.OBJ"/>
+      <String value="drl.npp.viirs.imagery_imgedr_i5.geotiff"/>
+    </Dsm_command>
+    <Dsm_command class="drl.npp.viirs.imagery_imgedr_i5.geotiff.OBJ"
+      debug="{cfg_debug}" method="setAlgorithm" runFlag="true">
+      <String value="imagery I5 geotiff"/>
+      <String value="{version}"/>
+    </Dsm_command>
+    <Ncs_log runFlag="true" text="Adding file {drl.npp.viirs.imagery_imgedr_i5.geotiff} (as DATA resource)"/>
+    <Dsm_command class="DSM" debug="{cfg_debug}"
+      method="addDataResource" runFlag="true">
+      <Object value="drl.npp.viirs.imagery_imgedr_i5.geotiff.OBJ"/>
+      <String value="{drl.npp.viirs.imagery_imgedr_i5.geotiff}"/>
+    </Dsm_command>
+    <Ncs_log runFlag="true" text="Adding contributing product drl.npp.viirs.imgigeo.h5 (file {drl.npp.viirs.imgigeo.h5})"/>
+    <Dsm_command class="drl.npp.viirs.imagery_imgedr_i5.geotiff.OBJ"
+      debug="{cfg_debug}" method="addContributingProduct" runFlag="true">
+      <Object value="drl.npp.viirs.imgigeo.h5.OBJ"/>
+    </Dsm_command>
+    <Ncs_log runFlag="true" text="Storing product drl.npp.viirs.imagery_imgedr_i5.geotiff"/>
+    <!-- register crefl with DSM  -->
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="storeProduct" runFlag="true">
+      <Object value="drl.npp.viirs.imagery_imgedr_i5.geotiff.OBJ"/>
+    </Dsm_command>
+    <!-- release reserved product to DSM  -->
+    <Ncs_log text="Releasing reserved product drl.npp.viirs.imgi5.h5"/>
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="releaseProduct">
+      <Object value="drl.npp.viirs.imgi5.h5.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="Done with algorithm imagery I5 geotiff"/>
+  </EXECUTE>
+</CONFIGURE>

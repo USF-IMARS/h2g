@@ -1,0 +1,6 @@
+srcProj: +proj=latlong +datum=WGS84
+destProj: +proj=stere +lat_0=38.99N +lon_0=76.85W +datum=WGS84
+rows: 1
+46        11    194.0
+
+

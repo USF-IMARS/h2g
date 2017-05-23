@@ -1,0 +1,22 @@
+<NCS_Station name="VIIRS TOA TCOLOR geotiff" verbose_logging="true">
+  <group>VIIRS TOA TCOLOR geotiff group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>VIIRS TOA TCOLOR geotiff 1.0</version>
+  </algorithm>
+  <inputs>
+     <product type="drl.npp.viirs.svm05" wrappertype="red.data"/>
+     <product type="drl.npp.viirs.svm04" wrappertype="green.data"/>
+     <product type="drl.npp.viirs.svm03" wrappertype="blue.data"/>
+     <product type="drl.npp.viirs.gmodo" wrappertype="modis.geo"/>
+  </inputs>
+  <setup>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="vtcolor"/>
+    <Ncs_set name="output.type" value="geotiff.argb"/>
+    <Ncs_date name="cfg_starttime" getValue="starttime"/>    
+  </setup>
+  <outputs>
+    <product type="drl.npp.viirs.vtoatcolor.geotiff" filename="{dataDirectory}{productDirectory}{/}NPP_TCOLOR_SDR.{starttime}.tif" wrappertype="modis.h2gout"/>
+  </outputs>
+</NCS_Station>

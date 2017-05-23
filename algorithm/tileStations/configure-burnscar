@@ -1,0 +1,86 @@
+#!/bin/bash
+
+echo  Projection Options for IPOPP Mode: Select One
+echo  1. Geographic 2. Stereographic
+read param
+if [ $param -eq 2 ]
+then
+ echo Configuring h2g stations for Sterographic projections
+ projectiondir=stereographic
+elif  [ $param -eq 1 ]
+then
+  echo Configuring h2g stations for Geographic projections
+  projectiondir=geographic 
+else
+  echo Unknown Projection :  Choose from 1 or 2
+  exit
+fi
+
+
+Tiles=`cat ipopp_TileList.cfg`
+echo Tiles selected for processing: $Tiles
+tcolorstationFileSrc=$projectiondir/tcolor-tile/
+fcolorstationFileSrc=$projectiondir/fcolor-tile/
+mod14stationFileSrc=$projectiondir/mod14-tile/
+
+
+Tileno=0
+for tname in $Tiles 
+do
+     Tileno=`expr $Tileno + 1`
+     TileID=tile$Tileno
+ 
+     echo Configuring tcolor-tile station $TileID : $tname  
+     tcolorstationDir=../../station/tcolor_tile_$tname
+     
+     if [ -e $tcolorstationDir ]; then
+          echo $tcolorstationDir already exists. Overwriting contents
+     else
+          mkdir $tcolorstationDir
+     fi
+     /bin/cp $tcolorstationFileSrc/station.cfgfile $tcolorstationDir/station.cfgfile
+     /bin/cp $tcolorstationFileSrc/station.cfgfile.xml $tcolorstationDir/station.cfgfile.xml
+     sed s/TILEIDHOLDER/$tname/g $tcolorstationDir/station.cfgfile > $tcolorstationDir/station.cfgfile.temp
+     /bin/mv $tcolorstationDir/station.cfgfile.temp $tcolorstationDir/station.cfgfile
+     sed s/TILENUMBERHOLDER/$TileID/g $tcolorstationDir/station.cfgfile > $tcolorstationDir/station.cfgfile.temp
+     /bin/mv $tcolorstationDir/station.cfgfile.temp $tcolorstationDir/station.cfgfile
+
+     echo Configuring fcolor-tile station $TileID : $tname  
+     fcolorstationDir=../../station/fcolor_tile_$tname
+     
+     if [ -e $fcolorstationDir ]; then
+          echo $fcolorstationDir already exists. Overwriting contents
+     else
+          mkdir $fcolorstationDir
+     fi
+     /bin/cp $fcolorstationFileSrc/station.cfgfile $fcolorstationDir/station.cfgfile
+     /bin/cp $fcolorstationFileSrc/station.cfgfile.xml $fcolorstationDir/station.cfgfile.xml
+     sed s/TILEIDHOLDER/$tname/g $fcolorstationDir/station.cfgfile > $fcolorstationDir/station.cfgfile.temp
+     /bin/mv $fcolorstationDir/station.cfgfile.temp $fcolorstationDir/station.cfgfile
+     sed s/TILENUMBERHOLDER/$TileID/g $fcolorstationDir/station.cfgfile > $fcolorstationDir/station.cfgfile.temp
+     /bin/mv $fcolorstationDir/station.cfgfile.temp $fcolorstationDir/station.cfgfile
+ 
+ 
+
+     echo Configuring mod14-tile station $TileID : $tname
+     mod14stationDir=../../station/mod14_tile_$tname
+
+     if [ -e $mod14stationDir ]; then
+        echo $mod14stationDir already exists. Overwriting contents
+     else
+        mkdir $mod14stationDir
+     fi
+     /bin/cp $mod14stationFileSrc/station.cfgfile $mod14stationDir/station.cfgfile
+     /bin/cp $mod14stationFileSrc/station.cfgfile.xml $mod14stationDir/station.cfgfile.xml
+     sed s/TILEIDHOLDER/$tname/g $mod14stationDir/station.cfgfile > $mod14stationDir/station.cfgfile.temp
+     /bin/mv $mod14stationDir/station.cfgfile.temp $mod14stationDir/station.cfgfile
+     sed s/TILENUMBERHOLDER/$TileID/g $mod14stationDir/station.cfgfile > $mod14stationDir/station.cfgfile.temp
+     /bin/mv $mod14stationDir/station.cfgfile.temp $mod14stationDir/station.cfgfile
+
+     
+    
+done
+
+
+
+

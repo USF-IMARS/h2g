@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- With very few exceptions, parameters that are internal to this script begin with "cfg_".  Avoid that prefix in your parameters, please -->
+<CONFIGURE>
+  <SETUP>
+<Ncs_set name="areas" value="gcoos seacoos east_caribbean west_caribbean" />
+
+
+<!-- Read initial values from site.properties -->
+    <!-- set this to "true" to enable really verbose debugging -->
+    <Ncs_set name="cfg_debug" value="true"/>
+    <!-- cfg_ncs_home comes from JSW config, cfg_nisgs_home should be up one level -->
+    <Ncs_set name="cfg_nisgs_home" value="{cfg_ncs_home}{/}.."/>
+    <!-- site.properties file (which is in cfg_ncs_home/..) site.properties has values for NISGS_SITE_NAME, DSM_DATA_DIRECTORY, DSM info etc-->
+    <Ncs_readFile file="{cfg_nisgs_home}{/}site.properties"/>
+    <!-- required by DSM:  -->
+    <Ncs_set name="cfg_stationName" value="modis_true_color"/>
+    <Ncs_set name="cfg_groupTag" value="modis_true_color"/>
+    <Ncs_set name="cfg_siteName" value="{NISGS_SITE_NAME}"/>
+    <Ncs_set name="dataDirectory" value="{DSM_DATA_DIRECTORY}"/>
+    <Ncs_set name="cfg_stationLog" value="station.stationlog"/>
+
+    <!--  Initialize wrapped algorithm   -->
+    <Ncs_print text="Initializing algorithm Modis True Color"/>
+    <InitAlgorithm debug="{cfg_debug}"
+      file="{cfg_nisgs_home}/SPA/h2g/wrapper/cylindrical_project/installation.xml" result="cfg_algo.OBJ"/>
+    <Ncs_print text="Algorithm Cylindrical map initialized"/>
+    <Ncs_set name="version" value="mapimg"/>
+
+  </SETUP>
+  <EXECUTE>
+	<!-- Reserve the input file -->
+    <!-- get first input product  -->
+    <!--Go get the matching product-->
+    <Ncs_set name="sat" value="%"/>
+    <Ncs_set name="sensor" value="modis" />
+    <Ncs_log text="Reserving product imars.{sat}.{sensor}.{product_group}.filtered"/>
+    <!--Note that here, and only here, does the {wildcard} have the right SQL value-->
+    <Ncs_set name="otherInputTypes" value=""/>
+    <Dsm_command class="DSM" debug="{cfg_debug}"
+      method="reserveProductLikeProductType" result="cfg_wild.OBJ">
+      <String value="imars.{sat}.{sensor}.{product_group}.filtered"/>
+      <String value="{otherInputTypes}"/>
+    </Dsm_command>
+    
+    <!-- get product type-->
+    <Dsm_command class="cfg_wild.OBJ" debug="{cfg_debug}"
+      method="getProductType" result="cfg_prodtype"/>
+    <!--Chop off everything but the wild text-->
+    <Ncs_set name="sat" value="{cfg_prodtype}"/>
+    <Ncs_editValue name="{sat}" pattern="^imars." replacement="" result="sat"/>
+    <Ncs_editValue name="{sat}" pattern=".{sensor}.{product_group}.filtered$"
+      replacement="" result="sat"/>
+    <!--And put the product object where it belongs-->
+    <Ncs_log text="Putting reserved object where it belongs"/>
+    <Ncs_copy copy="imars.{sat}.{sensor}.{product_group}.filtered.OBJ" source="cfg_wild.OBJ"/>
+    <!-- Put the reserved product object into "reservedProduct" -->
+    <!-- (so NCS can find it to fail this job if needed) -->
+    <Ncs_copy copy="reservedProduct" source="imars.{sat}.{sensor}.{product_group}.filtered.OBJ"/>
+    <!-- get pass  -->
+    <Ncs_log text="Getting pass for imars.{sat}.{sensor}.{product_group}.filtered"/>
+    <Dsm_command class="imars.{sat}.{sensor}.{product_group}.filtered.OBJ"
+      debug="{cfg_debug}" method="getPass" result="cfg_pass"/>
+    <!-- Get Pass spacecraft -->
+    <Dsm_command class="cfg_pass" debug="{cfg_debug}" method="getSpacecraft" result="cfg_spacecraft" />
+    <!-- get date  -->
+    <Ncs_log text="Getting date/time"/>
+    <Dsm_command class="imars.{sat}.{sensor}.{product_group}.filtered.OBJ"
+      debug="{cfg_debug}" method="getStartTime" result="cfg_starttime"/>
+    <Dsm_command class="imars.{sat}.{sensor}.{product_group}.filtered.OBJ"
+      debug="{cfg_debug}" method="getStopTime" result="cfg_stoptime"/>
+
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="getProductPath" result="imars.{sat}.{sensor}.{product_group}.filtered">
+      <Object value="imars.{sat}.{sensor}.{product_group}.filtered.OBJ"/>
+    </Dsm_command>
+    
+    <Dsm_command class="cfg_pass" debug="{cfg_debug}" method="getId" result="pass_id" />
+    
+    <Ncs_run debug="true"
+	        cmd="{cfg_runDirectory}{/}..{/}..{/}..{/}..{/}SPA{/}gmt{/}wrapper{/}cylindrical_project{/}query_db.py -i {cfg_runDirectory}{/}..{/}..{/}..{/}..{/}site.properties -p {pass_id} -s {cfg_spacecraft}"
+	        standardFile="query_stdfile"
+			errorFile="query_errfile">
+	</Ncs_run>
+	<Ncs_readFile file="{cfg_runDirectory}{/}query_stdfile" />
+	
+	<Ncs_set name="notInitial" value="true" />
+	<Ncs_boundp name="dates" value="initial" />
+	<Ncs_set runFlag="{initial}" name="notInitial" value="false" />
+	<Ncs_log runFlag="{notInitial}" level="WARNING" message="Not the initial granule" />
+
+	<Ncs_set runFlag="{initial}" name="granules" value="" />
+	<Ncs_loop runFlag="{initial}" lists="dates">
+		<Ncs_editValue name="{dates}" result="date" pattern="_" replacement=" " />
+		<Ncs_log text="Fetching Pass: {date}" />
+		<Ncs_date setValue="{date}" name="date.OBJ" pattern="yyy-MM-dd HH:mm:ss" />
+		
+		<Dsm_command class="DSM" debug="{cfg_debug}" method="getPass" result="pass.OBJ" >
+			<String value="{cfg_spacecraft}" />
+			<Object value="date.OBJ" />			
+		</Dsm_command>
+		
+		<Dsm_command class="DSM" debug="{cfg_debug}" method="fetchProduct" result="product.OBJ" >
+			<String value="imars.{sat}.{sensor}.{product_group}.filtered"/>
+			<Object value="pass.OBJ" />
+		</Dsm_command>
+		<Dsm_command class="DSM" debug="{cfg_debug}" method="getProductPath" result="path">
+	    		<Object value="product.OBJ"/>
+    		</Dsm_command>
+		<Ncs_set name="granules" value="{granules}{path}," />
+		<Ncs_log text="{product.OBJ}" />
+	</Ncs_loop>
+	
+	<!-- This is to follow the existing convention of yyyyDDD.HHMM -->
+	<Ncs_date runFlag="{initial}" debug="{cfg_debug}" getValue="start_date"
+    	name="cfg_starttime" pattern="yyyyDDD"/>
+	<Ncs_date runFlag="{initial}" debug="{cfg_debug}" getValue="start_time"
+    	name="cfg_starttime" pattern="HHmm"/>
+	<Ncs_set runFlag="{initial}" name="filename_starttime" value="{start_date}.{start_time}" />
+
+	<!-- Get the directory where to save the output -->
+	<Dsm_command runFlag="{initial}" class="DSM" debug="{cfg_debug}"
+	    method="getProductDirectory" result="productDirectory">
+		<!-- This is the product type -->
+		<String value="imars.{sat}.{sensor}.{product_group}.filtered.mapped"/>
+	</Dsm_command>
+	<Ncs_loop runFlag="{initial}" lists="areas">
+	  	<Ncs_readFile file="{cfg_nisgs_home}/SPA/gmt/mapping_configs/{areas}.cfg"/>
+		<Ncs_set name="output.filename" value="MODIS.{filename_starttime}.{place_name}.{product_group}.filtered.hdf" />
+		<Ncs_set name="output_file" value="{dataDirectory}{/}{productDirectory}{/}{output.filename}"/>
+		<RunAlgorithm algorithm="cfg_algo.OBJ" debug="{cfg_debug}"/>
+		
+		
+		
+		
+		<Ncs_copy copy="imars.{sat}.{sensor}.{product_group}.filtered.mapped" source="output_file"/>
+		<Ncs_boundp name="imars.{sat}.{sensor}.{product_group}.filtered.mapped" value="mapped.exists"/>
+
+		<Ncs_log runFlag="{mapped.exists}" text="Creating new product imars.{sat}.{sensor}.{product_group}.filtered.mapped"/>
+		<!-- Create a new entry for the product based on the input product-->
+		<Dsm_command class="Product" debug="{cfg_debug}" method="new"
+		    result="imars.{sat}.{sensor}.{product_group}.filtered.mapped.OBJ" runFlag="{mapped.exists}">
+			<Object value="imars.{sat}.{sensor}.{product_group}.filtered.OBJ"/>
+			<String value="imars.{sat}.{sensor}.{product_group}.filtered.mapped"/>
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.{product_group}.filtered.mapped.OBJ" debug="{cfg_debug}"
+		    method="setAlgorithm" runFlag="{mapped.exists}">
+			<String value="{cfg_stationName}"/>
+			<String value="{version}"/>
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.{product_group}.filtered.mapped.OBJ" debug="{cfg_debug}"
+		    method="setSubproduct" runFlag="{mapped.exists}">
+			<String value="MappedProducts" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.{product_group}.filtered.mapped.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="place_name" />
+			<String value="{place_name}" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.{product_group}.filtered.mapped.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="spatial_resolution" />
+			<String value="{spatial_resolution}" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.{product_group}.filtered.mapped.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="area_description" />
+			<String value="{area_description}" />
+		</Dsm_command>
+		<Dsm_command class="imars.{sat}.{sensor}.{product_group}.filtered.mapped.OBJ" debug="{cfg_debug}"
+		    method="addAttribute" runFlag="{mapped.exists}">
+			<String value="product_description" />
+			<String value="{product_description}" />
+		</Dsm_command>
+
+		<!--<Dsm_command class="imars.{sat}.{sensor}.{product_group}.mapped.OBJ" debug="{cfg_debug}"-->
+		    <!--method="setCorners" runFlag="{mapped.exists}">-->
+			<!--<Float method="floatValue" value="{latmax}" />-->
+			<!--<Float method="floatValue" value="{latmin}" />-->
+			<!--<Float method="floatValue" value="{lonmax}" />-->
+			<!--<Float method="floatValue" value="{lonmin}" />-->
+		<!--</Dsm_command>-->
+
+		<Ncs_log runFlag="{mapped.exists}" text="Adding file {imars.{sat}.{sensor}.{product_group}.filtered.mapped} (as DATA resource)"/>
+		<Dsm_command class="imars.{sat}.{sensor}.{product_group}.filtered.mapped.OBJ" debug="{cfg_debug}"
+		    method="addResource" runFlag="{mapped.exists}">
+			<String value="DATA" />
+			<String value="{imars.{sat}.{sensor}.{product_group}.filtered.mapped}"/>
+			<String value="{product_description}" />
+		</Dsm_command>
+		<Ncs_log runFlag="{mapped.exists}" text="Storing product imars.{sat}.{sensor}.{product_group}.filtered.mapped"/>
+		<!-- register mapped product with DSM  -->
+		<!--<Dsm_command class="DSM" debug="{cfg_debug}" method="storeProduct" runFlag="{mapped.exists}">-->
+			<!--<Object value="imars.{sat}.{sensor}.{product_group}.mapped.OBJ"/>-->
+		<!--</Dsm_command>-->
+
+        <Dsm_command class="DSM" debug="{cfg_debug}" method="storeProduct" runFlag="{mapped.exists}">
+            <Object value="imars.{sat}.{sensor}.{product_group}.filtered.mapped.OBJ"/>
+        </Dsm_command>
+	</Ncs_loop>
+    
+    <!-- release reserved product to DSM  -->
+    <Ncs_log text="Releasing reserved imars.{sat}.modis.{product_group}.filtered"/>
+    <Dsm_command class="DSM" debug="{cfg_debug}" method="releaseProduct">
+      <Object value="imars.{sat}.{sensor}.{product_group}.filtered.OBJ"/>
+    </Dsm_command>
+	
+  </EXECUTE>
+</CONFIGURE>

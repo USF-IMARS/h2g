@@ -1,0 +1,22 @@
+<NCS_Station name="VIIRS AF geotiff" verbose_logging="true">
+  <group>VIIRS AF geotiff group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>VIIRS AF geotiff 1.0</version>
+  </algorithm>
+  <inputs>
+    <product type="drl.npp.viirs.activefires" wrappertype="input.data"/>
+    <product type="drl.npp.viirs.gmodo" wrappertype="geo"/>     
+  </inputs>
+  <setup>
+    <Ncs_date getValue="starttime" name="cfg_starttime"/> 
+    <Ncs_set name="geotiffname" value="NPP_VAF_L2.{starttime}.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="viirsaf"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+  </setup>
+  <outputs>
+    <product type="drl.npp.viirs.activefires.geotiff" filename="{dataDirectory}{productDirectory}{/}{geotiffname}" wrappertype="h2gout"/>
+  </outputs>
+</NCS_Station>

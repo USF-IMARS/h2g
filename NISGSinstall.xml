@@ -1,0 +1,1429 @@
+<NISGS-SPA-INSTALL>
+<OutputTypes>
+<OutputType
+	name="drl.terra.modis.aerosols_aod.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="IMAPP aerosols geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'AEROSOL.'yyDDDHHmmss'.AOD.tif'" />
+<OutputType
+	name="drl.terra.modis.aerosols_aod3km.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="IMAPP aerosols geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'AEROSOL.'yyDDDHHmmss'.AOD3KM.tif'" />
+<OutputType
+	name="drl.aqua.modis.aerosols_aod.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="IMAPP aerosols geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'AEROSOL.'yyDDDHHmmss'.AOD.tif'" />
+<OutputType
+	name="drl.aqua.modis.aerosols_aod3km.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="IMAPP aerosols geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'AEROSOL.'yyDDDHHmmss'.AOD3KM.tif'" />
+<OutputType
+	name="drl.terra.modis.atmprofile_tpw.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="IMAPP Total Precipitable water geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'PROFILES.'yyDDDHHmmss'.TPW.tif'" />
+<OutputType
+	name="drl.aqua.modis.atmprofile_tpw.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="IMAPP Total Precipitable water geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'PROFILES.'yyDDDHHmmss'.TPW.tif'" />
+<OutputType
+	name="drl.terra.modis.cloudmask.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="IMAPP Cloudmask geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'CLOUDMASK.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aqua.modis.cloudmask.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="IMAPP Cloudmask geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'CLOUDMASK.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.terra.modis.cloudtop_ctp.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="IMAPP Cloudtop Pressure geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'CLOUDTOP.'yyDDDHHmmss'.CTP.tif'" />
+<OutputType
+	name="drl.aqua.modis.cloudtop_ctp.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="IMAPP Cloudtop Pressure geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'CLOUDTOP.'yyDDDHHmmss'.CTP.tif'" />
+<OutputType
+	name="drl.terra.modis.cloudtop_irphase.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="IMAPP Cloudtop IRphase geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'CLOUDTOP.'yyDDDHHmmss'.IRPHASE.tif'" />
+<OutputType
+	name="drl.aqua.modis.cloudtop_irphase.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="IMAPP Cloudtop IRphase geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'CLOUDTOP.'yyDDDHHmmss'.IRPHASE.tif'" />
+<OutputType
+	name="drl.terra.modis.sst.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="IMAPP SST geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'SST.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aqua.modis.sst.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="IMAPP SST geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'SST.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.terra.modis.chlor_a.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="IMAPP Chlorophyll-a geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'CHLOR_A.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aqua.modis.chlor_a.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="IMAPP Chlorophyll-a geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'CHLOR_A.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.terra.modis.ndvi.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="NDVI geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'MOD013_NDVI.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aqua.modis.ndvi.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="NDVI geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'MYD013_NDVI.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.terra.modis.evi.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="EVI geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'MOD013_EVI.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aqua.modis.evi.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="EVI geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'MYD013_EVI.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.terra.modis.landst.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="LST geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'LST.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aqua.modis.landst.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="LST geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'LST.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.terra.modis.fire.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="Fire geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'MOD014.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aqua.modis.fire.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="Fire geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'MOD014.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.terra.modis.crefl_rgb.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="True Color geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'MODcrefl_TrueColor.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aqua.modis.crefl_rgb.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="True Color geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'MYDcrefl_TrueColor.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.terra.modis.crefl_rgbfire.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="True Color Fire geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'MODcrefl_TColor_Fire.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aqua.modis.crefl_rgbfire.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="True Color Fire geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'MYDcrefl_TColor_Fire.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.terra.modis.srefl_rgb.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="SREFL True Color geotiff"
+	level="2"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'MODsrefl_TrueColor.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aqua.modis.srefl_rgb.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="SREFL True Color geotiff"
+	level="2"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'MYDsrefl_TrueColor.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile1_rgb.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Truecolor-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDtcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile2_rgb.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Truecolor-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDtcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile3_rgb.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Truecolor-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDtcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile4_rgb.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Truecolor-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDtcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile5_rgb.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Truecolor-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDtcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile6_rgb.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Truecolor-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDtcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile7_rgb.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Truecolor-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDtcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile8_rgb.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Truecolor-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDtcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile9_rgb.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Truecolor-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDtcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile10_rgb.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Truecolor-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDtcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile1_257.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Falsecolor 257 geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDfcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile2_257.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Falsecolor 257 geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDfcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile3_257.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Falsecolor 257 geotiff"
+        level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDfcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile4_257.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Falsecolor 257 geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDfcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile5_257.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Falsecolor 257 geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDfcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile6_257.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Falsecolor 257 geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDfcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile7_257.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Falsecolor 257 geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDfcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile8_257.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Falsecolor 257 geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDfcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile9_257.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Falsecolor 257 geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDfcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.creflhkm_tile10_257.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="Falsecolor 257 geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXDfcolor.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.firedetection_tile1.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="mod14-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXD14.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.firedetection_tile2.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="mod14-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXD14.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.firedetection_tile3.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="mod14-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXD14.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.firedetection_tile4.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="mod14-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXD14.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.firedetection_tile5.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="mod14-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXD14.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.firedetection_tile6.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="mod14-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXD14.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.firedetection_tile7.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="mod14-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXD14.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.firedetection_tile8.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="mod14-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXD14.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.firedetection_tile9.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="mod14-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXD14.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.aquaterra.modis.firedetection_tile10.geotiff"
+	spacecraft="TERRA_AQUA"
+	sensor="modis"
+	description="mod14-tile geotiff"
+	level="3"
+	is-directory="data/combined/modis/level3/"
+	filepattern="'MXD14.tilename.'yyDDD'.tif'" />
+<OutputType
+	name="drl.npp.viirs.vafip.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Active Fire Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VAFIP_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.vafiph5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Active Fire Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VAFIP_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.activefires.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS AF Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VAF_L2.'yyDDDHHmmss'.tif'" />	
+<OutputType
+	name="drl.npp.viirs.mod_sdr.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS SDRGen Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_VMAE_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.vtoatcolor.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS TOA Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_VTOATCOLOR_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.dnb.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS DNB Day Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_DNBDAY_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.dnbnight.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS DNB Night Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_DNBNIGHT_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m01refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M01 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M01Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m02refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M02 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M02Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m03refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M03 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M03Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m04refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M04 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M04Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m05refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M05 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M05Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m06refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M06 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M06Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m07refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M07 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M07Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m08refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M08 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M08Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m09refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M09 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M09Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m10refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M10 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M10Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m11refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M11 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M11Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m12bt.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M12 Brightness Temp Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M12BT_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m13bt.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M13 Brightness Temp Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M13BT_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m14bt.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M14 Brightness Temp Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M14BT_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.m15bt.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M15 Brightness Temp Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M15BT_SDR.'yyDDDHHmmss'.tif'" />		
+<OutputType
+	name="drl.npp.viirs.m16bt.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS M16 Brightness Temp Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_M16BT_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.i01refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS I01 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_I01Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.i02refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS I02 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_I02Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.i03refl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS I03 Reflectance Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_I03Refl_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.i04bt.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS I04 Brightness Temp Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_I04BT_SDR.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.i05bt.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS I05 Brightness Temp Geotiff"
+	level="1"
+	is-directory="data/npp/viirs/level1/"
+	filepattern="'NPP_I05BT_SDR.'yyDDDHHmmss'.tif'" />
+<!--<OutputType
+	name="drl.npp.viirs.imagery_imgedr_i1.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Imagery EDR I1 Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_imagery_img.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.imagery_imgedr_i2.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Imagery EDR I2 Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_imagery_img.'yyDDDHHmmss'.I2.tif'" />
+<OutputType
+	name="drl.npp.viirs.imagery_imgedr_i3.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Imagery EDR I3 Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_imagery_img.'yyDDDHHmmss'.I3.tif'" />
+<OutputType
+	name="drl.npp.viirs.imagery_imgedr_i4.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Imagery EDR I4 Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_imagery_img.'yyDDDHHmmss'.I4.tif'" />
+<OutputType
+	name="drl.npp.viirs.imagery_imgedr_i5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Imagery EDR I5 Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_imagery_img.'yyDDDHHmmss'.I5.tif'" />-->
+<OutputType
+	name="drl.npp.viirs.imgifcolor.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Imagery EDR I Band False Color Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_imagery.'yyDDDHHmmss'.IFCOLOR.tif'" />
+<OutputType
+	name="drl.npp.viirs.imgincolor.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Imagery EDR I Band Natural Color Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_imagery.'yyDDDHHmmss'.INCOLOR.tif'" />	
+<OutputType
+	name="drl.npp.viirs.imgmfcolor.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Imagery EDR M Band False Color Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_imagery.'yyDDDHHmmss'.MFCOLOR.tif'" />
+<OutputType
+	name="drl.npp.viirs.imgncc.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Imagery EDR NCC Albedo Geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_imagery.'yyDDDHHmmss'.NCCALBEDO.tif'" />
+<OutputType
+	name="drl.npp.viirs.cmip_mask.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Cloudmask geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_CMIP_L2.'yyDDDHHmmss'.CLOUDMASK.tif'" />
+<OutputType
+	name="drl.npp.viirs.cmip_maskh5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Cloudmask geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_CMIP_L2.'yyDDDHHmmss'.CLOUDMASK.tif'" />
+<OutputType
+	name="drl.npp.viirs.cmip_phase.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Cloudphase geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_CMIP_L2.'yyDDDHHmmss'.PHASE.tif'" />
+<OutputType
+	name="drl.npp.viirs.cmip_phaseh5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Cloudphase geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_CMIP_L2.'yyDDDHHmmss'.PHASE.h5.tif'" />
+<OutputType
+	name="drl.npp.viirs.srflmip.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Surface Reflectance geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_SRFLMIP_L2.'yyDDDHHmmss'.TCOLOR.tif'" />
+<OutputType
+	name="drl.npp.viirs.srflmiph5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Surface Reflectance geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_SRFLMIP_L2.'yyDDDHHmmss'.TCOLOR.tif'" />
+<OutputType
+	name="drl.npp.viirs.srfliph5d.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Surface Reflectance geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_SRFLMIP_L2.'yyDDDHHmmss'.TCOLOR.tif'" />
+<OutputType
+	name="drl.npp.viirs.creflmip.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Corrected Reflectance geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_CREFLMIP_L2.'yyDDDHHmmss'.TCOLOR.tif'" />
+<OutputType
+	name="drl.npp.viirs.creflmiph5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Corrected Reflectance geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_CREFLMIP_L2.'yyDDDHHmmss'.TCOLOR.tif'" />
+<OutputType
+	name="drl.npp.viirs.crefliph5d.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Corrected Reflectance geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_CREFLMIP_L2.'yyDDDHHmmss'.TCOLOR.tif'" />
+<OutputType
+	name="drl.npp.viirs.mcrefl.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Corrected Reflectance geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_CVIIRS_L2.'yyDDDHHmmss'.TCOLOR.tif'" />
+<OutputType
+	name="drl.npp.viirs.mcreflfire.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Corrected Reflectance Fire geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_TCOLORFIRE.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.aotip.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS 550nm AOT geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_AOTIP_L2.'yyDDDHHmmss'.AOT.tif'" />
+<OutputType
+	name="drl.npp.viirs.aotiph5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS 550nm AOT geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_AOTIP_L2.'yyDDDHHmmss'.AOT.tif'" />
+<OutputType
+	name="drl.npp.viirs.aotiph5d.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS 550nm AOT geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_AOTIP_L2.'yyDDDHHmmss'.AOT.tif'" />
+<OutputType
+	name="drl.npp.viirs.ndvi.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS-NDVI geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VVI_L2.'yyDDDHHmmss'.NDVI.tif'" />
+<OutputType
+	name="drl.npp.viirs.ndvih5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS NDVI geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VRVI_L2.'yyDDDHHmmss'.NDVI.tif'" />
+<OutputType
+	name="drl.npp.viirs.evi.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS-EVI geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VVI_L2.'yyDDDHHmmss'.EVI.tif'" />
+<OutputType
+	name="drl.npp.viirs.evih5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS EVI geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VRVI_L2.'yyDDDHHmmss'.EVI.tif'" />
+<OutputType
+	name="drl.npp.viirs.vscm.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS SNOW COVER geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VSCM_L2.'yyDDDHHmmss'.SNOWCOVER.tif'" />
+<OutputType
+	name="drl.npp.viirs.vscmh5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS SNOW COVER MAP geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VSCM_L2.'yyDDDHHmmss'.SNOWCOVER.tif'" />
+<OutputType
+	name="drl.npp.viirs.vscdh5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS SNOW COVER FRACTION geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VSCD_L2.'yyDDDHHmmss'.SNOWFRACTION.tif'" />
+<OutputType
+	name="drl.npp.viirs.vvegfrac.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS VEG FRACTION geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VSUT_L2.'yyDDDHHmmss'.VEGFRACTION.tif'" />
+<OutputType
+	name="drl.npp.viirs.vvegfrach5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS VEG FRACTION geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VSUT_L2.'yyDDDHHmmss'.VEGFRACTION.tif'" />
+<OutputType
+	name="drl.npp.viirs.landst.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS-LST geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VIIRSLST_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.lsth5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS LST geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VLST_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.apsip.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS AERPARTSZ geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VAPSIP_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.apsiph5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS AERPARTSZ geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VAPSIP_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.apsiph5d.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS AERPARTSZ geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VAPSIP_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.sum.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS SMTYPE geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VSUM_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.sumh5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS SMTYPE geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VSUM_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.cot.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS COT geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_COPIP_L2.'yyDDDHHmmss'.COT.tif'" />
+<OutputType
+	name="drl.npp.viirs.coth5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS COT geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_COPIP_L2.'yyDDDHHmmss'.COT.tif'" />
+<OutputType
+	name="drl.npp.viirs.coth5d.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS COT geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_COPIP_L2.'yyDDDHHmmss'.COT.tif'" />
+<OutputType
+	name="drl.npp.viirs.eps.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS EPS geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_COPIP_L2.'yyDDDHHmmss'.EPS.tif'" />
+<OutputType
+	name="drl.npp.viirs.epsh5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS EPS geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_COPIP_L2.'yyDDDHHmmss'.EPS.tif'" />
+<OutputType
+	name="drl.npp.viirs.epsh5d.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS EPS geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_COPIP_L2.'yyDDDHHmmss'.EPS.tif'" />
+<OutputType
+	name="drl.npp.viirs.ctt.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS CTT geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_WCTTIP_L2.'yyDDDHHmmss'.CTT.tif'" />
+<OutputType
+	name="drl.npp.viirs.ctth5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS CTT geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_WCTTIP_L2.'yyDDDHHmmss'.CTT.tif'" />
+<OutputType
+	name="drl.npp.viirs.ctth5d.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS CTT geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_WCTTIP_L2.'yyDDDHHmmss'.CTT.tif'" />
+<OutputType
+	name="drl.npp.viirs.laip.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Surface Albedo geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VLAIP_L2.'yyDDDHHmmss'.BPSA.tif'" />
+<OutputType
+	name="drl.npp.viirs.laiph5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Surface Albedo geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VLAIP_L2.'yyDDDHHmmss'.BPSA.tif'" />
+<OutputType
+	name="drl.npp.viirs.laiph5d.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS Surface Albedo geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VLAIP_L2.'yyDDDHHmmss'.BPSA.tif'" />
+<OutputType
+	name="drl.npp.viirs.icequal_st.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS IceQual SurfTemp geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VSTIP_L2.'yyDDDHHmmss'.SST.tif'" />
+<OutputType
+	name="drl.npp.viirs.icequal_sth5.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS IceQual SurfTemp geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VSTIP_L2.'yyDDDHHmmss'.SST.tif'" />
+<OutputType
+	name="drl.npp.viirs.icequal_sth5d.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS IceQual SurfTemp geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VSTIP_L2.'yyDDDHHmmss'.SST.tif'" />
+<OutputType
+	name="drl.npp.viirs.sst.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS-SST geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VIIRSSST_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="drl.npp.viirs.chlor.geotiff"
+	spacecraft="NPP"
+	sensor="VIIRS"
+	description="VIIRS-CHLOR geotiff"
+	level="2"
+	is-directory="data/npp/viirs/level2/"
+	filepattern="'NPP_VIIRSCHLOR_L2.'yyDDDHHmmss'.tif'" />	
+<OutputType
+        name="drl.npp.ompsnadir.aot.geotiff"
+        spacecraft="NPP"
+        sensor="OMPS"
+        description="OMPS-AOT geotiff"
+        level="2"
+        is-directory="data/npp/omps/level2/"
+        filepattern="'OMPS_AEROSOL_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.ompsnadir.ozone.geotiff"
+        spacecraft="NPP"
+        sensor="OMPS"
+        description="OMPS-OZONE geotiff"
+        level="2"
+        is-directory="data/npp/omps/level2/"
+        filepattern="'OMPS_TOZONE_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.ompsnadir.so2.geotiff"
+        spacecraft="NPP"
+        sensor="OMPS"
+        description="OMPS-SO2 geotiff"
+        level="2"
+        is-directory="data/npp/omps/level2/"
+        filepattern="'OMPS_SO2_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.ompsnadir.refl331.geotiff"
+        spacecraft="NPP"
+        sensor="OMPS"
+        description="OMPS-REFL331 geotiff"
+        level="2"
+        is-directory="data/npp/omps/level2/"
+        filepattern="'OMPS_REFL331_L2.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch1bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-1 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH1.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch2bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-2 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH2.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch3bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-3 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH3.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch4bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-4 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH4.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch5bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-5 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH5.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch6bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-6 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH6.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch7bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-7 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH7.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch8bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-8 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH8.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch9bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-9 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH9.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch10bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-10 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH10.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch11bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-11 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH11.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch12bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-12 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH12.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch13bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-13 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH13.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch14bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-14 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH14.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch15bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-15 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH15.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch16bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-16 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH16.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch17bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-17 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH17.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch18bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-18 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH18.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch19bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-19 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH19.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch20bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-20 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH20.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch21bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-21 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH21.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.atms.ch22bt.geotiff"
+        spacecraft="NPP"
+        sensor="ATMS"
+        description="ATMS Channel-22 geotiff"
+        level="1"
+        is-directory="data/npp/atms/level1/"
+        filepattern="'NPP_ATMSBT_CH22.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.cris.lwbt.geotiff"
+        spacecraft="NPP"
+        sensor="CrIS"
+        description="CrIS Longwave BT geotiff"
+        level="1"
+        is-directory="data/npp/cris/level1/"
+        filepattern="'NPP_CrISBT_LW.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.cris.mwbt.geotiff"
+        spacecraft="NPP"
+        sensor="CrIS"
+        description="CrIS midwave BT geotiff"
+        level="1"
+        is-directory="data/npp/cris/level1/"
+        filepattern="'NPP_CrISBT_MW.'yyDDDHHmmss'.tif'" />
+<OutputType
+        name="drl.npp.cris.swbt.geotiff"
+        spacecraft="NPP"
+        sensor="CrIS"
+        description="CrIS Shortwave BT geotiff"
+        level="1"
+        is-directory="data/npp/cris/level1/"
+        filepattern="'NPP_CrISBT_SW.'yyDDDHHmmss'.tif'" />
+<OutputType
+	name="imars.terra.modis.crefl_rgb.geotiff"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="True Color geotiff"
+	level="3"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'MODcrefl_TrueColor.'yyDDDHHmmss'.tiff'" />
+<OutputType
+	name="imars.aqua.modis.crefl_rgb.geotiff"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="True Color geotiff"
+	level="3"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'MYDcrefl_TrueColor.'yyDDDHHmmss'.tiff'" />
+<OutputType
+	name="imars.terra.modis.crefl_rgb.mapped.png"
+	spacecraft="TERRA"
+	sensor="modis"
+	description="True Color PNG"
+	level="3"
+	is-directory="data/terra/modis/level3/"
+	filepattern="'MODcrefl_TrueColor.'yyDDDHHmmss'.png'" />
+<OutputType
+	name="imars.aqua.modis.crefl_rgb.mapped.png"
+	spacecraft="AQUA"
+	sensor="modis"
+	description="True Color PNG"
+	level="3"
+	is-directory="data/aqua/modis/level3/"
+	filepattern="'MYDcrefl_TrueColor.'yyDDDHHmmss'.png'" />
+</OutputTypes>
+
+</NISGS-SPA-INSTALL>

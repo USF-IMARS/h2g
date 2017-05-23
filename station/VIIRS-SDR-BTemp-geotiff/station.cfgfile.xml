@@ -1,0 +1,35 @@
+<NCS_Station directory="VIIRS-SDR-BTemp-geotiff" name="VIIRS SDR BTemp geotiff" label="H2G|VIIRS-SDR-BTemp-geotiff">
+  <group>VIIRS SDR BTemp geotiff group1</group>
+<html><body>
+ <table border="1">
+  <tbody>
+   <tr>VIIRS I4 Brightness Temperature Geotiff</tr>
+   <tr>VIIRS I5 Brightness Temperature Geotiff</tr>
+   <tr>VIIRS M12 Brightness Temperature Geotiff</tr>
+   <tr>VIIRS M13 Brightness Temperature Geotiff</tr>
+   <tr>VIIRS M14 Brightness Temperature Geotiff</tr>
+   <tr>VIIRS M15 Brightness Temperature Geotiff</tr>
+   <tr>VIIRS M16 Brightness Temperature Geotiff</tr>
+  </tbody>
+ </table>
+</body></html>
+  <inputs>
+     <product type="drl.npp.viirs.svi04"/>
+     <product type="drl.npp.viirs.svi05"/>  
+     <product type="drl.npp.viirs.svm12"/>
+     <product type="drl.npp.viirs.svm13"/> 
+     <product type="drl.npp.viirs.svm14"/>
+     <product type="drl.npp.viirs.svm15"/> 
+     <product type="drl.npp.viirs.svm16"/>
+     <product type="drl.npp.viirs.gmtco"/>
+  </inputs> 
+  <outputs>
+    <product type="drl.npp.viirs.i04bt.geotiff"/>
+    <product type="drl.npp.viirs.i05bt.geotiff"/>
+    <product type="drl.npp.viirs.m12bt.geotiff"/>  
+    <product type="drl.npp.viirs.m13bt.geotiff"/>
+    <product type="drl.npp.viirs.m14bt.geotiff"/>
+    <product type="drl.npp.viirs.m15bt.geotiff"/> 
+    <product type="drl.npp.viirs.m16bt.geotiff"/>
+  </outputs>
+</NCS_Station>

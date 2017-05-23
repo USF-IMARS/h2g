@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<AlgorithmInstallation>
+  <Name>H2G</Name>
+  <Variables>
+    <PATH environment="PATH"/>
+    <algo_home>{cfg_installationDirectory}{/}..{/}..{/}algorithm</algo_home>
+    <usstates>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}STATES.SHP</usstates>
+    <usrivers>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}Rivers.shp</usrivers>
+    <usroads>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}roads.shp</usroads>
+    <usroads>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}roads.shp</usroads>
+    <canada>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}canada.shp</canada>
+    <carib>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}carib.shp</carib>
+    <mexico>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}mexico.shp</mexico>
+    <world>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}world.shp</world>
+  </Variables>
+  <Description>{cfg_installationDirectory}{/}generic.xml</Description>
+  <Executables>
+    <create>{algo_home}{/}bin{/}h2g.sh</create>
+    <coverage_check>{algo_home}{/}imars_bin{/}check_coverage.py</coverage_check>
+    <prepareCris>{algo_home}{/}bin{/}prepareCris.sh</prepareCris>
+    <killwrapper>{algo_home}{/}..{/}wrapper{/}lib{/}killwrapper</killwrapper>
+    <Compression.sh>{algo_home}{/}DRL_scripts{/}Compression.sh</Compression.sh>
+   <h5repack>{algo_home}{/}DRL_scripts{/}h5repack</h5repack> 
+   <creflcmd>{algo_home}{/}DRL_scripts{/}crefl.1.7.1</creflcmd>  
+  </Executables>
+  <TemplateFiles/>
+</AlgorithmInstallation>

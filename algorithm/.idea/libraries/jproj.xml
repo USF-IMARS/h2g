@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jproj">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib64/jproj.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

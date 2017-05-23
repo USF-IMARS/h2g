@@ -1,0 +1,378 @@
+#!/bin/bash
+WRAPPERHOME=../../../wrapper/h2g
+
+OUTPUTHOME=./output
+
+################################################################################################
+
+
+
+INPUTHOME=~/DATA/ATMS-CRIS_CSPP_Granulated_Compressed_Testdata
+#CrIS SDR products
+SCRIS=$INPUTHOME/SCRIS_npp_d20131030_t1957219_e1957517_b10406_c20140827200325088230_cspp_dev.h5
+GCRSO=$INPUTHOME/GCRSO_npp_d20131030_t1957219_e1957517_b10406_c20140827200325135834_cspp_dev.h5
+
+#ATMS SDR products
+SATMS=$INPUTHOME/SATMS_npp_d20131030_t1957193_e1957509_b10406_c20140827200722326090_cspp_dev.h5
+GATMO=$INPUTHOME/GATMO_npp_d20131030_t1957193_e1957509_b10406_c20140827200722342231_cspp_dev.h5
+
+
+################################################################################################
+
+INPUTHOME=~/DATA/VIIRS_CLASS-CSPP-DRL-Blended_Granulated_Compressed_Testdata
+GIGTO=$INPUTHOME/GIGTO_npp_d20140901_t1738399_e1740338_b14746_c20140908200704123743_noaa_ops.h5
+VI1BO=$INPUTHOME/VI1BO_npp_d20140901_t1738399_e1740338_b14746_c20140908200815385788_noaa_ops.h5
+VI2BO=$INPUTHOME/VI2BO_npp_d20140901_t1738399_e1740338_b14746_c20140908200704123743_noaa_ops.h5
+VI3BO=$INPUTHOME/VI3BO_npp_d20140901_t1738399_e1740338_b14746_c20140908200836138913_noaa_ops.h5
+VNCCO=$INPUTHOME/VNCCO_npp_d20140901_t1738399_e1740338_b14746_c20140908200712874580_noaa_ops.h5
+GNCCO=$INPUTHOME/GNCCO_npp_d20140901_t1738399_e1740338_b14746_c20140908200712874580_noaa_ops.h5
+
+
+
+#VIIRS Geolocation
+GMTCO=$INPUTHOME/GMTCO_npp_d20140901_t1738560_e1740201_b14746_c20140908200702642321_noaa_ops.h5
+GITCO=$INPUTHOME/GITCO_npp_d20140901_t1738560_e1740201_b14746_c20140908200715043541_noaa_ops.h5
+GDNBO=$INPUTHOME/GDNBO_npp_d20140901_t1738560_e1740201_b14746_c20140908200848477093_noaa_ops.h5
+
+#VIIRS Daytime DNB
+SVDNB=$INPUTHOME/SVDNB_npp_d20140901_t1738560_e1740201_b14746_c20140908200848477093_noaa_ops.h5
+
+
+#VIIRS SDR
+SVI01=$INPUTHOME/SVI01_npp_d20140901_t1738560_e1740201_b14746_c20140908200814185302_noaa_ops.h5
+SVI02=$INPUTHOME/SVI02_npp_d20140901_t1738560_e1740201_b14746_c20140908200817203819_noaa_ops.h5
+SVI03=$INPUTHOME/SVI03_npp_d20140901_t1738560_e1740201_b14746_c20140908200743066611_noaa_ops.h5
+SVI04=$INPUTHOME/SVI04_npp_d20140901_t1738560_e1740201_b14746_c20140908200756074531_noaa_ops.h5
+SVI05=$INPUTHOME/SVI05_npp_d20140901_t1738560_e1740201_b14746_c20140908200946032012_noaa_ops.h5
+SVM01=$INPUTHOME/SVM01_npp_d20140901_t1738560_e1740201_b14746_c20140908200638045758_noaa_ops.h5
+SVM02=$INPUTHOME/SVM02_npp_d20140901_t1738560_e1740201_b14746_c20140908200623073487_noaa_ops.h5
+SVM03=$INPUTHOME/SVM03_npp_d20140901_t1738560_e1740201_b14746_c20140908200714455393_noaa_ops.h5
+SVM04=$INPUTHOME/SVM04_npp_d20140901_t1738560_e1740201_b14746_c20140908200714715029_noaa_ops.h5
+SVM05=$INPUTHOME/SVM05_npp_d20140901_t1738560_e1740201_b14746_c20140908200735223402_noaa_ops.h5
+SVM06=$INPUTHOME/SVM06_npp_d20140901_t1738560_e1740201_b14746_c20140908200831329343_noaa_ops.h5
+SVM07=$INPUTHOME/SVM07_npp_d20140901_t1738560_e1740201_b14746_c20140908200729256422_noaa_ops.h5
+SVM08=$INPUTHOME/SVM08_npp_d20140901_t1738560_e1740201_b14746_c20140908200803979409_noaa_ops.h5
+SVM09=$INPUTHOME/SVM09_npp_d20140901_t1738560_e1740201_b14746_c20140908200743076006_noaa_ops.h5
+SVM10=$INPUTHOME/SVM10_npp_d20140901_t1738560_e1740201_b14746_c20140908200925075349_noaa_ops.h5
+SVM11=$INPUTHOME/SVM11_npp_d20140901_t1738560_e1740201_b14746_c20140908200858348915_noaa_ops.h5
+SVM12=$INPUTHOME/SVM12_npp_d20140901_t1738560_e1740201_b14746_c20140908200844775167_noaa_ops.h5
+SVM13=$INPUTHOME/SVM13_npp_d20140901_t1738560_e1740201_b14746_c20140908200931364181_noaa_ops.h5
+SVM14=$INPUTHOME/SVM14_npp_d20140901_t1738560_e1740201_b14746_c20140908200652259426_noaa_ops.h5
+SVM15=$INPUTHOME/SVM15_npp_d20140901_t1738560_e1740201_b14746_c20140908200911898965_noaa_ops.h5
+SVM16=$INPUTHOME/SVM16_npp_d20140901_t1738560_e1740201_b14746_c20140908200729274370_noaa_ops.h5
+
+#VIIRS Fire Mask
+AVAFO=$INPUTHOME/AVAFO_npp_d20140901_t1737306_e1738547_b14746_c20140908200729274370_all-_dev.h5
+
+#VIIRS Cloud Mask
+IICMO=$INPUTHOME/IICMO_npp_d20140901_t1738560_e1740201_b14746_c20140908200708003499_noaa_ops.h5
+
+#VIIRS Aerosol
+IVAOT=$INPUTHOME/IVAOT_npp_d20140901_t1738560_e1740201_b14746_c20140909174803724591_all-_dev.h5
+VSUMO=$INPUTHOME/VSUMO_npp_d20140901_t1738560_e1740201_b14746_c20140908200722247745_noaa_ops.h5
+
+#VIIRS Surface Reflectance
+IVISR=$INPUTHOME/IVISR_npp_d20140901_t1738560_e1740201_b14746_c20140909175225773713_all-_dev.h5
+
+#VIIRS Veg Index
+VIVIO=$INPUTHOME/VIVIO_npp_d20140901_t1738560_e1740201_b14746_c20140908200715043541_noaa_ops.h5
+
+
+
+#-------------------------------------------------------------
+#Eg 1. VIIRS SDR TOA True Color
+
+#$WRAPPERHOME/run config.type standard config.name vtcolor  red.data $SVM05 green.data $SVM04 blue.data $SVM03 geo $GMTCO h2gout $OUTPUTHOME/VTOA_stereo.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+#-------------------------------------------------------------
+#Eg 2. VIIRS M12 Brightness Temperature
+
+# See below
+
+#-------------------------------------------------------------
+#Eg 3. VIIRS DNB Day Time
+
+#$WRAPPERHOME/run config.type standard config.name vdnbday input.data $SVDNB geo $GDNBO h2gout $OUTPUTHOME/DNBDAY_stereo.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#----------------------------------------------------------------------
+#Eg 4. VIIRS I Imagery FalseColor (no-projection is applied)
+
+#$WRAPPERHOME/run config.type standard config.name vimgifcolor  red.data $VI3BO green.data $VI2BO blue.data $VI1BO geo $GIGTO h2gout $OUTPUTHOME/GTM_IImagery.png output.type png.argb browse_enhance true
+
+#----------------------------------------------------------------------
+#Eg 5. VIIRS NCC Albedo 
+
+#$WRAPPERHOME/run config.type standard config.name vnccalbedo input.data $VNCCO geo $GNCCO h2gout $OUTPUTHOME/NCCAlbedo.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#----------------------------------------------------------------------
+#Eg 6. VIIRS Cloud Mask
+
+#$WRAPPERHOME/run config.type standard config.name vcmmaskh5 input.data $IICMO geo $GMTCO h2gout $OUTPUTHOME/VIIRS_Cloudmask_STEREO.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#----------------------------------------------------------------------
+#Eg 7. VIIRS Cloud Phase
+
+#$WRAPPERHOME/run config.type standard config.name vcmphaseh5 input.data $IICMO geo $GMTCO h2gout $OUTPUTHOME/VIIRS_CloudPhase_STEREO.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#----------------------------------------------------------------------
+#Eg 8. VIIRS Aerosol Optical Thickness
+
+#$WRAPPERHOME/run config.type standard config.name vaot550h5d input.data $IVAOT geo $GMTCO h2gout $OUTPUTHOME/VIIRS_AOT_STEREO.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#----------------------------------------------------------------------
+#Eg 9. VIIRS Aerosol Particle Size
+
+#$WRAPPERHOME/run config.type standard config.name vapsh5d input.data $IVAOT geo $GMTCO h2gout $OUTPUTHOME/VIIRS_APS_STEREO.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#-----------------------------------------------------------------------
+#Eg 10. VIIRS Suspended Matter 
+
+#$WRAPPERHOME/run config.type standard config.name vsumh5 input.data $VSUMO geo $GMTCO h2gout $OUTPUTHOME/VIIRS_SUM_STEREO.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------
+
+#Eg 11. VIIRS Surface Reflectance True Color
+
+#$WRAPPERHOME/run config.type standard config.name vsreflh5d input.data $IVISR geo $GMTCO h2gout $OUTPUTHOME/VIIRS_SURFREFL_STEREO.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#----------------------------------------------------------------------------
+#Eg 12. VIIRS NDVI
+
+#$WRAPPERHOME/run config.type standard config.name vndvih5 input.data $VIVIO mask $AVAFO geo $GMTCO h2gout $OUTPUTHOME/VNDVI_STEREO.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#----------------------------------------------------------------------------
+#Eg 13. VIIRS EVI
+
+#$WRAPPERHOME/run config.type standard config.name vevih5 input.data $VIVIO mask $AVAFO geo $GMTCO h2gout $OUTPUTHOME/VEVI_STEREO.png output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 14. CrIS Shortwave Brightness Temperature
+
+#$WRAPPERHOME/run config.type standard config.name crisbtsw input.data $SCRIS geo $GCRSO h2gout $OUTPUTHOME/CRIS_BTSW.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 15. CrIS Mediumwave Brightness Temperature
+
+#$WRAPPERHOME/run config.type standard config.name crisbtmw input.data $SCRIS geo $GCRSO h2gout $OUTPUTHOME/CRIS_BTMW.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 16. CrIS Longwave Brightness Temperature
+
+#$WRAPPERHOME/run config.type standard config.name crisbtlw input.data $SCRIS geo $GCRSO h2gout $OUTPUTHOME/CRIS_BTLW.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 17.ATMS Brightness Temperature Channel 1
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch1 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH1.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 18.ATMS Brightness Temperature Channel 2
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch2 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH2.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 19.ATMS Brightness Temperature Channel 3
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch3 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH3.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 20.ATMS Brightness Temperature Channel 4
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch4 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH4.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 21.ATMS Brightness Temperature Channel 5
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch5 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH5.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 22.ATMS Brightness Temperature Channel 6
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch6 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH6.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 23.ATMS Brightness Temperature Channel 7
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch7 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH7.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 24.ATMS Brightness Temperature Channel 8
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch8 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH8.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 25.ATMS Brightness Temperature Channel 9
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch9 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH9.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 26.ATMS Brightness Temperature Channel 10
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch10 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH10.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 27.ATMS Brightness Temperature Channel 11
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch11 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH11.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 28.ATMS Brightness Temperature Channel 12
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch12 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH12.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 29.ATMS Brightness Temperature Channel 13
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch13 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH13.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 30.ATMS Brightness Temperature Channel 14
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch14 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH14.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 31.ATMS Brightness Temperature Channel 15
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch15 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH15.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 32.ATMS Brightness Temperature Channel 16
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch16 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH16.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 33.ATMS Brightness Temperature Channel 17
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch17 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH17.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 34.ATMS Brightness Temperature Channel 18
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch18 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH18.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 35.ATMS Brightness Temperature Channel 19
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch19 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH19.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 36.ATMS Brightness Temperature Channel 20
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch20 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH20.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 37.ATMS Brightness Temperature Channel 21
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch21 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH21.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 38.ATMS Brightness Temperature Channel 22
+
+#$WRAPPERHOME/run config.type standard config.name atmsbtch22 input.data $SATMS geo $GATMO h2gout $OUTPUTHOME/ATMS_BTCH22.png  output.type png.argb projection stereographic resolution 5000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 39. VIIRS M1 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm1refl input.data $SVM01 geo $GMTCO h2gout $OUTPUTHOME/M1_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 40. VIIRS M2 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm2refl input.data $SVM02 geo $GMTCO h2gout $OUTPUTHOME/M2_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 41. VIIRS M3 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm3refl input.data $SVM03 geo $GMTCO h2gout $OUTPUTHOME/M3_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 42. VIIRS M4 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm4refl input.data $SVM04 geo $GMTCO h2gout $OUTPUTHOME/M4_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 43. VIIRS M5 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm5refl input.data $SVM05 geo $GMTCO h2gout $OUTPUTHOME/M5_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 44. VIIRS M6 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm6refl input.data $SVM06 geo $GMTCO h2gout $OUTPUTHOME/M6_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 45. VIIRS M7 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm7refl input.data $SVM07 geo $GMTCO h2gout $OUTPUTHOME/M7_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 46. VIIRS M8 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm8refl input.data $SVM08 geo $GMTCO h2gout $OUTPUTHOME/M8_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 47. VIIRS M9 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm9refl input.data $SVM09 geo $GMTCO h2gout $OUTPUTHOME/M9_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 48. VIIRS M10 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm10refl input.data $SVM10 geo $GMTCO h2gout $OUTPUTHOME/M10_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 49. VIIRS M11 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vm11refl input.data $SVM11 geo $GMTCO h2gout $OUTPUTHOME/M11_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 50. VIIRS M12 Brightness Temperature
+
+#$WRAPPERHOME/run config.type standard config.name vm12bt input.data $SVM12 geo $GMTCO h2gout $OUTPUTHOME/M12_BrightTemp_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 51. VIIRS M13 Brightness Temperature
+
+#$WRAPPERHOME/run config.type standard config.name vm13bt input.data $SVM13 geo $GMTCO h2gout $OUTPUTHOME/M13_BrightTemp_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 52. VIIRS M14 Brightness Temperature
+
+#$WRAPPERHOME/run config.type standard config.name vm14bt input.data $SVM14 geo $GMTCO h2gout $OUTPUTHOME/M14_BrightTemp_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 53. VIIRS M15 Brightness Temperature
+
+#$WRAPPERHOME/run config.type standard config.name vm15bt input.data $SVM15 geo $GMTCO h2gout $OUTPUTHOME/M15_BrightTemp_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 54. VIIRS M16 Brightness Temperature
+
+#$WRAPPERHOME/run config.type standard config.name vm16bt input.data $SVM16 geo $GMTCO h2gout $OUTPUTHOME/M16_BrightTemp_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 55. VIIRS I1 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vi1refl input.data $SVI01 geo $GMTCO h2gout $OUTPUTHOME/I1_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 56. VIIRS I2 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vi2refl input.data $SVI02 geo $GMTCO h2gout $OUTPUTHOME/I2_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 57. VIIRS I3 Reflectance
+
+#$WRAPPERHOME/run config.type standard config.name vi3refl input.data $SVI03 geo $GMTCO h2gout $OUTPUTHOME/I3_Refl_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 58. VIIRS I4 BrightTemp
+
+#$WRAPPERHOME/run config.type standard config.name vi4bt input.data $SVI04 geo $GMTCO h2gout $OUTPUTHOME/I4_BrightTemp_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+#------------------------------------------------------------------------------
+#Eg 59. VIIRS I5 BrightTemp
+
+#$WRAPPERHOME/run config.type standard config.name vi5bt input.data $SVI05 geo $GMTCO h2gout $OUTPUTHOME/I5_BrightTemp_stereo.png output.type png.argb projection stereographic resolution 3000 browse_enhance true
+
+
+

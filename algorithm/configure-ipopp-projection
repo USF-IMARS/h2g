@@ -1,0 +1,19 @@
+#!/bin/bash
+echo  Projection Options for IPOPP Mode: Select One
+echo  1. Geographic 2. Stereographic
+read param
+if [ $param -eq 2 ] 
+then
+ echo Configuring h2g stations for Sterographic projections
+ /bin/cp -r eosnppstations/stereographic/station ../
+elif  [ $param -eq 1 ]
+then
+  echo Configuring h2g stations for Geographic projections
+ /bin/cp -r eosnppstations/geographic/station ../
+else
+  echo Unknown Projection :  Choose from 1 or 2
+fi
+
+
+
+

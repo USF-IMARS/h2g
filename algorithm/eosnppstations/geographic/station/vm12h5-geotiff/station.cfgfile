@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<!-- With very few exceptions, parameters that are internal to this script begin with 'cfg_'.  Avoid that prefix in your parameters, please -->
+<CONFIGURE>
+  <SETUP>
+    <!-- set this to 'true' to enable really verbose debugging -->
+    <Ncs_set name="cfg_debug" value="false"/>
+    <!-- cfg_ncs_home comes from JSW config, cfg_nisgs_home should be up one level -->
+    <Ncs_set name="cfg_nisgs_home" value="{cfg_ncs_home}{/}.."/>
+    <!-- site.properties file (which is in cfg_ncs_home/..) -->
+    <Ncs_readFile file="{cfg_nisgs_home}{/}site.properties"/>
+    <!-- required by DSM:  -->
+    <Ncs_set name="cfg_stationName" value="VIIRS M12 BTemp geotiff"/>
+    <Ncs_set name="cfg_groupTag" value="VIIRS M12 BTemp geotiff group1"/>
+    <Ncs_set name="cfg_siteName" value="{NISGS_SITE_NAME}"/>
+    <Ncs_set name="dataDirectory" value="{DSM_DATA_DIRECTORY}"/>
+    <Ncs_set name="cfg_stationLog" value="station.stationlog"/>
+    <!--  Initialize wrapped algorithm   -->
+    <Ncs_print text="Initializing algorithm VIIRS M12 BTemp geotiff"/>
+    <InitAlgorithm debug="{cfg_debug}" result="cfg_algo.OBJ" file="{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml"/>
+    <Ncs_print text="Algorithm VIIRS M12 BTemp geotiff initialized"/>
+    <Ncs_set name="version" value="VIIRS M12 BTemp geotiff 1.0"/>
+  </SETUP>
+  <EXECUTE>
+    <!-- get first input product -->
+    <Ncs_set name="otherInputTypes" value="drl.npp.viirs.gmtco"/>
+    <Ncs_log text="Reserving product drl.npp.viirs.svm12"/>
+    <Dsm_command debug="{cfg_debug}" blockflag="true" log="true" result="drl.npp.viirs.svm12.OBJ" class="DSM" method="reserveProduct">
+      <String value="drl.npp.viirs.svm12"/>
+      <String value="{otherInputTypes}"/>
+    </Dsm_command>
+    <!-- Put the reserved product object into 'reservedProduct' -->
+    <!-- (so NCS can find it to fail this job if needed) -->
+    <Ncs_copy source="drl.npp.viirs.svm12.OBJ" copy="reservedProduct"/>
+    <!-- Create our NCSHelper -->
+    <Dsm_command debug="{cfg_debug}" class="NCSHelper" method="new" result="NCSHelper.OBJ">
+      <Object value="DSM"/>
+      <String value="VIIRS M12 BTemp geotiff"/>
+      <String value="{version}"/>
+    </Dsm_command>
+    <!-- get pass  -->
+    <Ncs_log text="Getting pass for drl.npp.viirs.svm12"/>
+    <Dsm_command result="cfg_pass" debug="{cfg_debug}" class="drl.npp.viirs.svm12.OBJ" method="getPass"/>
+    <!--Put pass and first product into NCSHelper -->
+    <Dsm_command debug="{cfg_debug}" class="NCSHelper.OBJ" method="setPass">
+      <Object value="cfg_pass"/>
+    </Dsm_command>
+    <Dsm_command debug="{cfg_debug}" class="NCSHelper.OBJ" method="addInputProduct">
+      <Object value="drl.npp.viirs.svm12.OBJ"/>
+    </Dsm_command>
+    <!-- get date  -->
+    <Ncs_log text="Getting date/time"/>
+    <Dsm_command result="cfg_starttime" debug="{cfg_debug}" class="drl.npp.viirs.svm12.OBJ" method="getStartTime"/>
+    <Dsm_command result="cfg_stoptime" debug="{cfg_debug}" class="drl.npp.viirs.svm12.OBJ" method="getStopTime"/>
+    <!-- get satellite -->
+    <Dsm_command debug="{cfg_debug}" result="cfg_satellite" class="drl.npp.viirs.svm12.OBJ" method="getSpacecraft"/>
+    <!-- get file name  -->
+    <Ncs_log text="Getting file name (DATA resource)"/>
+    <Dsm_command debug="{cfg_debug}" result="drl.npp.viirs.svm12" class="DSM" method="getProductPath">
+      <Object value="drl.npp.viirs.svm12.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="File name is {drl.npp.viirs.svm12}"/>
+    <!-- get remaining products  -->
+    <Ncs_log text="Getting product drl.npp.viirs.gmtco"/>
+    <Dsm_command debug="{cfg_debug}" result="drl.npp.viirs.gmtco.OBJ" class="DSM" method="fetchProduct">
+      <String value="drl.npp.viirs.gmtco"/>
+      <Object value="cfg_pass"/>
+      <Object value="cfg_starttime"/>
+    </Dsm_command>
+    <!-- get file names  -->
+    <Dsm_command debug="{cfg_debug}" result="drl.npp.viirs.gmtco" class="DSM" method="getProductPath">
+      <Object value="drl.npp.viirs.gmtco.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="File name is {drl.npp.viirs.gmtco}"/>
+    <!--and tell NCSHelper about it -->
+    <Dsm_command debug="{cfg_debug}" class="NCSHelper.OBJ" method="addInputProduct">
+      <Object value="drl.npp.viirs.gmtco.OBJ"/>
+    </Dsm_command>
+    <!-- parse the CDF fields out of the first input product name -->
+    <Ncs_getMatch name="{drl.npp.viirs.svm12}" result="cfg_filename" pattern="[^{/}]*$"/>
+    <!--Hack the fields off one at a time-->
+    <Ncs_editValue name="{cfg_filename}" pattern="[^_]*_" replacement="" result="cfg_temp"/>
+    <Ncs_getMatch name="{cfg_temp}" pattern="..." result="cfg_filespacecraft"/>
+    <Ncs_editValue name="{cfg_temp}" pattern="..._d" replacement="" result="cfg_temp"/>
+    <Ncs_getMatch name="{cfg_temp}" pattern="[0-9]*" result="cfg_filestartdate"/>
+    <Ncs_editValue name="{cfg_temp}" pattern="[0-9]*_t" replacement="" result="cfg_temp"/>
+    <Ncs_getMatch name="{cfg_temp}" pattern="[0-9]*" result="cfg_filestarttime"/>
+    <Ncs_editValue name="{cfg_temp}" pattern="[0-9]*_e" replacement="" result="cfg_temp"/>
+    <Ncs_getMatch name="{cfg_temp}" pattern="[0-9]*" result="cfg_filestoptime"/>
+    <Ncs_editValue name="{cfg_temp}" pattern="[0-9]*_b" replacement="" result="cfg_temp"/>
+    <Ncs_getMatch name="{cfg_temp}" pattern="[^_]*" result="cfg_fileorbit"/>
+    <!-- and patch them back together for convenience later on -->
+    <Ncs_set name="cfg_filemiddle" value="{cfg_filespacecraft}_d{cfg_filestartdate}_t{cfg_filestarttime}_e{cfg_filestoptime}_b{cfg_fileorbit}"/>
+    <!-- Setup code passed through from original XML -->
+    <!-- Unfortunately any comments in the original are removed -->
+     <!-- Now put the start time into the format needed-->
+    <Ncs_date setValue="{cfg_filestartdate}{cfg_filestarttime}" name="yrdaymonth" pattern="yyyyMMddHHmmssS" />
+   <Ncs_date getValue="starttime" name="yrdaymonth" pattern="yyDDDHHmmss" />
+    <Ncs_set name="geotiffname" value="NPP_M12BT_SDR.{starttime}.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="vm12bt"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+    <!-- End of setup code -->
+    <!--*-->
+    <!-- Set up the output file names  -->
+    <!-- (accumulate them in allOutputs) -->
+    <Ncs_set name="allOutputs" value=""/>
+    <Dsm_command result="productDirectory" debug="{cfg_debug}" class="DSM" method="getProductDirectory">
+      <String value="drl.npp.viirs.m12bt.geotiff"/>
+    </Dsm_command>
+    <Ncs_set name="drl.npp.viirs.m12bt.geotiff" value="{dataDirectory}{productDirectory}{/}{geotiffname}"/>
+    <Ncs_set name="allOutputs" value="{allOutputs} {drl.npp.viirs.m12bt.geotiff}"/>
+    <Ncs_log text="storing drl.npp.viirs.m12bt.geotiff at {drl.npp.viirs.m12bt.geotiff}"/>
+    <Ncs_log text="allOutputs are: {allOutputs}"/>
+    <Ncs_set name="input.data" value="{drl.npp.viirs.svm12}"/>
+    <Ncs_set name="geo" value="{drl.npp.viirs.gmtco}"/>
+    <Ncs_set name="h2gout" value="{drl.npp.viirs.m12bt.geotiff}"/>
+    <!-- run the algorithm (to massive applause)  -->
+    <Ncs_log text="launching algorithm VIIRS M12 BTemp geotiff"/>
+    <RunAlgorithm algorithm="cfg_algo.OBJ" debug="{cfg_debug}"/>
+    <!-- and clean everything up - walk the outputs
+			creating new Products, decorating them with Resources,
+			and Ancillaries, and Storing them  -->
+    <Ncs_copy source="h2gout" copy="drl.npp.viirs.m12bt.geotiff"/>
+    <!-- Put output product into NCSHelper -->
+    <Dsm_command debug="{cfg_debug}" runFlag="true" class="NCSHelper.OBJ" method="addOutputProduct">
+      <String value="drl.npp.viirs.m12bt.geotiff"/>
+      <String value="{drl.npp.viirs.m12bt.geotiff}"/>
+    </Dsm_command>
+    <!-- Tell NCSHelper to register output products -->
+    <Ncs_log text="NCSHelper registering products..."/>
+    <Dsm_command debug="{cfg_debug}" class="NCSHelper.OBJ" method="addOutputsToDatabase"/>
+    <!-- release reserved product to DSM  -->
+    <Ncs_log text="Releasing reserved product drl.npp.viirs.svm12"/>
+    <Dsm_command debug="{cfg_debug}" class="DSM" method="releaseProduct">
+      <Object value="drl.npp.viirs.svm12.OBJ"/>
+    </Dsm_command>
+    <Ncs_log text="Done with algorithm VIIRS M12 BTemp geotiff"/>
+  </EXECUTE>
+</CONFIGURE>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="algorithm/src"/>
+	<classpathentry kind="lib" path="algorithm/lib64/jai_imageio.jar"/>
+	<classpathentry kind="lib" path="algorithm/lib64/jhdf.jar"/>
+	<classpathentry kind="lib" path="algorithm/lib64/jhdf4obj.jar"/>
+	<classpathentry kind="lib" path="algorithm/lib64/jhdf5.jar"/>
+	<classpathentry kind="lib" path="algorithm/lib64/jhdf5obj.jar"/>
+	<classpathentry kind="lib" path="algorithm/lib64/jhdfobj.jar"/>
+	<classpathentry kind="lib" path="algorithm/lib64/jproj.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="algorithm/classes"/>
+</classpath>

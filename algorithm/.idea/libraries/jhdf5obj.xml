@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jhdf5obj">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib64/jhdf5obj.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

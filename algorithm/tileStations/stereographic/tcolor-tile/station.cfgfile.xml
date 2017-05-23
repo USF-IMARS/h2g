@@ -1,0 +1,31 @@
+<!-- XML document that can be expanded into a station.cfgfile
+     for most NCS stations (everything past L1 - products, basically -->
+
+<NCS_Station name="CREFL True Color" verbose_logging="true">
+	<group>CREFL {tileID} True Color</group>
+	<algorithm>
+		<installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+		<version>CREFL {tileID} True Color</version>
+	</algorithm>
+	<inputs>
+		<product type="drl.{sat}.modis.mxd021km" wrappertype="modis.mask"/>
+		<product type="drl.aquaterra.modis.creflhkm_{tileno}" wrappertype="modis.data"/>
+		<product type="drl.aquaterra.modis.geo_{tileno}" wrappertype="modis.geo"/>
+	</inputs>
+	<setup>
+		<!-- Set satletter to O/terra or Y/aqua -->
+		
+		<Dsm_command result="passDate" class="cfg_pass" method="getAos"/>
+		<Ncs_date name="passDate" getValue="starttime"/>
+                <Ncs_date getValue="scandate" name="cfg_starttime" pattern="yyDDD"/> 
+                <Ncs_set name="config.type" value="standard"/>
+                <Ncs_set name="config.name" value="tcolortile0_01"/>
+                <Ncs_set name="output.type" value="geotiff.argb"/>
+
+	</setup>
+	<outputs>
+		<product type="drl.aquaterra.modis.creflhkm_{tileno}_rgb.geotiff"
+			filename="{dataDirectory}{productDirectory}{/}MXDcrefl_TrueColor.{tileID}.{scandate}.tif"
+			wrappertype="modis.h2gout"/>
+	</outputs>
+</NCS_Station>

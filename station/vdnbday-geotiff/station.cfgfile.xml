@@ -1,0 +1,22 @@
+<NCS_Station name="VIIRS DNB DAY geotiff" verbose_logging="true">
+  <group>VIIRS DNB DAY geotiff group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>VIIRS DNB DAY GEOTIFF 1.0</version>
+  </algorithm>
+  <inputs>
+    <product type="drl.npp.viirs.svdnb" wrappertype="modis.data"/>
+    <product type="drl.npp.viirs.gdnbo" wrappertype="modis.geo"/>     
+  </inputs>
+  <setup>
+    <Ncs_date getValue="starttime" name="cfg_starttime"/> 
+    <Ncs_set name="geotiffname" value="NPP_DNBDAY_SDR.{starttime}.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="vdnbday"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+  </setup>
+  <outputs>
+    <product type="drl.npp.viirs.dnb.geotiff" filename="{dataDirectory}{productDirectory}{/}{geotiffname}" wrappertype="modis.h2gout"/>
+  </outputs>
+</NCS_Station>

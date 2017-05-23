@@ -1,0 +1,22 @@
+<NCS_Station name="ndvi-geotiff" verbose_logging="true">
+  <group>ndvi-geotiff-group1</group>
+  <algorithm>
+    <installation>{cfg_nisgs_home}/SPA/h2g/wrapper/h2g/installation.xml</installation>
+    <version>NDVI GEOTIFF 1.0</version>
+  </algorithm>
+  <inputs>
+    <product type="drl.{sat}.modis.ndvi" wrappertype="modis.data"/>
+    <product type="drl.{sat}.modis.mxd03" wrappertype="modis.geo"/>
+    <product type="drl.{sat}.modis.firedetection" wrappertype="modis.mask"/>
+  </inputs>
+  <setup>
+    <Ncs_set name="geotiffname" value="{drl.{sat}.modis.ndvi.base}_NDVI.tif"/>
+    <Ncs_log text="Name of GEOTIFF is {geotiffname}"/>
+    <Ncs_set name="config.type" value="standard"/>
+    <Ncs_set name="config.name" value="ndvi"/>
+    <Ncs_set name="output.type" value="geotiff.u8cm"/>
+  </setup>
+  <outputs>
+    <product type="drl.{sat}.modis.ndvi.geotiff" filename="{dataDirectory}{productDirectory}{/}{geotiffname}" wrappertype="modis.h2gout"/>
+  </outputs>
+</NCS_Station>

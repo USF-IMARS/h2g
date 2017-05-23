@@ -1,0 +1,59 @@
+<NCS_Station directory="ATMS-SDR-geotiff" name="ATMS SDR geotiff" label="H2G|ATMS-SDR-geotiff">
+  <group>ATMS SDR geotiff group1</group>
+<html><body>
+ <table border="1">
+  <tbody>
+   <tr>ATMS Channel-1 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-2 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-3 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-4 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-5 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-6 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-7 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-8 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-9 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-10 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-11 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-12 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-13 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-14 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-15 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-16 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-17 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-18 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-19 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-20 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-21 Brightness Temperature Geotiff</tr>
+   <tr>ATMS Channel-22 Brightness Temperature Geotiff</tr>
+  </tbody>
+ </table>
+</body></html>
+  <inputs>
+     <product type="drl.npp.atms.satms"/>
+     <product type="drl.npp.atms.gatmo"/>    
+  </inputs> 
+  <outputs>
+    <product type="drl.npp.atms.ch1bt.geotiff"/>
+    <product type="drl.npp.atms.ch2bt.geotiff"/>
+    <product type="drl.npp.atms.ch3bt.geotiff"/>
+    <product type="drl.npp.atms.ch4bt.geotiff"/>
+    <product type="drl.npp.atms.ch5bt.geotiff"/>
+    <product type="drl.npp.atms.ch6bt.geotiff"/>
+    <product type="drl.npp.atms.ch7bt.geotiff"/>
+    <product type="drl.npp.atms.ch8bt.geotiff"/>
+    <product type="drl.npp.atms.ch9bt.geotiff"/>
+    <product type="drl.npp.atms.ch10bt.geotiff"/>
+    <product type="drl.npp.atms.ch11bt.geotiff"/>
+    <product type="drl.npp.atms.ch12bt.geotiff"/>
+    <product type="drl.npp.atms.ch13bt.geotiff"/>
+    <product type="drl.npp.atms.ch14bt.geotiff"/>
+    <product type="drl.npp.atms.ch15bt.geotiff"/>
+    <product type="drl.npp.atms.ch16bt.geotiff"/>
+    <product type="drl.npp.atms.ch17bt.geotiff"/>
+    <product type="drl.npp.atms.ch18bt.geotiff"/>
+    <product type="drl.npp.atms.ch19bt.geotiff"/>
+    <product type="drl.npp.atms.ch20bt.geotiff"/>
+    <product type="drl.npp.atms.ch21bt.geotiff"/>
+    <product type="drl.npp.atms.ch22bt.geotiff"/>
+  </outputs>
+</NCS_Station>

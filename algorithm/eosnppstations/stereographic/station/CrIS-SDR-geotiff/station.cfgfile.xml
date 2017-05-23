@@ -1,0 +1,21 @@
+<NCS_Station directory="CRIS-SDR-geotiff" name="CrIS SDR geotiff" label="H2G|CrIS-SDR-geotiff">
+  <group>CrIS SDR geotiff group1</group>
+<html><body>
+ <table border="1">
+  <tbody>
+   <tr>CrIS Longwave Brightness Temperature Geotiff</tr>
+   <tr>CrIS Mediumwave Brightness Temperature Geotiff</tr>
+   <tr>CrIS Shortwave Brightness Temperature Geotiff</tr>
+  </tbody>
+ </table>
+</body></html>
+  <inputs>
+     <product type="drl.npp.cris.scris"/>
+     <product type="drl.npp.cris.gcrso"/>    
+  </inputs> 
+  <outputs>
+    <product type="drl.npp.cris.lwbt.geotiff"/>
+    <product type="drl.npp.cris.mwbt.geotiff"/>
+    <product type="drl.npp.cris.swbt.geotiff"/>    
+  </outputs>
+</NCS_Station>

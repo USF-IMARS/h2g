@@ -1,0 +1,414 @@
+#!/bin/bash
+
+WRAPPERH2G=../../../wrapper/h2g/run
+
+#////////////////////////////////////////////////////////////////////////////////
+# OEW
+#///////////////////////////////////////////////////////////////////////////////
+
+
+
+INPUTDIR=~/DATA/H2G_TESTDATA/modis/0EW_GX/data
+OUTPUTDIR=./output/
+
+#For 17, 19
+CENTERLAT1=-6
+CENTERLON1=10.0
+SUBSET_DIM1=10
+
+#For 21, 23
+CENTERLAT2=0.0
+CENTERLON2=8.0
+SUBSET_DIM2=1000
+
+#For 18,20
+CENTERLAT3=-5.0
+CENTERLON3=0.0
+MOSAIC_DIM3=30
+
+#For 22,24
+CENTERLAT4=0.0
+CENTERLON4=0.0
+MOSAIC_DIM4=6000
+
+MXD021KM[1]=$INPUTDIR/MOD021KM.A2012202.0955.005.2012202194353.hdf
+MXD02HKM[1]=$INPUTDIR/MOD02HKM.A2012202.0955.005.2012202194353.hdf
+MXD02QKM[1]=$INPUTDIR/MOD02QKM.A2012202.0955.005.2012202194353.hdf
+MXD03[1]=$INPUTDIR/MOD03.A2012202.0955.005.2012202172239.hdf
+CREFL[1]=$INPUTDIR/CREFL.1km.A2012202.0955.hdf
+MOD14[1]=$INPUTDIR/MOD14.A2012202.0955.hdf
+MOD14_TXT[1]=$INPUTDIR/MOD14.A2012202.0955.txt
+
+MXD021KM[2]=$INPUTDIR/MOD021KM.A2012203.1040.005.2012203193811.hdf
+MXD02HKM[2]=$INPUTDIR/MOD02HKM.A2012203.1040.005.2012203193811.hdf
+MXD02QKM[2]=$INPUTDIR/MOD02QKM.A2012203.1040.005.2012203193811.hdf
+MXD03[2]=$INPUTDIR/MOD03.A2012203.1040.005.2012203174238.hdf
+CREFL[2]=$INPUTDIR/CREFL.1km.A2012203.1040.hdf
+MOD14[2]=$INPUTDIR/MOD14.A2012203.1040.hdf
+MOD14_TXT[2]=$INPUTDIR/MOD14.A2012203.1040.txt
+
+MXD021KM[3]=$INPUTDIR/MOD021KM.A2012204.0940.005.2012204191657.hdf
+MXD02HKM[3]=$INPUTDIR/MOD02HKM.A2012204.0940.005.2012204191657.hdf
+MXD02QKM[3]=$INPUTDIR/MOD02QKM.A2012204.0940.005.2012204191657.hdf
+MXD03[3]=$INPUTDIR/MOD03.A2012204.0940.005.2012204155554.hdf
+CREFL[3]=$INPUTDIR/CREFL.1km.A2012204.0940.hdf
+MOD14[3]=$INPUTDIR/MOD14.A2012204.0940.hdf
+MOD14_TXT[3]=$INPUTDIR/MOD14.A2012204.0940.txt
+
+MXD021KM[4]=$INPUTDIR/MOD021KM.A2012204.0945.005.2012204191834.hdf
+MXD02HKM[4]=$INPUTDIR/MOD02HKM.A2012204.0945.005.2012204191834.hdf
+MXD02QKM[4]=$INPUTDIR/MOD02QKM.A2012204.0945.005.2012204191834.hdf
+MXD03[4]=$INPUTDIR/MOD03.A2012204.0945.005.2012204155456.hdf
+CREFL[4]=$INPUTDIR/CREFL.1km.A2012204.0945.hdf
+MOD14[4]=$INPUTDIR/MOD14.A2012204.0945.hdf
+MOD14_TXT[4]=$INPUTDIR/MOD14.A2012204.0945.txt
+
+#**************** Standard RGB tiff and png ******************/
+
+#G13
+#$WRAPPERH2G config.type standard config.name tcolorfire0_01  input.data ${CREFL[1]} geo ${MXD03[1]} fireloc ${MOD14_TXT[1]} h2gout $OUTPUTDIR/CREFL_G13.tif output.type geotiff.argb
+
+#G14
+#$WRAPPERH2G config.type standard config.name tcolorfire0_01  input.data ${CREFL[1]} geo ${MXD03[1]} fireloc ${MOD14_TXT[1]} h2gout $OUTPUTDIR/CREFL_G14.png output.type png.argb browse_enhance true
+
+#**************** Standard Single band tiff and png ******************/
+#G15
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} fireloc ${MOD14_TXT[1]} h2gout $OUTPUTDIR/MOD14_G15.tif output.type geotiff.u8cm projection stereographic resolution 1000 
+
+#G16
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} fireloc ${MOD14_TXT[1]} h2gout $OUTPUTDIR/MOD14_G16.png output.type png.argb projection stereographic resolution 1000 browse_enhance true
+
+#************** Subsets Geographic tiff and png ********************/
+
+#G17
+#$WRAPPERH2G config.type standard config.name tcolorfire0_01  input.data ${CREFL[1]} geo ${MXD03[1]} fireloc ${MOD14_TXT[1]} h2gout $OUTPUTDIR/CREFL_G17.tif output.type geotiff.argb centerlat $CENTERLAT1 centerlon $CENTERLON1 width_lon $SUBSET_DIM1 height_lat $SUBSET_DIM1
+
+#G19
+#$WRAPPERH2G config.type standard config.name tcolorfire0_01  input.data ${CREFL[1]} geo ${MXD03[1]} fireloc ${MOD14_TXT[1]} h2gout $OUTPUTDIR/CREFL_G19.png output.type png.argb centerlat $CENTERLAT1 centerlon $CENTERLON1 width_lon $SUBSET_DIM1 height_lat $SUBSET_DIM1 browse_enhance true
+
+#************** Subsets Stereographic tiff and png ********************/
+#G21
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} fireloc ${MOD14_TXT[1]} h2gout $OUTPUTDIR/MOD14_G21.tif output.type geotiff.u8cm projection stereographic resolution 1000 centerlat $CENTERLAT2 centerlon $CENTERLON2 width_km $SUBSET_DIM2 height_km $SUBSET_DIM2 
+
+#G23
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} fireloc ${MOD14_TXT[1]}  h2gout $OUTPUTDIR/MOD14_G23.png output.type png.argb projection stereographic resolution 1000 centerlat $CENTERLAT2 centerlon $CENTERLON2 width_km $SUBSET_DIM2 height_km $SUBSET_DIM2 browse_enhance true
+
+#************ Mosaic geographic tiff and png **************************/
+
+#G18
+#$WRAPPERH2G config.type standard config.name tcolorfire0_01  input.data ${CREFL[1]} geo ${MXD03[1]} fireloc ${MOD14_TXT[1]} input.data2 ${CREFL[2]}  geo2 ${MXD03[2]} input.data3 ${CREFL[3]} geo3 ${MXD03[3]} fireloc3 ${MOD14_TXT[3]} input.data4 ${CREFL[4]} geo4 ${MXD03[4]} fireloc4 ${MOD14_TXT[4]} h2gout $OUTPUTDIR/CREFL_G18.tif output.type geotiff.argb  centerlat $CENTERLAT3 centerlon $CENTERLON3 width_lon $MOSAIC_DIM3 height_lat $MOSAIC_DIM3
+
+#G20
+#$WRAPPERH2G config.type standard config.name tcolorfire0_01  input.data ${CREFL[1]} geo ${MXD03[1]} input.data2 ${CREFL[2]} geo2 ${MXD03[2]} input.data3 ${CREFL[3]} geo3 ${MXD03[3]} input.data4 ${CREFL[4]} geo4 ${MXD03[4]} fireloc ${MOD14_TXT[1]} fireloc3 ${MOD14_TXT[1]} fireloc4 ${MOD14_TXT[4]}  h2gout $OUTPUTDIR/CREFL_G20.png output.type png.argb centerlat $CENTERLAT3 centerlon $CENTERLON3 height_lat $MOSAIC_DIM3 width_lon $MOSAIC_DIM3 browse_enhance true
+
+#********** Mosaic stereographic tiff and png ***********************/
+
+#G22
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} input.data2 ${MOD14[2]} geo2 ${MXD03[2]} input.data3 ${MOD14[3]} geo3 ${MXD03[3]} input.data4 ${MOD14[4]} geo4 ${MXD03[4]} fireloc ${MOD14_TXT[1]} fireloc3 ${MOD14_TXT[3]} fireloc4 ${MOD14_TXT[4]} h2gout $OUTPUTDIR/MOD14_G22.tif output.type geotiff.u8cm projection stereographic resolution 2000 centerlat $CENTERLAT4 centerlon $CENTERLON4 width_km $MOSAIC_DIM4 height_km $MOSAIC_DIM4 
+
+#G24
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} input.data2 ${MOD14[2]} geo2 ${MXD03[2]} input.data3 ${MOD14[3]} geo3 ${MXD03[3]} input.data4 ${MOD14[4]} geo4 ${MXD03[4]} fireloc ${MOD14_TXT[1]} fireloc3 ${MOD14_TXT[3]} fireloc4 ${MOD14_TXT[4]} h2gout $OUTPUTDIR/MOD14_G24.png output.type png.argb projection stereographic resolution 1000 centerlat $CENTERLAT4 centerlon $CENTERLON4 width_km $MOSAIC_DIM4 height_km $MOSAIC_DIM4 browse_enhance true
+
+#////////////////////////////////////////////////////////////
+#180 EW
+#/////////////////////////////////////////////////////////////
+
+
+INPUTDIR=~/DATA/H2G_TESTDATA/modis/180EW_DX/data
+#For 17, 19
+CENTERLAT1=-50.0
+CENTERLON1=180.0
+SUBSET_DIM1=20
+#For 21, 23
+CENTERLAT2=-42.0
+CENTERLON2=-180.0
+SUBSET_DIM2=1500
+
+#For 18,20
+CENTERLAT3=-40.0
+CENTERLON3=179.0
+MOSAIC_DIM3=20
+
+#For 22,24
+CENTERLAT4=-46.0
+CENTERLON4=-178.0
+MOSAIC_DIM4=5000
+
+MXD021KM[1]=$INPUTDIR/MOD021KM.A2012202.2140.005.2012203074009.hdf
+MXD02HKM[1]=$INPUTDIR/MOD02HKM.A2012202.2140.005.2012203074009.hdf
+MXD02QKM[1]=$INPUTDIR/MOD02QKM.A2012202.2140.005.2012203074009.hdf
+MXD03[1]=$INPUTDIR/MOD03.A2012202.2140.005.2012203033138.hdf
+CREFL[1]=$INPUTDIR/CREFL.1km.A2012202.2140.hdf
+MOD14[1]=$INPUTDIR/MOD14.A2012202.2140.hdf
+MOD14_TXT[1]=$INPUTDIR/MOD14.A2012202.2140.txt
+
+MXD021KM[2]=$INPUTDIR/MOD021KM.A2012202.2315.005.2012203074100.hdf
+MXD02HKM[2]=$INPUTDIR/MOD02HKM.A2012202.2315.005.2012203074100.hdf
+MXD02QKM[2]=$INPUTDIR/MOD02QKM.A2012202.2315.005.2012203074100.hdf
+MXD03[2]=$INPUTDIR/MOD03.A2012202.2315.005.2012203061249.hdf
+CREFL[2]=$INPUTDIR/CREFL.1km.A2012202.2315.hdf
+MOD14[2]=$INPUTDIR/MOD14.A2012202.2315.hdf
+MOD14_TXT[2]=$INPUTDIR/MOD14.A2012202.2315.txt
+
+MXD021KM[3]=$INPUTDIR/MOD021KM.A2012202.2320.005.2012203074105.hdf
+MXD02HKM[3]=$INPUTDIR/MOD02HKM.A2012202.2320.005.2012203074105.hdf
+MXD02QKM[3]=$INPUTDIR/MOD02QKM.A2012202.2320.005.2012203074105.hdf
+MXD03[3]=$INPUTDIR/MOD03.A2012202.2320.005.2012203061253.hdf
+CREFL[3]=$INPUTDIR/CREFL.1km.A2012202.2320.hdf
+MOD14[3]=$INPUTDIR/MOD14.A2012202.2320.hdf
+MOD14_TXT[3]=$INPUTDIR/MOD14.A2012202.2320.txt
+
+MXD021KM[4]=$INPUTDIR/MOD021KM.A2012203.2045.005.2012204035028.hdf
+MXD02HKM[4]=$INPUTDIR/MOD02HKM.A2012203.2045.005.2012204035028.hdf
+MXD02QKM[4]=$INPUTDIR/MOD02QKM.A2012203.2045.005.2012204035028.hdf
+MXD03[4]=$INPUTDIR/MOD03.A2012203.2045.005.2012204034350.hdf
+CREFL[4]=$INPUTDIR/CREFL.1km.A2012203.2045.hdf
+MOD14[4]=$INPUTDIR/MOD14.A2012203.2045.hdf
+MOD14_TXT[4]=$INPUTDIR/MOD14.A2012203.2045.txt
+
+#**************** Standard RGB tiff and png ******************/
+#D13
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_D13.tif output.type geotiff.argb
+
+#D14
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_D14.png output.type png.argb browse_enhance true
+
+#**************** Standard Single band tiff and png ******************/
+
+#D15
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/MOD14_D15.tif output.type geotiff.u8cm projection stereographic resolution 1000
+
+#D16
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} fireloc $INPUTDIR/MYD014.08085185938.txt h2gout $OUTPUTDIR/MOD14_D16.png output.type png.argb projection stereographic resolution 1000 browse_enhance true
+
+#************** Subsets Geographic tiff and png ********************/
+
+#D17
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_D17.tif output.type geotiff.argb centerlat $CENTERLAT1 centerlon $CENTERLON1 width_lon $SUBSET_DIM1 height_lat $SUBSET_DIM1
+
+#D19
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_D19.png output.type png.argb centerlat $CENTERLAT1 centerlon $CENTERLON1 width_lon $SUBSET_DIM1 height_lat $SUBSET_DIM1 browse_enhance true
+
+#************** Subsets Stereographic tiff and png ********************/
+
+#D21
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/MOD14_D21.tif output.type geotiff.u8cm projection stereographic resolution 1000 centerlat $CENTERLAT2 centerlon $CENTERLON2 width_km $SUBSET_DIM2 height_km $SUBSET_DIM2 
+
+#D23
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} fireloc $INPUTDIR/MYD014.08085185938.txt h2gout $OUTPUTDIR/MOD14_D23.png output.type png.argb projection stereographic resolution 1000 centerlat $CENTERLAT2 centerlon $CENTERLON2 width_km $SUBSET_DIM2 height_km $SUBSET_DIM2 browse_enhance true
+
+#************** Mosaics Geographic tiff and png ********************/
+#D18
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} input.data2 ${CREFL[2]} geo2 ${MXD03[2]} input.data3 ${CREFL[3]} geo3 ${MXD03[3]} input.data4 ${CREFL[4]} geo4 ${MXD03[4]} h2gout $OUTPUTDIR/CREFL_D18.tif output.type geotiff.argb  centerlat $CENTERLAT3 centerlon $CENTERLON3 width_lon $MOSAIC_DIM3 height_lat $MOSAIC_DIM3
+
+#D20
+#$WRAPPERH2G config.type standard config.name tcolorfire0_01  input.data ${CREFL[1]} geo ${MXD03[1]} input.data2 ${CREFL[2]} geo2 ${MXD03[2]} input.data3 ${CREFL[3]} geo3 ${MXD03[3]} input.data4 ${CREFL[4]} geo4 ${MXD03[4]} fireloc $INPUTDIR/MYD014.08085185938.txt fireloc2 $INPUTDIR/MYD014.08085185938.txt fireloc3 $INPUTDIR/MYD014.08085185938.txt fireloc4 ${MOD14_TXT[4]}  h2gout $OUTPUTDIR/CREFL_D20.png output.type png.argb centerlat $CENTERLAT3 centerlon $CENTERLON3 height_lat $MOSAIC_DIM3 width_lon $MOSAIC_DIM3 browse_enhance true
+
+#************** Mosaics stereographic tiff and png ********************/
+#D22
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} input.data2 ${MOD14[2]} geo2 ${MXD03[2]} input.data3 ${MOD14[3]} geo3 ${MXD03[3]} input.data4 ${MOD14[4]} geo4 ${MXD03[4]} h2gout $OUTPUTDIR/MOD14_D22.tif output.type geotiff.u8cm projection stereographic resolution 1000 centerlat $CENTERLAT4 centerlon $CENTERLON4 width_km $MOSAIC_DIM4 height_km $MOSAIC_DIM4 
+
+#D24
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} input.data2 ${MOD14[2]} geo2 ${MXD03[2]} input.data3 ${MOD14[3]} geo3 ${MXD03[3]} input.data4 ${MOD14[4]} geo4 ${MXD03[4]} fireloc $INPUTDIR/MYD014.08085185938.txt fireloc2 $INPUTDIR/MYD014.08085185938.txt fireloc3 $INPUTDIR/MYD014.08085185938.txt fireloc4 ${MOD14_TXT[4]} h2gout $OUTPUTDIR/MOD14_D24.png output.type png.argb projection stereographic resolution 1000 centerlat $CENTERLAT4 centerlon $CENTERLON4 width_km $MOSAIC_DIM4 height_km $MOSAIC_DIM4 browse_enhance true
+
+
+#////////////////// North Polar ///////////////////////////////////
+
+INPUTDIR=~/DATA/H2G_TESTDATA/modis/npolar_NX/data
+#For 17, 19
+CENTERLAT1=80.0
+CENTERLON1=-4.0
+SUBSET_DIM1=1000
+#For 21, 23
+CENTERLAT2=78.0
+CENTERLON2=50.0
+SUBSET_DIM2=1500
+
+#For 18,20
+CENTERLAT3=85.0
+CENTERLON3=5.0
+MOSAIC_DIM3=2000
+
+#For 22,24
+CENTERLAT4=85.0
+CENTERLON4=0.0
+MOSAIC_DIM4=5000
+
+MXD021KM[1]=$INPUTDIR/MOD021KM.A2012202.1250.005.2012202194207.hdf
+MXD02HKM[1]=$INPUTDIR/MOD02HKM.A2012202.1250.005.2012202194207.hdf
+MXD02QKM[1]=$INPUTDIR/MOD02QKM.A2012202.1250.005.2012202194207.hdf
+MXD03[1]=$INPUTDIR/MOD03.A2012202.1250.005.2012202191302.hdf
+CREFL[1]=$INPUTDIR/CREFL.1km.A2012202.1250.hdf
+MOD14[1]=$INPUTDIR/MOD14.A2012202.1250.hdf
+MOD14_TXT[1]=$INPUTDIR/MOD14.A2012202.1250.txt
+
+MXD021KM[2]=$INPUTDIR/MOD021KM.A2012202.1430.005.2012202212708.hdf
+MXD02HKM[2]=$INPUTDIR/MOD02HKM.A2012202.1430.005.2012202212708.hdf
+MXD02QKM[2]=$INPUTDIR/MOD02QKM.A2012202.1430.005.2012202212708.hdf
+MXD03[2]=$INPUTDIR/MOD03.A2012202.1430.005.2012202212211.hdf
+CREFL[2]=$INPUTDIR/CREFL.1km.A2012202.1430.hdf
+MOD14[2]=$INPUTDIR/MOD14.A2012202.1430.hdf
+MOD14_TXT[2]=$INPUTDIR/MOD14.A2012202.1430.txt
+
+MXD021KM[3]=$INPUTDIR/MOD021KM.A2012202.1605.005.2012203015103.hdf
+MXD02HKM[3]=$INPUTDIR/MOD02HKM.A2012202.1605.005.2012203015103.hdf
+MXD02QKM[3]=$INPUTDIR/MOD02QKM.A2012202.1605.005.2012203015103.hdf
+MXD03[3]=$INPUTDIR/MOD03.A2012202.1605.005.2012202231647.hdf
+CREFL[3]=$INPUTDIR/CREFL.1km.A2012202.1605.hdf
+MOD14[3]=$INPUTDIR/MOD14.A2012202.1605.hdf
+MOD14_TXT[3]=$INPUTDIR/MOD14.A2012202.1605.txt
+
+MXD021KM[4]=$INPUTDIR/MOD021KM.A2012202.1610.005.2012203014910.hdf
+MXD02HKM[4]=$INPUTDIR/MOD02HKM.A2012202.1610.005.2012203014910.hdf
+MXD02QKM[4]=$INPUTDIR/MOD02QKM.A2012202.1610.005.2012203014910.hdf
+MXD03[4]=$INPUTDIR/MOD03.A2012202.1610.005.2012202231621.hdf
+CREFL[4]=$INPUTDIR/CREFL.1km.A2012202.1610.hdf
+MOD14[4]=$INPUTDIR/MOD14.A2012202.1610.hdf
+MOD14_TXT[4]=$INPUTDIR/MOD14.A2012202.1610.txt
+
+#**************** Standard RGB tiff and png ******************/
+#N13
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_N13.tif output.type geotiff.argb projection stereographic resolution 1000
+
+#N14
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_N14.png output.type png.argb browse_enhance true projection stereographic resolution 1000 browse_enhance true
+
+#**************** Standard Single band tiff and png ******************/
+#N15
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/MOD14_N15.tif output.type geotiff.u8cm projection stereographic resolution 1000
+
+#N16
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} fireloc $INPUTDIR/MYD014.08085185938.txt h2gout $OUTPUTDIR/MOD14_N16.png output.type png.argb browse_enhance true projection stereographic resolution 1000  browse_enhance true
+#************** Subsets Geographic tiff and png ********************/
+
+#N17
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_N17.tif output.type geotiff.argb projection stereographic resolution 1000 centerlat $CENTERLAT1 centerlon $CENTERLON1 width_km $SUBSET_DIM1 height_km $SUBSET_DIM1
+
+#N19
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_N19.png output.type png.argb browse_enhance true projection stereographic resolution 1000 centerlat $CENTERLAT1 centerlon $CENTERLON1 width_km $SUBSET_DIM1 height_km $SUBSET_DIM1
+
+#************** Subsets Stereographic tiff and png ********************/
+
+#N21
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/MOD14_N21.tif output.type geotiff.u8cm projection stereographic resolution 1000 centerlat $CENTERLAT2 centerlon $CENTERLON2 width_km $SUBSET_DIM2 height_km $SUBSET_DIM2 
+
+#N23
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} fireloc $INPUTDIR/MYD014.08085185938.txt h2gout $OUTPUTDIR/MOD14_N23.png output.type png.argb browse_enhance true projection stereographic resolution 1000 centerlat $CENTERLAT2 centerlon $CENTERLON2 width_km $SUBSET_DIM2 height_km $SUBSET_DIM2
+
+#************** Mosaics Geographic tiff and png ********************/
+
+#N18
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} input.data2 ${CREFL[2]} geo2 ${MXD03[2]} input.data3 ${CREFL[3]} geo3 ${MXD03[3]} input.data4 ${CREFL[4]} geo4 ${MXD03[4]} h2gout $OUTPUTDIR/CREFL_N18.tif output.type geotiff.argb projection stereographic resolution 1000 centerlat $CENTERLAT3 centerlon $CENTERLON3 width_km $MOSAIC_DIM3 height_km $MOSAIC_DIM3
+
+#N20
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} input.data2 ${CREFL[2]} geo2 ${MXD03[2]} input.data3 ${CREFL[3]} geo3 ${MXD03[3]} input.data4 ${CREFL[4]} geo4 ${MXD03[4]} h2gout $OUTPUTDIR/CREFL_N20.png output.type png.argb browse_enhance true projection stereographic resolution 1000 centerlat $CENTERLAT3 centerlon $CENTERLON3 width_km $MOSAIC_DIM3 height_km $MOSAIC_DIM3 browse_enhance true
+
+#************** Mosaics stereographic tiff and png ********************/
+
+#N22
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} input.data2 ${MOD14[2]} geo2 ${MXD03[2]} input.data3 ${MOD14[3]} geo3 ${MXD03[3]} input.data4 ${MOD14[4]} geo4 ${MXD03[4]} h2gout $OUTPUTDIR/MOD14_N22.tif output.type geotiff.u8cm projection stereographic resolution 1000 centerlat $CENTERLAT4 centerlon $CENTERLON4 width_km $MOSAIC_DIM4 height_km $MOSAIC_DIM4 
+
+#N24
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} input.data2 ${MOD14[2]} geo2 ${MXD03[2]} input.data3 ${MOD14[3]} geo3 ${MXD03[3]} input.data4 ${MOD14[4]} geo4 ${MXD03[4]} fireloc $INPUTDIR/MYD014.08085185938.txt fireloc2 $INPUTDIR/MYD014.08085185938.txt fireloc3 $INPUTDIR/MYD014.08085185938.txt fireloc4 $INPUTDIR/MYD014.08085185938.txt h2gout $OUTPUTDIR/MOD14_N24.png output.type png.argb browse_enhance true projection stereographic resolution 1000 centerlat $CENTERLAT4 centerlon $CENTERLON4 width_km $MOSAIC_DIM4 height_km $MOSAIC_DIM4
+
+#/////////////South Polar////////////////////////////////////////
+
+INPUTDIR=~/DATA/H2G_TESTDATA/modis/spolar_SX/data
+#For 17, 19
+CENTERLAT1=-80.0
+CENTERLON1=-4.0
+SUBSET_DIM1=2000
+#For 21, 23
+CENTERLAT2=-78.0
+CENTERLON2=50.0
+SUBSET_DIM2=3000
+
+#For 18,20
+CENTERLAT3=-85.0
+CENTERLON3=5.0
+MOSAIC_DIM3=6000
+
+#For 22,24
+CENTERLAT4=-90.0
+CENTERLON4=0.0
+MOSAIC_DIM4=6000
+
+MXD021KM[1]=$INPUTDIR/MOD021KM.A2011354.0010.005.2011354080708.hdf
+MXD02HKM[1]=$INPUTDIR/MOD02HKM.A2011354.0010.005.2011354080708.hdf
+MXD02QKM[1]=$INPUTDIR/MOD02QKM.A2011354.0010.005.2011354080708.hdf
+MXD03[1]=$INPUTDIR/MOD03.A2011354.0010.005.2011354080149.hdf
+CREFL[1]=$INPUTDIR/CREFL.1km.A2011354.0010.hdf
+MOD14[1]=$INPUTDIR/MOD14.A2011354.0010.hdf
+MOD14_TXT[1]=$INPUTDIR/MOD14.A2011354.0010.txt
+
+MXD021KM[2]=$INPUTDIR/MOD021KM.A2011354.0145.005.2011354080801.hdf
+MXD02HKM[2]=$INPUTDIR/MOD02HKM.A2011354.0145.005.2011354080801.hdf
+MXD02QKM[2]=$INPUTDIR/MOD02QKM.A2011354.0145.005.2011354080801.hdf
+MXD03[2]=$INPUTDIR/MOD03.A2011354.0145.005.2011354080150.hdf
+CREFL[2]=$INPUTDIR/CREFL.1km.A2011354.0145.hdf
+MOD14[2]=$INPUTDIR/MOD14.A2011354.0145.hdf
+MOD14_TXT[2]=$INPUTDIR/MOD14.A2011354.0145.txt
+
+MXD021KM[3]=$INPUTDIR/MOD021KM.A2011354.0150.005.2011354094345.hdf
+MXD02HKM[3]=$INPUTDIR/MOD02HKM.A2011354.0150.005.2011354094345.hdf
+MXD02QKM[3]=$INPUTDIR/MOD02QKM.A2011354.0150.005.2011354094345.hdf
+MXD03[3]=$INPUTDIR/MOD03.A2011354.0150.005.2011354080152.hdf
+CREFL[3]=$INPUTDIR/CREFL.1km.A2011354.0150.hdf
+MOD14[3]=$INPUTDIR/MOD14.A2011354.0150.hdf
+MOD14_TXT[3]=$INPUTDIR/MOD14.A2011354.0150.txt
+
+MXD021KM[4]=$INPUTDIR/MOD021KM.A2011354.0325.005.2011354132330.hdf
+MXD02HKM[4]=$INPUTDIR/MOD02HKM.A2011354.0325.005.2011354132330.hdf
+MXD02QKM[4]=$INPUTDIR/MOD02QKM.A2011354.0325.005.2011354132330.hdf
+MXD03[4]=$INPUTDIR/MOD03.A2011354.0325.005.2011354093854.hdf
+CREFL[4]=$INPUTDIR/CREFL.1km.A2011354.0325.hdf
+MOD14[4]=$INPUTDIR/MOD14.A2011354.0325.hdf
+MOD14_TXT[4]=$INPUTDIR/MOD14.A2011354.0325.txt
+
+#**************** Standard RGB tiff and png ******************/
+#S13
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_S13.tif output.type geotiff.argb projection stereographic resolution 1000
+
+#S14
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_S14.png output.type png.argb browse_enhance true projection stereographic resolution 1000
+
+#**************** Standard Single band tiff and png ******************/
+#S15
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/MOD14_S15.tif output.type geotiff.u8cm projection stereographic resolution 1000
+
+#S16
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} fireloc $INPUTDIR/MYD014.08085185938.txt h2gout $OUTPUTDIR/MOD14_S16.png output.type png.argb browse_enhance true projection stereographic resolution 1000
+
+#************** Subsets Geographic tiff and png ********************/
+#S17
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_S17.tif output.type geotiff.argb projection stereographic resolution 1000 centerlat $CENTERLAT1 centerlon $CENTERLON1 width_km $SUBSET_DIM1 height_km $SUBSET_DIM1
+
+#S19
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/CREFL_S19.png output.type png.argb browse_enhance true projection stereographic resolution 1000 centerlat $CENTERLAT1 centerlon $CENTERLON1 width_km $SUBSET_DIM1 height_km $SUBSET_DIM1
+
+#************** Subsets Stereographic tiff and png ********************/
+#S21
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} h2gout $OUTPUTDIR/MOD14_S21.tif output.type geotiff.u8cm projection stereographic resolution 1000 centerlat $CENTERLAT2 centerlon $CENTERLON2 width_km $SUBSET_DIM2 height_km $SUBSET_DIM2 
+
+#S23
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} fireloc $INPUTDIR/MYD014.08085185938.txt h2gout $OUTPUTDIR/MOD14_S23.png output.type png.argb browse_enhance true projection stereographic resolution 1000 centerlat $CENTERLAT2 centerlon $CENTERLON2 width_km $SUBSET_DIM2 height_km $SUBSET_DIM2
+
+#************** Mosaics Geographic tiff and png ********************/
+
+#S18
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} input.data2 ${CREFL[2]} geo2 ${MXD03[2]} input.data3 ${CREFL[3]} geo3 ${MXD03[3]} input.data4 ${CREFL[4]} geo4 ${MXD03[4]} h2gout $OUTPUTDIR/CREFL_S18.tif output.type geotiff.argb projection stereographic resolution 1000 centerlat $CENTERLAT3 centerlon $CENTERLON3 width_km $MOSAIC_DIM3 height_km $MOSAIC_DIM3
+
+#S20
+#$WRAPPERH2G config.type standard config.name tcolor0_01  input.data ${CREFL[1]} geo ${MXD03[1]} input.data2 ${CREFL[2]} geo2 ${MXD03[2]} input.data3 ${CREFL[3]} geo3 ${MXD03[3]} input.data4 ${CREFL[4]} geo4 ${MXD03[4]} h2gout $OUTPUTDIR/CREFL_S20.png output.type png.argb browse_enhance true projection stereographic resolution 1000 centerlat $CENTERLAT3 centerlon $CENTERLON3 width_km $MOSAIC_DIM3 height_km $MOSAIC_DIM3
+
+#************** Mosaics stereographic tiff and png ********************/
+#S22
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} input.data2 ${MOD14[2]} geo2 ${MXD03[2]} input.data3 ${MOD14[3]} geo3 ${MXD03[3]} input.data4 ${MOD14[4]} geo4 ${MXD03[4]} h2gout $OUTPUTDIR/MOD14_S22.tif output.type geotiff.u8cm projection stereographic resolution 1000 centerlat $CENTERLAT4 centerlon $CENTERLON4 width_km $MOSAIC_DIM4 height_km $MOSAIC_DIM4 
+
+#S24
+#$WRAPPERH2G config.type standard config.name fire  input.data ${MOD14[1]} geo ${MXD03[1]} input.data2 ${MOD14[2]} geo2 ${MXD03[2]} input.data3 ${MOD14[3]} geo3 ${MXD03[3]} input.data4 ${MOD14[4]} geo4 ${MXD03[4]} fireloc $INPUTDIR/MYD014.08085185938.txt fireloc2 $INPUTDIR/MYD014.08085185938.txt fireloc3 $INPUTDIR/MYD014.08085185938.txt fireloc4 $INPUTDIR/MYD014.08085185938.txt h2gout $OUTPUTDIR/MOD14_S24.png output.type png.argb browse_enhance true projection stereographic resolution 1000 centerlat $CENTERLAT4 centerlon $CENTERLON4 width_km $MOSAIC_DIM4 height_km $MOSAIC_DIM4
+
+
+
+
+

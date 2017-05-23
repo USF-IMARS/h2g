@@ -1,0 +1,140 @@
+AOD
+
+  fill = -9999
+  min = 0
+  max = 5000
+  range = max - min
+  FILL_INDEX = 0
+  MIN_INDEX = 1
+  MAX_INDEX = 255
+  INDEX_RANGE = MAX_INDEX - MIN_INDEX
+  index = MIN_INDEX + round(INDEX_RANGE*((HDFvalue-min)/range))
+
+
+
+AOD Ratio
+
+  fill = -9999
+  min = 0
+  max = 1000
+  range = max - min
+  FILL_INDEX = 0
+  MIN_INDEX = 1
+  MAX_INDEX = 255
+  INDEX_RANGE = MAX_INDEX - MIN_INDEX
+  index = MIN_INDEX + round(INDEX_RANGE*((HDFvalue-min)/range))
+  
+  
+  
+CHLOR
+
+  minC = 0.01
+  maxC = 100.0
+  FILL_INDEX = 0
+  MIN_INDEX = 1
+  MAX_INDEX = 255
+  c = HDFvalue
+  index = round(128+(64*Math.log10(c)))
+  
+  
+  
+Cloudmask
+
+  0 no-value
+  1 cloudy
+  2 uncertain
+  3 probably clear
+  4 clear
+
+
+
+CloudPhaseInfrared
+
+  index = HDFvalue + 1;
+  
+
+
+CloudTopPressure
+
+  min = 10
+  max = 11000
+  range = max - min
+  FILL_INDEX = 0
+  MIN_INDEX = 1
+  MAX_INDEX = 255
+  INDEX_RANGE = MAX_INDEX - MIN_INDEX
+  index = MIN_INDEX + round(INDEX_RANGE*((HDFvalue-min)/range))
+  
+  
+FIRE
+
+  0 missing
+  1 not processed (obsolete)
+  2 not processed (obsolete)
+  3 water
+  4 cloud
+  5 non-fire
+  6 unknown
+  7 fire (low confidence)
+  8 fire (nominal confidence)
+  9 fire (high confidence)
+  
+
+
+NDVI
+
+  min = -1000
+  max = 10000
+  range = max - min
+  FILL_INDEX = 0
+  MIN_INDEX = 1
+  MAX_INDEX = 255
+  INDEX_RANGE = MAX_INDEX - MIN_INDEX
+
+  normalized = (HDFvalue - min) / range;
+  index = MIN_INDEX + round(INDEX_RANGE*normalized)
+
+  
+
+SST
+
+  slope = 0.0050
+  intercept = 0.0
+  minC = -2.0
+  maxC = 45.0
+  rangeC = maxC - minC
+  FILL_INDEX = 0
+  MIN_INDEX = 1
+  MAX_INDEX = 255
+  INDEX_RANGE = MAX_INDEX - MIN_INDEX
+
+  c = (slope * HDFvalue) - intercept
+  normalized = (c - minC) / rangeC;
+  index = MIN_INDEX + round(INDEX_RANGE*normalized)
+
+
+
+TotalPrecipitableWater
+
+  min = 0
+  max = 20000
+  range = max - min
+  FILL_INDEX = 0
+  MIN_INDEX = 1
+  MAX_INDEX = 255
+  INDEX_RANGE = MAX_INDEX - MIN_INDEX
+  pct = (HDFvalue - min) / range
+  index = MIN_INDEX + round(pct*INDEX_RANGE)
+
+LST
+  min = 230
+  max = 340
+  range = max - min
+  FILL_INDEX = 0
+  MIN_INDEX = 1
+  MAX_INDEX = 255
+  INDEX_RANGE = MAX_INDEX - MIN_INDEX
+  pct = (HDFvalue - min) / range
+  index = MIN_INDEX + round(pct*INDEX_RANGE)
+
+  
