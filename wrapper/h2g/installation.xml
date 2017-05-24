@@ -7,7 +7,7 @@
     <usstates>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}STATES.SHP</usstates>
     <usrivers>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}Rivers.shp</usrivers>
     <usroads>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}roads.shp</usroads>
-    <usroads>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}roads.shp</usroads>
+    <canada>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}canada.shp</canada>
     <carib>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}carib.shp</carib>
     <mexico>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}mexico.shp</mexico>
     <world>{cfg_installationDirectory}{/}..{/}..{/}algorithm{/}configFiles{/}world.shp</world>
