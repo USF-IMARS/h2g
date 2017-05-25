@@ -1,6 +1,6 @@
-vcsrepo { imars_spa:
-	source   => "git@github.com:USF-IMARS/imars_spa.git",
-	revision => 'production',  # aka branch
+vcsrepo { imars_bin:
+	source   => "git@github.com:USF-IMARS/imars_bin.git",
+#	revision => 'production',  # aka branch
 	ensure   => latest,
 	provider => git,
 	user     => 'root', #uses root's $HOME/.ssh setup
